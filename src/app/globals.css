@@ -1,5 +1,23 @@
 @import "tailwindcss";
 
+/* Animasi melebar kartu layanan saat hover/unhover: lebih lambat (300ms)
+   dan halus (ease-out lembut) — override durasi/easing Tailwind pada 5 kartu. */
+@media (min-width: 64rem) {
+  .card-row > .group {
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* Saat salah satu kartu di-hover, padding kiri/kanan baris menipis hingga
+     hampir menyentuh tepi layar, lalu kembali halus saat hover lepas. */
+  .row-wrap {
+    transition: padding 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .row-wrap:has(.card-row:hover) {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+}
+
 /* Featured service cards at lg+: descriptions are always clamped to 3 lines
    (with "…") so every card keeps the same height and text never reflows when
    a card stretches/shrinks on hover. While hovered, the description width is
@@ -26,13 +44,30 @@
 /* Versi akurat: lebar kolom diam diukur dari lebar baris ASLI via container
    query (20cqw - 0.4rem), jadi tepat sama ada maupun tanpa scrollbar. */
 @supports (width: 1cqw) {
-  .card-row {
+  .featured-sec {
     container-type: inline-size;
+    /* lebar kartu saat hover = flex 1.35 -> 1.35/(1.35+4) dari sisa baris.
+       Kalau nilai lg:hover:flex-[...] diubah, sesuaikan angka ini. */
+    --card-flex: 1.35;
   }
   @media (min-width: 64rem) {
     .desc-lock {
       /* lebar baris / 5 kolom, dikurangi 4 gap (gap-2 = 8px x 4 = 32px -> 0.4rem) */
-      width: min(100%, calc(20cqw - 0.4rem));
+      width: min(100%, calc(20cqw - 1.2rem));
+    }
+    /* Foto dikunci sebesar frame TERLEBAR yang mungkin (lebar kartu saat
+       hover = lebar kolom diam x rasio flex), lalu dipotong oleh frame yang
+       lebih sempit. Konsekuensinya: (1) foto tidak pernah berubah ukuran saat
+       kartu melebar — hanya makin banyak bagian kiri/kanannya terlihat;
+       (2) tidak ada ruang kosong di kiri/kanan foto pada lebar frame apa pun;
+       (3) foto potret otomatis tampak lebih di-zoom sejak awal karena frame
+       diamnya lebih sempit dari ukuran foto yang sudah dikunci. */
+    .card-img {
+      height: 100%;
+      flex-shrink: 0;
+      width: calc(25.2336cqw - 0.6308rem);
+      max-width: none;
+      object-fit: cover;
     }
   }
 }
@@ -116,3 +151,4 @@ body {
 .bg-radial-gradient {
   background: radial-gradient(circle at 50% 0%, rgba(239, 68, 68, 0.06), transparent 70%);
 }
+

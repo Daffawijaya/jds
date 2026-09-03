@@ -44,6 +44,9 @@ export const metadata: Metadata = {
     "EtamHub"
   ],
   authors: [{ name: companyInfo.officialName }],
+  icons: {
+    icon: "/icon.png",
+  },
   openGraph: {
     type: "website",
     locale: "id_ID",

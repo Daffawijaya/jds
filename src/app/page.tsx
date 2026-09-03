@@ -137,8 +137,8 @@ export default function HomePage() {
       </section>
 
       {/* 2. LAYANAN UNGGULAN */}
-      <section className="relative -mt-12 sm:-mt-16 rounded-t-[3rem] bg-white text-zinc-900 py-20">
-        <div className="px-4 sm:px-6 lg:px-8 text-center">
+      <section className="featured-sec relative -mt-12 sm:-mt-16 rounded-t-[3rem] bg-white text-zinc-900 py-20">
+        <div className="row-wrap px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
             Satu mitra untuk setiap kebutuhan digital.
           </h2>
@@ -153,24 +153,24 @@ export default function HomePage() {
               return (
                 <div
                   key={service!.id}
-                  className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group flex flex-col justify-between transition-all duration-300 ease-out hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
+                  className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group flex flex-col justify-between transition-all duration-300 ease-out hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
                 >
-                  <div className="px-4 py-5 border-b border-zinc-100 flex items-center space-x-2 text-xs font-semibold">
+                  <div className="px-4 py-5 flex items-center space-x-2 text-xs font-semibold">
                     <span
                       className={`w-5 h-5 ${solidChip[service!.category]} rounded flex items-center justify-center text-white`}
                     >
                       {iconMap[service!.iconName]}
                     </span>
-                    <span>{service!.title}</span>
+                    <span className="group-hover:text-white transition-colors duration-300">{service!.title}</span>
                   </div>
-                  <div className="h-64 sm:h-80 overflow-hidden rounded-2xl relative">
+                  <div className="card-img-frame h-64 sm:h-80 overflow-hidden rounded-2xl relative flex items-center justify-center">
                     <img
                       src={image!.src}
                       alt={service!.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="card-img w-full h-full object-cover"
                     />
                   </div>
-                  <div className="desc-lock w-full px-4 py-5 text-xs text-zinc-600 leading-relaxed">
+                  <div className="desc-lock w-full px-4 py-5 text-xs text-zinc-600 leading-relaxed group-hover:text-white transition-colors duration-300">
                     <div className="desc-clip">{service!.shortDesc}</div>
                   </div>
                 </div>
