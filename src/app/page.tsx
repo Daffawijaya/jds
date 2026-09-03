@@ -155,7 +155,7 @@ export default function HomePage() {
                   key={service!.id}
                   className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group flex flex-col justify-between transition-all duration-300 ease-out hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
                 >
-                  <div className="px-4 py-5 flex items-center space-x-2 text-xs font-semibold">
+                  <div className="px-3 group-hover:px-4 py-5 flex items-center space-x-2 text-xs font-semibold transition-all duration-300">
                     <span
                       className={`w-5 h-5 ${solidChip[service!.category]} rounded flex items-center justify-center text-white`}
                     >
@@ -170,7 +170,7 @@ export default function HomePage() {
                       className="card-img w-full h-full object-cover"
                     />
                   </div>
-                  <div className="desc-lock w-full px-4 py-5 text-xs text-zinc-600 leading-relaxed group-hover:text-white transition-colors duration-300">
+                  <div className="desc-lock w-full px-3 group-hover:px-4 py-5 text-xs text-zinc-600 leading-relaxed group-hover:text-white transition-all duration-300">
                     <div className="desc-clip">{service!.shortDesc}</div>
                   </div>
                 </div>
