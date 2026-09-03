@@ -147,13 +147,13 @@ export default function HomePage() {
             satu tim.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 text-left">
+          <div className="card-row grid grid-cols-1 sm:grid-cols-2 gap-2 text-left lg:flex">
             {featuredServices.map((service) => {
               const image = featuredCardImages.find((i) => i.id === service!.id);
               return (
                 <div
                   key={service!.id}
-                  className="bg-zinc-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all group flex flex-col justify-between"
+                  className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group flex flex-col justify-between transition-all duration-500 ease-out hover:shadow-lg lg:flex-1 lg:hover:flex-[2.5]"
                 >
                   <div className="px-4 py-5 border-b border-zinc-100 flex items-center space-x-2 text-xs font-semibold">
                     <span
@@ -170,8 +170,8 @@ export default function HomePage() {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <div className="px-4 py-5 text-xs text-zinc-600 leading-relaxed">
-                    {service!.shortDesc}
+                  <div className="desc-lock w-full px-4 py-5 text-xs text-zinc-600 leading-relaxed transition-all duration-500 ease-out">
+                    <div className="desc-clip">{service!.shortDesc}</div>
                   </div>
                 </div>
               );

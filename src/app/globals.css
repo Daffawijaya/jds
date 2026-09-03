@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+/* Featured service cards at lg+: descriptions are always clamped to 3 lines
+   (with "…") so every card keeps the same height and text never reflows when
+   a card stretches/shrinks on hover. While hovered, the description width is
+   locked to the resting column width so its line breaks never change. */
+@media (min-width: 64rem) {
+  .desc-lock {
+    width: 100%;
+  }
+  .group:hover > .desc-lock {
+    width: calc((100vw - 6rem) / 5);
+  }
+  /* clamp 3 baris: line-clamp + max-height 3 lines, baris ke-4 tidak punya ruang */
+  .desc-clip {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    max-height: calc(3 * 1em * 1.625);
+    overflow: hidden;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
