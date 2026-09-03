@@ -138,7 +138,7 @@ export default function HomePage() {
 
       {/* 2. LAYANAN UNGGULAN */}
       <section className="relative -mt-12 sm:-mt-16 rounded-t-[3rem] bg-white text-zinc-900 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
             Satu mitra untuk setiap kebutuhan digital.
           </h2>
@@ -147,15 +147,15 @@ export default function HomePage() {
             satu tim.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-left">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 text-left">
             {featuredServices.map((service) => {
               const image = featuredCardImages.find((i) => i.id === service!.id);
               return (
                 <div
                   key={service!.id}
-                  className="bg-zinc-50 border border-zinc-200 rounded-xl overflow-hidden hover:shadow-lg transition-all group flex flex-col justify-between"
+                  className="bg-zinc-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all group flex flex-col justify-between"
                 >
-                  <div className="p-3 border-b border-zinc-100 flex items-center space-x-2 text-xs font-semibold">
+                  <div className="px-4 py-5 border-b border-zinc-100 flex items-center space-x-2 text-xs font-semibold">
                     <span
                       className={`w-5 h-5 ${solidChip[service!.category]} rounded flex items-center justify-center text-white`}
                     >
@@ -163,14 +163,14 @@ export default function HomePage() {
                     </span>
                     <span>{service!.title}</span>
                   </div>
-                  <div className="h-56 overflow-hidden relative">
+                  <div className="h-64 sm:h-80 overflow-hidden rounded-2xl relative">
                     <img
                       src={image!.src}
                       alt={service!.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <div className="p-4 bg-white text-xs text-zinc-600 leading-relaxed">
+                  <div className="px-4 py-5 text-xs text-zinc-600 leading-relaxed">
                     {service!.shortDesc}
                   </div>
                 </div>
