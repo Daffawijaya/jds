@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
-/* Animasi melebar kartu layanan saat hover/unhover: lebih lambat (300ms)
-   dan halus (ease-out lembut) — override durasi/easing Tailwind pada 5 kartu. */
+/* Animasi melebar kartu layanan saat hover/unhover: diperlambat & diperhalus
+   (600ms, ease lembut) — override durasi/easing Tailwind pada 5 kartu. */
 @media (min-width: 64rem) {
   .card-row > .group {
-    transition-duration: 300ms;
-    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    transition-duration: 600ms;
+    transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
   }
   /* Saat salah satu kartu di-hover, padding kiri/kanan baris menipis hingga
      hampir menyentuh tepi layar, lalu kembali halus saat hover lepas. */
   .row-wrap {
-    transition: padding 300ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: padding 600ms cubic-bezier(0.32, 0.72, 0, 1);
   }
   .row-wrap:has(.card-row:hover) {
     padding-left: 0.25rem;
