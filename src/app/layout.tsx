@@ -63,7 +63,7 @@ export default function RootLayout({
     <html lang="id" className={`scroll-smooth ${myriad.variable} ${myriadCondensed.variable}`}>
       <body className="font-sans bg-white text-slate-900 antialiased selection:bg-red-600 selection:text-white">
         <Navbar />
-        <main className="min-h-screen pt-20">
+        <main className="min-h-screen">
           {children}
         </main>
         <Footer />
