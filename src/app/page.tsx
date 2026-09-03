@@ -11,8 +11,8 @@ import {
   MapPin,
   ArrowRight,
   ArrowUpRight,
-  ChevronRight,
 } from "lucide-react";
+import { FaChevronRight } from "react-icons/fa6";
 import { companyInfo, servicesData } from "@/data/companyData";
 
 /* ═══════════════════════════════════════════════════════════════
@@ -174,9 +174,9 @@ export default function HomePage() {
                   <div className="desc-lock w-full px-4 py-5 text-xs text-zinc-600 leading-relaxed group-hover:text-white transition-colors duration-300">
                     <div className="desc-clip">{service!.shortDesc}</div>
                   </div>
-                  {/* chevron lingkaran di ujung kanan bawah, muncul saat hover */}
+                  {/* chevron tebal di ujung kanan bawah, muncul saat hover */}
                   <span className="pointer-events-none absolute bottom-3 right-3 w-8 h-8 rounded-full border border-zinc-200 bg-white text-zinc-900 group-hover:border-white group-hover:bg-white flex items-center justify-center opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out shadow-sm">
-                    <ChevronRight className="w-4 h-4" />
+                    <FaChevronRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
               );
