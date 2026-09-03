@@ -29,12 +29,12 @@ export function Navbar() {
   }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-50 transition-colors duration-300 ${
-        isScrolled ? "bg-white" : "bg-transparent"
-      }`}
-    >
-      <div className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-50 px-2 pt-2 transition-colors duration-300">
+      <div
+        className={`relative h-16 rounded-2xl px-3.5 flex items-center justify-between transition-colors duration-300 ${
+          isScrolled ? "bg-white/70 backdrop-blur-xl" : "bg-transparent"
+        }`}
+      >
         {/* Logo + Desktop Navigation */}
         <div className="flex items-center gap-8">
           <Link href="/" aria-label={logoAlt} className="flex items-center shrink-0">
@@ -80,10 +80,10 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <Link
             href="/contact"
-            className={`font-semibold px-5 py-2 rounded-full text-xs transition-all shadow-md ${
+            className={`font-semibold px-5 py-2 rounded-full text-xs transition-all ${
               isScrolled
-                ? "bg-zinc-900 text-white hover:bg-zinc-700"
-                : "bg-white text-black hover:bg-zinc-200"
+                ? "bg-transparent text-zinc-900 border border-zinc-900 hover:bg-zinc-900 hover:text-white"
+                : "bg-white text-black border border-white hover:bg-zinc-200"
             }`}
           >
             Konsultasi
