@@ -2,34 +2,35 @@ export default function AdobeLandingPage() {
   return (
     <div className="w-full min-h-screen bg-white text-slate-900 font-sans antialiased">
       {/* 1. HERO SECTION */}
-      <section className="relative bg-[#070b12] text-white overflow-hidden -mt-16 pt-32 pb-16 lg:pt-40 lg:pb-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-5 z-10">
-            <span className="text-xs uppercase font-semibold tracking-widest text-zinc-400">
-              Adobe Express
+      <section className="relative bg-[#070b12] text-white overflow-hidden -mt-16 flex items-center min-h-[560px] sm:min-h-[620px] lg:min-h-[680px]">
+        {/* Background full hero */}
+        <img
+          src="/bggggg.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28">
+          <div className="max-w-2xl">
+            <span className="text-xs font-semibold tracking-widest text-zinc-300">
+              Jaya Dinara Sukses
             </span>
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mt-2 mb-4 leading-tight">
-              Get work done. <br />Faster.
+              Masa depan digital,
+              <br />
+              dibangun hari ini.
             </h1>
-            <p className="text-zinc-300 text-sm leading-relaxed mb-6">
-              Create social graphics, flyers, photos, and videos with all-in-one content creation app.
+            <p className="text-zinc-200 text-sm leading-relaxed mb-6">
+              Satu mitra untuk transformasi digital: membangun sistem, mendigitalkan alur kerja, dan
+              menyiapkan tenaga ahli profesional bagi instansi maupun bisnis Anda.
             </p>
             <div className="flex items-center space-x-4">
               <a
-                href="#"
+                href="/contact"
                 className="bg-white text-black hover:bg-zinc-200 font-semibold px-6 py-2.5 rounded-full text-sm transition-all shadow-md"
               >
-                Start for free
+                Mulai Proyek
               </a>
-            </div>
-          </div>
-          <div className="lg:col-span-7 relative">
-            <div className="relative w-full h-[320px] sm:h-[420px] rounded-2xl overflow-hidden shadow-2xl border border-zinc-800">
-              <img
-                src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80"
-                alt="Workspace laptop tablet Adobe Express"
-                className="w-full h-full object-cover"
-              />
             </div>
           </div>
         </div>

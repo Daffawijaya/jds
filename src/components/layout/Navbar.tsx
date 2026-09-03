@@ -39,7 +39,7 @@ export function Navbar() {
         <div className="flex items-center gap-8">
           <Link href="/" aria-label={logoAlt} className="flex items-center shrink-0">
             <Image
-              src={isScrolled ? "/jds.png" : "/jdsWh.png"}
+              src={isScrolled ? "/jds.png" : "/jdsw.png"}
               alt={logoAlt}
               width={626}
               height={271}
@@ -112,7 +112,7 @@ export function Navbar() {
                   <SheetHeader className="mb-6">
                     <SheetTitle className="flex items-center gap-2 text-white">
                       <Image
-                        src="/jdsWh.png"
+                        src="/jdsw.png"
                         alt={logoAlt}
                         width={626}
                         height={271}

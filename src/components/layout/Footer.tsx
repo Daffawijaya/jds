@@ -13,7 +13,7 @@ export function Footer() {
           <div className="col-span-2 space-y-3">
             <Link href="/" aria-label={logoAlt} className="inline-flex items-center">
               <Image
-                src="/jdsWh.png"
+                src="/jdsw.png"
                 alt={logoAlt}
                 width={626}
                 height={271}
