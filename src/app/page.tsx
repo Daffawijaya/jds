@@ -170,7 +170,7 @@ export default function HomePage() {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <div className="desc-lock w-full px-4 py-5 text-xs text-zinc-600 leading-relaxed transition-all duration-500 ease-out">
+                  <div className="desc-lock w-full px-4 py-5 text-xs text-zinc-600 leading-relaxed">
                     <div className="desc-clip">{service!.shortDesc}</div>
                   </div>
                 </div>

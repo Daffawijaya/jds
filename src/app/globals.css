@@ -5,11 +5,12 @@
    a card stretches/shrinks on hover. While hovered, the description width is
    locked to the resting column width so its line breaks never change. */
 @media (min-width: 64rem) {
+  /* Lebar desc = min(lebar kartu saat ini, lebar kolom diam). Jadi desc
+     mengikuti kartu hanya sampai lebar diam, lalu berhenti — tanpa saklar
+     on/off, sehingga tidak ada lompatan lebar baik saat kartu membesar
+     maupun mengecil: baris teks identik di setiap frame transisi. */
   .desc-lock {
-    width: 100%;
-  }
-  .group:hover > .desc-lock {
-    width: calc((100vw - 6rem) / 5);
+    width: min(100%, calc((100vw - 6rem) / 5));
   }
   /* clamp 3 baris: line-clamp + max-height 3 lines, baris ke-4 tidak punya ruang */
   .desc-clip {
@@ -19,6 +20,20 @@
     line-clamp: 3;
     max-height: calc(3 * 1em * 1.625);
     overflow: hidden;
+  }
+}
+
+/* Versi akurat: lebar kolom diam diukur dari lebar baris ASLI via container
+   query (20cqw - 0.4rem), jadi tepat sama ada maupun tanpa scrollbar. */
+@supports (width: 1cqw) {
+  .card-row {
+    container-type: inline-size;
+  }
+  @media (min-width: 64rem) {
+    .desc-lock {
+      /* lebar baris / 5 kolom, dikurangi 4 gap (gap-2 = 8px x 4 = 32px -> 0.4rem) */
+      width: min(100%, calc(20cqw - 0.4rem));
+    }
   }
 }
 
