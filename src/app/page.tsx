@@ -11,6 +11,7 @@ import {
   MapPin,
   ArrowRight,
   ArrowUpRight,
+  ChevronRight,
 } from "lucide-react";
 import { companyInfo, servicesData } from "@/data/companyData";
 
@@ -153,7 +154,7 @@ export default function HomePage() {
               return (
                 <div
                   key={service!.id}
-                  className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
+                  className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group relative flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
                 >
                   <div className="px-4 py-5 flex items-center space-x-2 text-xs font-semibold">
                     <span
@@ -173,6 +174,10 @@ export default function HomePage() {
                   <div className="desc-lock w-full px-4 py-5 text-xs text-zinc-600 leading-relaxed group-hover:text-white transition-colors duration-300">
                     <div className="desc-clip">{service!.shortDesc}</div>
                   </div>
+                  {/* chevron lingkaran di ujung kanan bawah, muncul saat hover */}
+                  <span className="pointer-events-none absolute bottom-3 right-3 w-8 h-8 rounded-full border border-zinc-200 bg-white text-zinc-900 group-hover:border-white group-hover:bg-white flex items-center justify-center opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out shadow-sm">
+                    <ChevronRight className="w-4 h-4" />
+                  </span>
                 </div>
               );
             })}
