@@ -175,8 +175,8 @@ export default function HomePage() {
                     <div className="desc-clip">{service!.shortDesc}</div>
                   </div>
                   {/* chevron tebal di ujung kanan bawah, muncul saat hover */}
-                  <span className="pointer-events-none absolute bottom-3 right-3 w-8 h-8 rounded-full border border-zinc-200 bg-white text-zinc-900 group-hover:border-white group-hover:bg-white flex items-center justify-center opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out shadow-sm">
-                    <FaChevronRight className="w-3.5 h-3.5" />
+                  <span className="pointer-events-none absolute bottom-3 right-3 w-6 h-6 rounded-full border border-zinc-200 bg-white text-zinc-900 group-hover:border-white group-hover:bg-white flex items-center justify-center opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out shadow-sm">
+                    <FaChevronRight className="w-3 h-3" />
                   </span>
                 </div>
               );
