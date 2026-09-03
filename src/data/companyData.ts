@@ -20,6 +20,15 @@ export const companyInfo: CompanyInfo = {
   instagramUrl: 'https://instagram.com/jds_corp',
 };
 
+export const siteNavLinks: { name: string; href: string }[] = [
+  { name: "Beranda", href: "/" },
+  { name: "Tentang Kami", href: "/about" },
+  { name: "Layanan", href: "/services" },
+  { name: "Proyek", href: "/projects" },
+  { name: "Karir", href: "/career" },
+  { name: "Kontak", href: "/contact" },
+];
+
 export const servicesData: Service[] = [
   {
     id: 'web-development',

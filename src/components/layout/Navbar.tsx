@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -12,31 +12,34 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { companyInfo } from "@/data/companyData";
-
-const navLinks = [
-  { name: "Beranda", href: "/" },
-  { name: "Tentang Kami", href: "/about" },
-  { name: "Layanan", href: "/services" },
-  { name: "Proyek", href: "/projects" },
-  { name: "Karir", href: "/career" },
-  { name: "Kontak", href: "/contact" },
-];
+import { companyInfo, siteNavLinks } from "@/data/companyData";
 
 const logoAlt = `${companyInfo.shortName} - ${companyInfo.officialName}`;
 
 export function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 4);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0a0a0c]/90 backdrop-blur-md border-b border-zinc-800 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header
+      className={`sticky top-0 z-50 transition-colors duration-300 ${
+        isScrolled ? "bg-white" : "bg-transparent"
+      }`}
+    >
+      <div className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo + Desktop Navigation */}
         <div className="flex items-center gap-8">
           <Link href="/" aria-label={logoAlt} className="flex items-center shrink-0">
             <Image
-              src="/jds.png"
+              src={isScrolled ? "/jds.png" : "/jdsWh.png"}
               alt={logoAlt}
               width={626}
               height={271}
@@ -45,17 +48,26 @@ export function Navbar() {
             />
           </Link>
 
-          <nav className="hidden md:flex items-center gap-6 text-xs font-semibold tracking-wide text-zinc-300">
-            {navLinks.map((link) => {
+          <nav
+            className={`hidden md:flex items-center gap-6 text-xs font-semibold tracking-wide transition-colors ${
+              isScrolled ? "text-zinc-600" : "text-zinc-300"
+            }`}
+          >
+            {siteNavLinks.map((link) => {
               const isActive = pathname === link.href;
+              const colorClass = isActive
+                ? isScrolled
+                  ? "text-zinc-900"
+                  : "text-white"
+                : isScrolled
+                  ? "hover:text-zinc-900"
+                  : "hover:text-white";
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   aria-current={isActive ? "page" : undefined}
-                  className={`transition-colors hover:text-white ${
-                    isActive ? "text-white" : ""
-                  }`}
+                  className={`transition-colors ${colorClass}`}
                 >
                   {link.name}
                 </Link>
@@ -68,7 +80,11 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <Link
             href="/contact"
-            className="bg-white text-black hover:bg-zinc-200 font-semibold px-5 py-2 rounded-full text-xs transition-all shadow-md"
+            className={`font-semibold px-5 py-2 rounded-full text-xs transition-all shadow-md ${
+              isScrolled
+                ? "bg-zinc-900 text-white hover:bg-zinc-700"
+                : "bg-white text-black hover:bg-zinc-200"
+            }`}
           >
             Konsultasi
           </Link>
@@ -79,7 +95,11 @@ export function Navbar() {
                 <button
                   type="button"
                   aria-label="Buka Menu"
-                  className="inline-flex items-center justify-center w-10 h-10 rounded-full transition-colors hover:bg-zinc-800/60"
+                  className={`inline-flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
+                    isScrolled
+                      ? "text-zinc-900 hover:bg-zinc-100"
+                      : "text-white hover:bg-white/10"
+                  }`}
                 >
                   <Menu className="w-6 h-6" />
                 </button>
@@ -92,7 +112,7 @@ export function Navbar() {
                   <SheetHeader className="mb-6">
                     <SheetTitle className="flex items-center gap-2 text-white">
                       <Image
-                        src="/jds.png"
+                        src="/jdsWh.png"
                         alt={logoAlt}
                         width={626}
                         height={271}
@@ -102,7 +122,7 @@ export function Navbar() {
                   </SheetHeader>
 
                   <div className="flex flex-col">
-                    {navLinks.map((link) => {
+                    {siteNavLinks.map((link) => {
                       const isActive = pathname === link.href;
                       return (
                         <Link
