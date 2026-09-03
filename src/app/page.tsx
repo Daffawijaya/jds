@@ -137,7 +137,7 @@ export default function HomePage() {
       </section>
 
       {/* 2. LAYANAN UNGGULAN */}
-      <section className="featured-sec relative -mt-12 sm:-mt-16 rounded-t-[3rem] bg-white text-zinc-900 py-20">
+      <section className="featured-sec relative -mt-12 sm:-mt-16 rounded-t-4xl bg-white text-zinc-900 py-20">
         <div className="row-wrap px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
             Satu mitra untuk setiap kebutuhan digital.
