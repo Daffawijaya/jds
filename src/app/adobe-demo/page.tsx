@@ -15,7 +15,7 @@ export default function AdobeLandingPage() {
             <span className="text-xs font-semibold tracking-widest text-zinc-300">
               Jaya Dinara Sukses
             </span>
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mt-2 mb-4 leading-tight">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mt-3 mb-5 leading-tight">
               Masa depan digital,
               <br />
               dibangun hari ini.

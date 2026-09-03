@@ -1,8 +1,4 @@
-"use client";
-
-import { useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import {
   Globe,
   Code2,
@@ -12,562 +8,384 @@ import {
   Server,
   Users,
   Film,
+  MapPin,
   ArrowRight,
   ArrowUpRight,
-  CheckCircle2,
-  MapPin,
-  Building2,
-  Layers,
-  Award,
-  Zap,
-  PhoneCall,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ServiceDetailModal } from "@/components/modals/ServiceDetailModal";
-import { ProjectDetailModal } from "@/components/modals/ProjectDetailModal";
-import { companyInfo, servicesData, projectsData, companyStrengthsData } from "@/data/companyData";
-import { Service, Project } from "@/types";
+import { companyInfo, servicesData } from "@/data/companyData";
 
-/* ═══════════════════════════════════════════════════════════════════
-   JDS Homepage — Apple Intelligence Light Theme Style
-   Stack: Next.js App Router + Tailwind + Framer Motion
-   ═══════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   Homepage JDS — layout & styling mengikuti halaman /adobe-demo
+   Stack: Next.js App Router + Tailwind
+   ═══════════════════════════════════════════════════════════════ */
 
 const iconMap: Record<string, React.ReactNode> = {
-  Globe: <Globe className="w-6 h-6" />,
-  Code2: <Code2 className="w-6 h-6" />,
-  Layout: <Layout className="w-6 h-6" />,
-  Cpu: <Cpu className="w-6 h-6" />,
-  Lightbulb: <Lightbulb className="w-6 h-6" />,
-  Server: <Server className="w-6 h-6" />,
-  Users: <Users className="w-6 h-6" />,
-  Film: <Film className="w-6 h-6" />,
-  MapPin: <MapPin className="w-3.5 h-3.5" />,
-  Layers: <Layers className="w-6 h-6" />,
-  Award: <Award className="w-6 h-6" />,
-  Zap: <Zap className="w-6 h-6" />,
+  Globe: <Globe className="w-3 h-3" />,
+  Code2: <Code2 className="w-3 h-3" />,
+  Layout: <Layout className="w-3 h-3" />,
+  Cpu: <Cpu className="w-3 h-3" />,
+  Lightbulb: <Lightbulb className="w-3 h-3" />,
+  Server: <Server className="w-3 h-3" />,
+  Users: <Users className="w-3 h-3" />,
+  Film: <Film className="w-3 h-3" />,
 };
 
-const categoryAccent: Record<string, { chip: string; text: string; glow: string }> = {
-  development: {
-    chip: "bg-cyan-100 border-cyan-200 text-cyan-700",
-    text: "text-cyan-600",
-    glow: "from-cyan-400 to-blue-500",
-  },
-  solutions: {
-    chip: "bg-teal-100 border-teal-200 text-teal-700",
-    text: "text-teal-600",
-    glow: "from-teal-400 to-emerald-500",
-  },
-  consulting: {
-    chip: "bg-violet-100 border-violet-200 text-violet-700",
-    text: "text-violet-600",
-    glow: "from-violet-400 to-purple-500",
-  },
-  outsourcing: {
-    chip: "bg-amber-100 border-amber-200 text-amber-700",
-    text: "text-amber-600",
-    glow: "from-amber-400 to-orange-500",
-  },
-  media: {
-    chip: "bg-fuchsia-100 border-fuchsia-200 text-fuchsia-700",
-    text: "text-fuchsia-600",
-    glow: "from-fuchsia-400 to-pink-500",
-  },
+const iconMapLg: Record<string, React.ReactNode> = {
+  Globe: <Globe className="w-4 h-4" />,
+  Code2: <Code2 className="w-4 h-4" />,
+  Layout: <Layout className="w-4 h-4" />,
+  Cpu: <Cpu className="w-4 h-4" />,
+  Lightbulb: <Lightbulb className="w-4 h-4" />,
+  Server: <Server className="w-4 h-4" />,
+  Users: <Users className="w-4 h-4" />,
+  Film: <Film className="w-4 h-4" />,
 };
 
-const fallbackAccent = categoryAccent["development"];
+// Warna solid untuk kartu terang (ikon di atas kotak berwarna)
+const solidChip: Record<string, string> = {
+  development: "bg-cyan-600",
+  solutions: "bg-teal-600",
+  consulting: "bg-violet-600",
+  outsourcing: "bg-amber-500",
+  media: "bg-fuchsia-600",
+};
 
-// ─── Section Component ─────────────────────────────────────────────
+// Warna transparan untuk kartu gelap (katalog layanan)
+const darkChip: Record<string, string> = {
+  development: "bg-cyan-500/15 text-cyan-300",
+  solutions: "bg-teal-500/15 text-teal-300",
+  consulting: "bg-violet-500/15 text-violet-300",
+  outsourcing: "bg-amber-500/15 text-amber-300",
+  media: "bg-fuchsia-500/15 text-fuchsia-300",
+};
 
-function LightSection({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <section className={`relative bg-white py-24 sm:py-32 ${className}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
-    </section>
-  );
-}
+// Lima layanan unggulan di bagian 2
+const featuredIds = [
+  "web-development",
+  "software-development",
+  "ui-ux-design",
+  "digitalization-solutions",
+  "professional-staffing",
+];
+const featuredServices = featuredIds
+  .map((id) => servicesData.find((s) => s.id === id))
+  .filter(Boolean);
 
-function SectionHeader({
-  badge,
-  badgeColor = "bg-gray-100 text-gray-700",
-  title,
-  titleWhite = false,
-  description,
-}: {
-  badge?: string;
-  badgeColor?: string;
-  title: React.ReactNode;
-  titleWhite?: boolean;
-  description?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { margin: "-15%" });
+const homeImages = {
+  web: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80",
+  software: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=600&q=80",
+  uiux: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
+  digital: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
+  staffing: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80",
+  umkm: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80",
+  integrated:
+    "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80",
+  showcase:
+    "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=1200&q=80",
+};
 
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8 }}
-      className="text-center mb-16 sm:mb-20"
-    >
-      {badge && (
-        <span
-          className={`inline-block px-4 py-2 rounded-full text-sm font-medium mb-6 ${badgeColor}`}
-        >
-          {badge}
-        </span>
-      )}
-      <h2
-        className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight ${
-          titleWhite ? "text-white" : "text-gray-900"
-        }`}
-      >
-        {title}
-      </h2>
-      {description && (
-        <p className="mt-6 text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
-          {description}
-        </p>
-      )}
-    </motion.div>
-  );
-}
-
-// ─── Hero ──────────────────────────────────────────────────────────
-
-function HeroSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
-  const y = useTransform(scrollYProgress, [0, 0.5], [0, 50]);
-
-  return (
-    <section
-      ref={ref}
-      className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden"
-    >
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-50 via-white to-gray-50" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-100/50 rounded-full blur-[120px]" />
-
-      <motion.div
-        style={{ opacity, scale, y }}
-        className="relative z-10 text-center px-4 max-w-5xl mx-auto"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center justify-center gap-3 mb-8"
-        >
-          <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#eb1000]">
-            {companyInfo.shortName} · {companyInfo.officialName}
-          </span>
-          <span className="h-3 w-px bg-gray-300" />
-          <span className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500">
-            <MapPin className="w-3.5 h-3.5" />
-            {companyInfo.regency}, {companyInfo.province}
-          </span>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-[2.75rem] leading-[1.0] sm:text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 tracking-tight"
-        >
-          Teknologi.
-          <br />
-          Digitalisasi.
-          <br />
-          <span className="text-gray-500">Tenaga Ahli.</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-8 text-lg sm:text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto leading-relaxed"
-        >
-          Satu mitra untuk transformasi digital: membangun sistem, mendigitalkan
-          alur kerja, dan menyiapkan tenaga ahli profesional bagi instansi
-          maupun bisnis Anda.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <Button asChild size="lg" variant="accent" className="w-full sm:w-auto">
-            <Link href="/contact" className="flex items-center gap-2">
-              <span>Mulai Proyek</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </Button>
-          <Button
-            asChild
-            size="lg"
-            variant="outline"
-            className="w-full sm:w-auto border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100 hover:border-gray-400"
-          >
-            <a
-              href={companyInfo.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2"
-            >
-              <PhoneCall className="w-4 h-4" />
-              <span>WhatsApp Tim {companyInfo.shortName}</span>
-            </a>
-          </Button>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-gray-500"
-        >
-          <span className="flex items-center gap-1.5">
-            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-            Berpengalaman di sektor pemerintahan & bisnis
-          </span>
-          <span className="flex items-center gap-1.5">
-            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-            Tenaga ahli terverifikasi & terukur
-          </span>
-        </motion.div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="w-6 h-10 border-2 border-gray-300 rounded-full flex justify-center pt-2"
-        >
-          <div className="w-1 h-2 bg-gray-400 rounded-full" />
-        </motion.div>
-      </motion.div>
-    </section>
-  );
-}
-
-// ─── Services ──────────────────────────────────────────────────────
-
-function ServicesSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { margin: "-15%" });
-  const [selectedService, setSelectedService] = useState<Service | null>(null);
-
-  return (
-    <>
-      <LightSection>
-        <SectionHeader
-          badge="Produk & Layanan"
-          badgeColor="bg-red-100 text-red-700"
-          title={
-            <>
-              Satu mitra untuk setiap
-              <br />
-              <span className="text-gray-500">kebutuhan digital.</span>
-            </>
-          }
-          description="Dari membangun sistem hingga menyiapkan orang-orang yang menjalankannya."
-        />
-
-        <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-          {servicesData.map((service, index) => {
-            const accent = categoryAccent[service.category] ?? fallbackAccent;
-            return (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-              >
-                <div
-                  onClick={() => setSelectedService(service)}
-                  className="group h-full cursor-pointer rounded-3xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:bg-gray-50 hover:border-gray-300"
-                >
-                  <div
-                    className={`w-12 h-12 rounded-2xl border flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110 ${accent.chip}`}
-                  >
-                    {iconMap[service.iconName] ?? <Globe className="w-6 h-6" />}
-                  </div>
-                  <p
-                    className={`text-[10px] font-bold uppercase tracking-widest mb-2 ${accent.text}`}
-                  >
-                    {service.category === "development"
-                      ? "Pengembangan"
-                      : service.category === "solutions"
-                        ? "Solusi Digital"
-                        : service.category === "consulting"
-                          ? "Konsultasi"
-                          : service.category === "outsourcing"
-                            ? "Outsourcing & SDM"
-                            : "Media & Konten"}
-                  </p>
-                  <h3 className="text-lg font-bold text-gray-900 leading-snug mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 leading-relaxed line-clamp-3 mb-5">
-                    {service.shortDesc}
-                  </p>
-                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-600 group-hover:text-gray-900 transition-colors">
-                    Lihat detail
-                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </LightSection>
-
-      <ServiceDetailModal
-        service={selectedService}
-        isOpen={!!selectedService}
-        onClose={() => setSelectedService(null)}
-      />
-    </>
-  );
-}
-
-// ─── Strengths ─────────────────────────────────────────────────────
-
-function StrengthsSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { margin: "-15%" });
-
-  return (
-    <LightSection className="bg-gray-50">
-      <div ref={ref} className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="lg:sticky lg:top-28 space-y-6"
-        >
-          <span className="inline-block px-4 py-2 rounded-full bg-red-100 text-red-700 text-sm font-medium">
-            Kenapa {companyInfo.shortName}
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-            Semua yang Anda butuhkan,
-            <span className="block text-gray-500">dalam satu tim.</span>
-          </h2>
-          <p className="text-lg text-gray-500 leading-relaxed">{companyInfo.overview}</p>
-          <Button
-            asChild
-            variant="outline"
-            className="rounded-full px-7 border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
-          >
-            <Link href="/about" className="flex items-center gap-2">
-              <span>Tentang {companyInfo.shortName}</span>
-              <ArrowUpRight className="w-4 h-4" />
-            </Link>
-          </Button>
-        </motion.div>
-
-        <div className="space-y-4">
-          {companyStrengthsData.map((strength, index) => (
-            <motion.div
-              key={strength.id}
-              initial={{ opacity: 0, x: 30 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <div className="flex items-start gap-5 rounded-3xl border border-gray-200 bg-white p-6 hover:bg-gray-50 transition-colors">
-                <div className="w-12 h-12 shrink-0 rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-600">
-                  {iconMap[strength.iconName] ?? <Zap className="w-6 h-6" />}
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-1.5">{strength.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">{strength.desc}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </LightSection>
-  );
-}
-
-// ─── Projects ──────────────────────────────────────────────────────
-
-function ProjectsSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { margin: "-15%" });
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
-  return (
-    <>
-      <LightSection>
-        <SectionHeader
-          badge="Karya Terbaru"
-          badgeColor="bg-red-100 text-red-700"
-          title={
-            <>
-              Bukti kerja sama yang
-              <br />
-              <span className="text-gray-500">terpercaya.</span>
-            </>
-          }
-        />
-
-        <div ref={ref} className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {projectsData.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <div
-                onClick={() => setSelectedProject(project)}
-                className="group h-full cursor-pointer overflow-hidden rounded-3xl border border-gray-200 bg-white transition-all duration-300 hover:border-gray-300 hover:bg-gray-50"
-              >
-                <div className="relative h-48 sm:h-56 overflow-hidden border-b border-gray-100">
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-100 via-white to-gray-50 transition-transform duration-500 group-hover:scale-[1.03]" />
-                  <div className="relative h-full flex flex-col items-center justify-center gap-2 p-6 text-center">
-                    <div className="w-14 h-14 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-gray-600">
-                      <Building2 className="w-7 h-7" />
-                    </div>
-                    <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">
-                      {project.category}
-                    </span>
-                    <div className="absolute top-4 right-4">
-                      <Badge variant="cyan">{project.year}</Badge>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-7">
-                  <h3 className="text-xl font-bold text-gray-900 leading-snug group-hover:text-gray-700 transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="mt-2 text-sm font-semibold text-gray-600 flex items-center gap-1.5">
-                    <Building2 className="w-3.5 h-3.5 text-gray-400" />
-                    {project.client}
-                  </p>
-                  <p className="mt-3 text-sm text-gray-500 leading-relaxed line-clamp-3">
-                    {project.shortDesc}
-                  </p>
-                  <div className="mt-5 flex flex-wrap gap-1.5">
-                    {project.tags.slice(0, 3).map((tag, idx) => (
-                      <span
-                        key={idx}
-                        className="text-[11px] px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 border border-gray-200 font-medium"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </LightSection>
-
-      <ProjectDetailModal
-        project={selectedProject}
-        isOpen={!!selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
-    </>
-  );
-}
-
-// ─── CTA ───────────────────────────────────────────────────────────
-
-function CTASection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { margin: "-15%" });
-
-  return (
-    <LightSection>
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, y: 40 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8 }}
-        className="relative overflow-hidden rounded-[2.5rem] bg-gray-900"
-      >
-        <div className="absolute -top-24 -right-16 w-96 h-96 rounded-full bg-[#eb1000]/20 blur-[100px]" />
-        <div className="absolute -bottom-24 -left-16 w-96 h-96 rounded-full bg-red-600/10 blur-[100px]" />
-
-        <div className="relative px-6 sm:px-12 py-14 sm:py-20 text-center">
-          <Badge variant="cyan" className="mb-6">
-            Konsultasi & Penawaran
-          </Badge>
-          <h2 className="max-w-3xl mx-auto text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
-            Siap memulai proyek digitalisasi atau kebutuhan tenaga ahli?
-          </h2>
-          <p className="max-w-2xl mx-auto mt-5 text-base sm:text-lg text-gray-400">
-            Ceritakan kebutuhan Anda — tim {companyInfo.shortName} akan membantu memetakan solusi
-            sistem, pengembangan web, maupun penyiapan SDM profesional.
-          </p>
-          <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg" variant="accent" className="w-full sm:w-auto">
-              <Link href="/contact" className="flex items-center gap-2">
-                <PhoneCall className="w-4 h-4" />
-                <span>Hubungi Kami</span>
-              </Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="w-full sm:w-auto border-gray-700 bg-transparent text-white hover:bg-gray-800"
-            >
-              <a
-                href={companyInfo.whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2"
-              >
-                <span>WhatsApp Langsung</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </a>
-            </Button>
-          </div>
-        </div>
-      </motion.div>
-    </LightSection>
-  );
-}
-
-// ─── Page ──────────────────────────────────────────────────────────
+const featuredCardImages = [
+  { id: "web-development", src: homeImages.web },
+  { id: "software-development", src: homeImages.software },
+  { id: "ui-ux-design", src: homeImages.uiux },
+  { id: "digitalization-solutions", src: homeImages.digital },
+  { id: "professional-staffing", src: homeImages.staffing },
+];
 
 export default function HomePage() {
   return (
-    <div className="bg-white min-h-screen -mt-20">
-      <HeroSection />
-      <ServicesSection />
-      <StrengthsSection />
-      <ProjectsSection />
-      <CTASection />
+    <div className="w-full min-h-screen bg-white text-slate-900 font-sans antialiased">
+      {/* 1. HERO SECTION */}
+      <section className="relative bg-[#070b12] text-white overflow-hidden -mt-16 flex items-center min-h-[104vh]">
+        <img
+          src="/bggggg.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28">
+          <div className="max-w-2xl">
+            <span className="text-xs font-semibold tracking-widest text-zinc-300">
+              {companyInfo.shortName} · {companyInfo.officialName}
+            </span>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mt-3 mb-5 leading-tight">
+              Masa depan digital,
+              <br />
+              dibangun hari ini.
+            </h1>
+            <p className="text-zinc-200 text-sm leading-relaxed mb-6">
+              Satu mitra untuk transformasi digital: membangun sistem, mendigitalkan alur kerja, dan
+              menyiapkan tenaga ahli profesional bagi instansi maupun bisnis Anda.
+            </p>
+            <div className="flex flex-wrap items-center gap-4">
+              <Link
+                href="/contact"
+                className="bg-white text-black hover:bg-zinc-200 font-semibold px-6 py-2.5 rounded-full text-sm transition-all shadow-md"
+              >
+                Mulai Proyek
+              </Link>
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-1.5 text-zinc-300 hover:text-white font-semibold text-sm transition-colors"
+              >
+                Lihat Layanan
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. LAYANAN UNGGULAN */}
+      <section className="relative -mt-12 sm:-mt-16 rounded-t-[3rem] bg-white text-zinc-900 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
+            Satu mitra untuk setiap kebutuhan digital.
+          </h2>
+          <p className="text-black text-sm max-w-2xl mx-auto mb-12">
+            Dari membangun sistem hingga menyiapkan orang-orang yang menjalankannya. Semua tersedia dalam
+            satu tim.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-left">
+            {featuredServices.map((service) => {
+              const image = featuredCardImages.find((i) => i.id === service!.id);
+              return (
+                <div
+                  key={service!.id}
+                  className="bg-zinc-50 border border-zinc-200 rounded-xl overflow-hidden hover:shadow-lg transition-all group flex flex-col justify-between"
+                >
+                  <div className="p-3 border-b border-zinc-100 flex items-center space-x-2 text-xs font-semibold">
+                    <span
+                      className={`w-5 h-5 ${solidChip[service!.category]} rounded flex items-center justify-center text-white`}
+                    >
+                      {iconMap[service!.iconName]}
+                    </span>
+                    <span>{service!.title}</span>
+                  </div>
+                  <div className="h-56 overflow-hidden relative">
+                    <img
+                      src={image!.src}
+                      alt={service!.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="p-4 bg-white text-xs text-zinc-600 leading-relaxed">
+                    {service!.shortDesc}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-10">
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 border border-zinc-300 hover:border-zinc-900 text-zinc-700 hover:text-zinc-950 font-semibold text-sm px-6 py-2.5 rounded-full transition-all"
+            >
+              Lihat semua layanan
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. PROYEK & KEUNGGULAN */}
+      <section className="py-20 bg-zinc-50 text-zinc-900 border-t border-zinc-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
+              PROYEK &amp; KEUNGGULAN
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold mt-1 mb-2">
+              Dampak nyata untuk daerah &amp; bisnis.
+            </h2>
+            <p className="text-zinc-600 text-sm">
+              Bekerja sama dengan instansi pemerintah dan mitra bisnis di Kalimantan Timur.
+            </p>
+          </div>
+
+          {/* Featured Large Card */}
+          <div className="bg-gradient-to-r from-sky-600 via-blue-600 to-amber-200 rounded-2xl p-8 sm:p-12 text-white mb-8 shadow-xl relative overflow-hidden">
+            <div className="max-w-xl z-10 relative">
+              <div className="bg-black/30 backdrop-blur-md inline-block px-4 py-2 rounded-full text-xs mb-6 font-medium border border-white/20">
+                ✨ Platform digital UMKM Kutai Kartanegara
+              </div>
+              <div className="flex flex-wrap gap-3 mb-6">
+                <div className="bg-slate-900/80 px-4 py-2 rounded-lg text-xs border border-white/10">
+                  <span className="text-zinc-400 block">Mitra Instansi</span>
+                  <span className="text-base font-bold">Dinas KUKM Kukar</span>
+                </div>
+                <div className="bg-slate-900/80 px-4 py-2 rounded-lg text-xs border border-white/10">
+                  <span className="text-zinc-400 block">Fokus</span>
+                  <span className="text-base font-bold">Digitalisasi UMKM</span>
+                </div>
+              </div>
+              <h3 className="text-3xl font-extrabold italic tracking-tight mb-4">
+                UMKM Kukar, siap go digital.
+              </h3>
+              <Link
+                href="/projects"
+                className="inline-block bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold px-5 py-2 rounded-full transition-all"
+              >
+                Lihat studi kasus →
+              </Link>
+            </div>
+          </div>
+
+          {/* 3 Grid Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-all">
+              <img
+                src={homeImages.umkm}
+                alt="Pendampingan tenaga ahli UMKM"
+                className="w-full h-48 object-cover rounded-lg mb-4"
+              />
+              <h4 className="font-bold text-sm mb-1">Pendampingan &amp; Tenaga Ahli UMKM.</h4>
+              <p className="text-xs text-zinc-600 mb-3">
+                Penyediaan tenaga ahli IT yang mendampingi digitalisasi pelaku UMKM di Kutai
+                Kartanegara.
+              </p>
+              <Link
+                href="/projects"
+                className="text-xs font-semibold text-blue-600 hover:underline inline-flex items-center gap-0.5"
+              >
+                Lihat proyek
+                <ArrowUpRight className="w-3 h-3" />
+              </Link>
+            </div>
+
+            <div className="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-all">
+              <img
+                src={homeImages.integrated}
+                alt="Layanan teknologi terintegrasi"
+                className="w-full h-48 object-cover rounded-lg mb-4"
+              />
+              <h4 className="font-bold text-sm mb-1">Layanan terintegrasi, satu pintu.</h4>
+              <p className="text-xs text-zinc-600 mb-3">
+                Software, web, UI/UX, konsultasi IT, hingga tenaga ahli, semuanya dikelola dalam satu
+                ekosistem layanan.
+              </p>
+              <Link
+                href="/services"
+                className="text-xs font-semibold text-blue-600 hover:underline inline-flex items-center gap-0.5"
+              >
+                Lihat layanan
+                <ArrowUpRight className="w-3 h-3" />
+              </Link>
+            </div>
+
+            <div className="bg-zinc-900 text-white p-4 rounded-xl border border-zinc-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+              <div>
+                <div className="bg-zinc-800 p-4 rounded-lg mb-4 border border-zinc-700 flex items-center gap-3">
+                  <MapPin className="w-8 h-8 text-cyan-300 shrink-0" />
+                  <span className="text-xs text-zinc-400 leading-relaxed">
+                    Berpusat di Kutai Kartanegara dan memahami kebutuhan transformasi digital daerah.
+                  </span>
+                </div>
+                <h4 className="font-bold text-sm mb-1">Keahlian lokal, standar nasional.</h4>
+                <p className="text-xs text-zinc-400 mb-3">
+                  Pendekatan komunikatif dan adaptif untuk instansi pemerintah maupun swasta.
+                </p>
+              </div>
+              <Link
+                href="/about"
+                className="text-xs font-semibold text-blue-400 hover:underline inline-flex items-center gap-0.5"
+              >
+                Tentang JDS
+                <ArrowUpRight className="w-3 h-3" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. TESTIMONIAL BANNER */}
+      <section className="bg-zinc-950 text-white py-20 relative overflow-hidden">
+        <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
+          <blockquote className="text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight mb-6 leading-snug">
+            &ldquo;Tenaga ahli JDS mendampingi pelaku UMKM kami secara profesional; digitalisasi berjalan
+            lancar dan tepat waktu.&rdquo;
+          </blockquote>
+          <p className="text-xs text-zinc-400 uppercase tracking-widest font-semibold mb-6">
+            DINAS KOPERASI &amp; UKM KAB. KUTAI KARTANEGARA
+          </p>
+          <Link
+            href="/projects"
+            className="inline-block bg-white text-black font-semibold text-xs px-5 py-2 rounded-full hover:bg-zinc-200 transition-all"
+          >
+            Lihat cerita kami
+          </Link>
+        </div>
+      </section>
+
+      {/* 5. KATALOG LAYANAN LENGKAP */}
+      <section className="bg-[#0a0a0c] text-white py-20 border-t border-zinc-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-extrabold mb-2">Satu mitra, semua solusi digital.</h2>
+            <p className="text-xs text-zinc-400 mb-6">
+              Layanan lengkap untuk instansi pemerintah, korporasi, dan pelaku usaha di Kalimantan Timur.
+            </p>
+            <div className="inline-flex border border-zinc-700 rounded-full p-1 bg-zinc-900">
+              <Link
+                href="/services"
+                className="bg-zinc-800 text-white text-xs px-4 py-1.5 rounded-full font-medium hover:bg-zinc-700 transition-colors"
+              >
+                Lihat semua layanan
+              </Link>
+            </div>
+          </div>
+
+          {/* Visual Ruang Kerja */}
+          <div className="rounded-2xl overflow-hidden border border-zinc-800 mb-12 shadow-2xl max-w-4xl mx-auto">
+            <img
+              src={homeImages.showcase}
+              alt="Ruang kerja tim JDS"
+              className="w-full h-[360px] object-cover"
+            />
+          </div>
+
+          {/* 3x3 Grid Layanan */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {servicesData.map((service) => (
+              <div
+                key={service.id}
+                className="bg-zinc-900/90 border border-zinc-800 p-6 rounded-xl hover:border-zinc-700 transition-all"
+              >
+                <div
+                  className={`w-8 h-8 ${darkChip[service.category]} rounded font-black flex items-center justify-center mb-4`}
+                >
+                  {iconMapLg[service.iconName]}
+                </div>
+                <h3 className="font-bold text-base mb-1">{service.title}</h3>
+                <p className="text-xs text-zinc-400 leading-relaxed">{service.shortDesc}</p>
+              </div>
+            ))}
+
+            {/* Kartu CTA */}
+            <Link
+              href="/contact"
+              className="bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 border border-zinc-700 p-6 rounded-xl hover:border-white/40 transition-all flex flex-col justify-between group"
+            >
+              <div>
+                <div className="w-8 h-8 bg-white text-black rounded font-black flex items-center justify-center mb-4">
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                </div>
+                <h3 className="font-bold text-base mb-1">Diskusikan kebutuhan Anda.</h3>
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  Ceritakan rencana digitalisasi Anda. Tim kami siap membantu dari konsultasi hingga
+                  implementasi.
+                </p>
+              </div>
+              <span className="mt-4 text-xs font-semibold text-white inline-flex items-center gap-1">
+                Konsultasi Gratis
+                <ArrowUpRight className="w-3 h-3" />
+              </span>
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
