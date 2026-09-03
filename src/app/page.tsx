@@ -153,7 +153,7 @@ export default function HomePage() {
               return (
                 <div
                   key={service!.id}
-                  className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group flex flex-col justify-between transition-all duration-500 ease-out hover:shadow-lg lg:flex-1 lg:hover:flex-[2.5]"
+                  className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group flex flex-col justify-between transition-all duration-300 ease-out hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
                 >
                   <div className="px-4 py-5 border-b border-zinc-100 flex items-center space-x-2 text-xs font-semibold">
                     <span
