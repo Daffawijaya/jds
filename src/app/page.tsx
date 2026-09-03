@@ -106,7 +106,7 @@ export default function HomePage() {
         <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28">
           <div className="max-w-2xl">
             <span className="text-xs font-semibold tracking-widest text-zinc-300">
-              {companyInfo.shortName} · {companyInfo.officialName}
+              {companyInfo.officialName}
             </span>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mt-3 mb-5 leading-tight">
               Masa depan digital,
