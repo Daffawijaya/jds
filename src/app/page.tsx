@@ -262,19 +262,20 @@ export default function HomePage() {
         <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 mt-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {testimonialsData.map((t) => (
-              <div
-                key={t.id}
-                className="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-all flex flex-col"
-              >
-                <img
-                  src={t.image}
-                  alt={t.name}
-                  loading="lazy"
-                  className="w-full h-48 object-cover rounded-lg mb-4"
-                />
+              <div key={t.id} className="p-2 flex flex-col">
+                <div className="flex items-center gap-3 mb-3">
+                  <img
+                    src={t.image}
+                    alt={t.name}
+                    loading="lazy"
+                    className="w-12 h-12 rounded-full object-cover shrink-0"
+                  />
+                  <div>
+                    <p className="font-bold text-sm">{t.name}</p>
+                    <p className="text-xs text-zinc-500">{t.role}</p>
+                  </div>
+                </div>
                 <p className="text-sm font-medium leading-relaxed mb-3 flex-1">“{t.quote}”</p>
-                <p className="font-bold text-sm">{t.name}</p>
-                <p className="text-xs text-zinc-500 mb-3">{t.role}</p>
                 <Link
                   href="/projects"
                   className="text-xs font-semibold text-blue-600 hover:underline inline-flex items-center gap-0.5"
