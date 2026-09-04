@@ -47,7 +47,7 @@ export default function AboutPage() {
             {/* Card 1 */}
             <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
               <img
-                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80"
                 alt="Web Development"
                 className="h-48 object-cover"
               />
@@ -75,7 +75,7 @@ export default function AboutPage() {
             {/* Card 2 */}
             <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
               <img
-                src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=600&q=80"
                 alt="Software Development"
                 className="h-48 object-cover"
               />
@@ -103,7 +103,7 @@ export default function AboutPage() {
             {/* Card 3 */}
             <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
               <img
-                src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=600&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80"
                 alt="UI/UX Design"
                 className="h-48 object-cover"
               />
@@ -131,7 +131,7 @@ export default function AboutPage() {
             {/* Card 4 */}
             <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
               <img
-                src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=600&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80"
                 alt="Digitalisasi Sistem"
                 className="h-48 object-cover"
               />
@@ -159,7 +159,7 @@ export default function AboutPage() {
             {/* Card 5 */}
             <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
               <img
-                src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=600&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80"
                 alt="IT Consulting"
                 className="h-48 object-cover"
               />
@@ -187,7 +187,7 @@ export default function AboutPage() {
             {/* Card 6 */}
             <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
               <img
-                src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?q=80&w=600&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=600&q=80"
                 alt="IT Outsourcing"
                 className="h-48 object-cover"
               />
@@ -216,12 +216,12 @@ export default function AboutPage() {
       </section>
 
       {/* 3. HIGHLIGHT 1: FIREFLY */}
-      <section className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-20 flex flex-col md:flex-row items-center gap-16">
+      <section className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-20 flex flex-col md:flex-row items-center gap-24">
         <div className="w-full md:w-1/2">
           <img
-            src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80"
             alt="Visi Perusahaan"
-            className="rounded-xl shadow-xl w-full"
+            className="w-full"
           />
         </div>
         <div className="w-full md:w-1/2 flex flex-col items-start">
@@ -246,12 +246,12 @@ export default function AboutPage() {
       </section>
 
       {/* 4. HIGHLIGHT 2: PREMIERE PRO */}
-      <section className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-20 flex flex-col md:flex-row-reverse items-center gap-16">
+      <section className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-20 flex flex-col md:flex-row-reverse items-center gap-24">
         <div className="w-full md:w-1/2">
           <img
-            src="https://images.unsplash.com/photo-1516280440502-861f6966699b?q=80&w=800&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
             alt="Misi Utama"
-            className="rounded-xl shadow-xl w-full"
+            className="w-full"
           />
         </div>
         <div className="w-full md:w-1/2 flex flex-col items-start">
@@ -276,21 +276,22 @@ export default function AboutPage() {
       </section>
 
       {/* 5. INSPIRATION SECTION */}
-      <section className="bg-[#f8f8f8] py-20 px-2 sm:px-4 lg:px-6 w-full">
-        <div className="max-w-[1310px] mx-auto text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Nilai-nilai kerja JDS.</h2>
-          <p className="text-gray-600 text-sm">
-            Prinsip dasar yang menjadi pegangan kami dalam membangun kepercayaan
-            dan hasil karya.
-          </p>
-        </div>
-        <div className="max-w-[1310px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+      <section className="bg-[#f8f8f8] pt-20 pb-16">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-4">Nilai-nilai kerja JDS.</h2>
+            <p className="text-gray-600 text-sm">
+              Prinsip dasar yang menjadi pegangan kami dalam membangun kepercayaan
+              dan hasil karya.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Inspiration Card 1 */}
-          <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+          <div className="bg-white rounded-xl overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1565578762-b91c1404c07d?q=80&w=800&auto=format&fit=crop"
-              alt="Frog"
-              className="w-full h-64 object-cover"
+              src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80"
+              alt="Profesionalisme"
+              className="w-full h-[24rem] object-cover"
             />
             <div className="p-6">
               <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
@@ -302,11 +303,11 @@ export default function AboutPage() {
             </div>
           </div>
           {/* Inspiration Card 2 */}
-          <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+          <div className="bg-white rounded-xl overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1555580168-9deea6873132?q=80&w=800&auto=format&fit=crop"
-              alt="Butterfly"
-              className="w-full h-64 object-cover"
+              src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80"
+              alt="Inovasi Tepat Guna"
+              className="w-full h-[24rem] object-cover"
             />
             <div className="p-6">
               <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
@@ -318,10 +319,11 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
+        </div>
       </section>
 
       {/* 6. WHICH APP IS BEST */}
-      <section className="bg-[#f8f8f8] py-12 px-2 sm:px-4 lg:px-6 text-center border-b border-gray-200">
+      <section className="bg-[#f8f8f8] pt-4 pb-16 px-2 sm:px-4 lg:px-6 text-center">
         <h3 className="text-xl font-bold mb-2">
           Belum yakin layanan mana yang sesuai?
         </h3>
@@ -350,7 +352,7 @@ export default function AboutPage() {
       </section>
 
       {/* Bottom Gradient Bar */}
-      <div className="h-2 w-full bg-gradient-to-r from-red-600 via-orange-500 to-purple-600"></div>
+      <div className="h-4 w-full bg-gradient-to-r from-red-600 via-orange-500 to-purple-600"></div>
 
       {/* Footer */}
       <Footer variant="light" />
