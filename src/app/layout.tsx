@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import SmoothScroll from "@/components/layout/SmoothScroll";
 import { companyInfo } from "@/data/companyData";
 
 /* Myriad Pro — font yang dipakai Adobe (basis dari Adobe Clean) */
@@ -65,6 +67,7 @@ export default function RootLayout({
   return (
     <html lang="id" className={`scroll-smooth ${myriad.variable} ${myriadCondensed.variable}`}>
       <body className="font-sans bg-white text-slate-900 antialiased selection:bg-red-600 selection:text-white">
+        <SmoothScroll />
         <Navbar />
         <main className="min-h-screen">
           {children}

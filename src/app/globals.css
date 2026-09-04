@@ -110,6 +110,17 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Lenis memperbarui posisi scroll tiap frame; jangan tambahkan easing bawaan browser. */
+html.lenis {
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Utility untuk varian display/heading Myriad Pro Condensed */
 .font-display {
   font-family: var(--font-display), "Myriad Pro Condensed", sans-serif;
@@ -144,4 +155,3 @@ body {
 .bg-radial-gradient {
   background: radial-gradient(circle at 50% 0%, rgba(239, 68, 68, 0.06), transparent 70%);
 }
-
