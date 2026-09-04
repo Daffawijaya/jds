@@ -266,22 +266,24 @@ export default function HomePage() {
                 <div className="flex items-center gap-3 mb-3">
                   <img
                     src={t.image}
-                    alt={t.name}
+                    alt=""
+                    aria-hidden="true"
                     loading="lazy"
-                    className="w-12 h-12 rounded-full object-cover shrink-0"
+                    className="w-12 h-12 rounded-full object-cover bg-zinc-200 shrink-0"
                   />
                   <div>
                     <p className="font-bold text-sm">{t.name}</p>
                     <p className="text-xs text-zinc-500">{t.role}</p>
                   </div>
                 </div>
-                <p className="text-sm font-medium leading-relaxed mb-3 flex-1">“{t.quote}”</p>
+                <h4 className="font-bold text-base mb-1">{t.title}</h4>
+                <p className="text-sm font-medium leading-relaxed mb-3 flex-1">&quot;{t.quote}&quot;</p>
                 <Link
                   href="/projects"
-                  className="text-xs font-semibold text-blue-600 hover:underline inline-flex items-center gap-0.5"
+                  className="group text-xs font-bold text-zinc-900 inline-flex items-center gap-0.5"
                 >
                   Lihat studi kasus
-                  <ArrowUpRight className="w-3 h-3" />
+                  <FaChevronRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </div>
             ))}

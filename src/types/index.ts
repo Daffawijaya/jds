@@ -77,6 +77,7 @@ export interface JobPosting {
 
 export interface Testimonial {
   id: string;
+  title: string;
   quote: string;
   name: string;
   role: string;
