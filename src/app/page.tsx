@@ -16,6 +16,7 @@ import { companyInfo, servicesData, testimonialsData } from "@/data/companyData"
 import ProjectCarousel from "@/components/shared/ProjectCarousel";
 import FeaturedServicesRow from "@/components/shared/FeaturedServicesRow";
 import ParallaxHero from "@/components/shared/ParallaxHero";
+import RevealServices from "@/components/shared/RevealServices";
 
 /* ═══════════════════════════════════════════════════════════════
    Homepage JDS — layout & styling mengikuti halaman /adobe-demo
@@ -214,7 +215,7 @@ export default function HomePage() {
       </section>
 
       {/* 3. PROYEK & KEUNGGULAN */}
-      <section className="relative z-10 -mb-12 sm:-mb-16 rounded-b-4xl py-20 bg-zinc-50 text-zinc-900 border-t border-zinc-200">
+      <section className="relative z-10 rounded-b-4xl py-20 bg-zinc-50 text-zinc-900 border-t border-zinc-200">
         <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
           <div className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
@@ -294,7 +295,7 @@ export default function HomePage() {
       </section>
 
       {/* 5. KATALOG LAYANAN LENGKAP */}
-      <section className="bg-black text-white py-20 pt-32 sm:pt-36">
+      <RevealServices heading={
         <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
           <div className="text-center mb-0 relative z-10">
             <h2 className="text-3xl font-extrabold mb-2">Satu mitra, semua solusi digital.</h2>
@@ -312,6 +313,7 @@ export default function HomePage() {
           </div>
         </div>
 
+      }>
         {/* Visual full-bleed */}
         <img
           src="/bg.png"
@@ -371,7 +373,7 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-      </section>
+      </RevealServices>
     </div>
   );
 }
