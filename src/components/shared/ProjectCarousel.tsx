@@ -33,8 +33,11 @@ export default function ProjectCarousel() {
   const trackRef = useRef<HTMLDivElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // Slot yang lagi di tengah — cuma slot ini teks + button-nya tampil (fade)
-  const [active, setActive] = useState(START);
+  // Selama animasi tombol berjalan, sinkronisasi swipe diabaikan biar fade tidak keulang
+  const animGuard = useRef(0);
+  // Kartu yang lagi di tengah (0/1) — cuma kartu ini teks + button-nya tampil (fade).
+  // Dikunci ke kartu (bukan slot) supaya lompat normalisasi loop tak memicu fade ulang.
+  const [activeCard, setActiveCard] = useState(0);
 
   const measure = () => {
     const el = trackRef.current!;
@@ -66,26 +69,28 @@ export default function ProjectCarousel() {
     const { pos, kids } = measure();
     const target = Math.max(0, Math.min(kids.length - 1, nearest() + dir));
     // Transisi teks langsung mulai saat diklik, jalan bareng animasi slide
-    setActive(target);
+    setActiveCard((target + 1) % 2);
+    animGuard.current = Date.now() + 600;
     el.scrollTo({ left: pos(target), behavior: "smooth" });
 
     // Looping tak terlihat: kembalikan ke slot setara di area tengah
+    // (±2 slot = kartu yang sama, jadi opacity tidak berubah)
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
       let n = target;
       while (n > MAX) n -= 2;
       while (n < MIN) n += 2;
-      if (n !== target) {
-        scrollToSlot(n, false);
-        setActive(n);
-      }
+      if (n !== target) scrollToSlot(n, false);
     }, 550);
   };
 
   // Sinkronkan status aktif saat user swipe manual
   const onScroll = () => {
     if (syncTimer.current) clearTimeout(syncTimer.current);
-    syncTimer.current = setTimeout(() => setActive(nearest()), 120);
+    syncTimer.current = setTimeout(() => {
+      if (Date.now() < animGuard.current) return;
+      setActiveCard((nearest() + 1) % 2);
+    }, 120);
   };
 
   return (
@@ -97,10 +102,11 @@ export default function ProjectCarousel() {
       >
         {Array.from({ length: COUNT }, (_, i) => {
           const c = data[(i + 1) % 2];
-          const on = i === active;
+          const on = (i + 1) % 2 === activeCard;
           return (
             <div
               key={i}
+              data-slot={i}
               className="flex w-[calc(100%-1rem)] max-w-[1294px] sm:w-[calc(100%-2rem)] sm:max-w-[1278px] lg:w-[calc(100%-3rem)] lg:max-w-[1262px] shrink-0 snap-center"
             >
               <div className="relative flex-1 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-14 sm:p-18">
@@ -112,8 +118,9 @@ export default function ProjectCarousel() {
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/20" />
                 <div
                   className={`relative z-10 w-1/2 transition-opacity ${
-                    on ? "opacity-100 duration-500" : "opacity-0 duration-300"
+                    on ? "opacity-100 duration-500" : "opacity-0 duration-200"
                   }`}
+                  data-text="carousel-text"
                 >
                   <h4 className="text-white font-extrabold text-4xl sm:text-6xl tracking-tight">
                     {c.title}
