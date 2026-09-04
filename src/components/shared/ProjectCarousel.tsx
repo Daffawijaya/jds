@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-const imgUmkm = "/image/etamhub.png";
 
 // 9 slot selang-seling [2,1,2,1,2,1,2,1,2] supaya tengah selalu punya tetangga kiri-kanan.
 // Tengah mulai di slot 3 → tampil "2 1 2". Lompat normalisasi kelipatan 2 tidak terlihat
@@ -14,64 +12,29 @@ const START = 3;
 const MIN = 2;
 const MAX = 6;
 
+const data = [
+  {
+    img: "/image/etamhub.png",
+    alt: "Website etamhub",
+    title: "Membangun etamhub, rumah digital UMKM Kutai Kartanegara.",
+    lines: ["Dinas Koperasi & UKM Kutai Kartanegara", "Web Development"],
+    href: "/projects",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=80",
+    alt: "Tenaga ahli pendamping UMKM",
+    title: "Menghadirkan tenaga ahli pendamping UMKM yang siap bertugas.",
+    lines: ["Dinas Koperasi & UKM Kutai Kartanegara", "Outsourcing"],
+    href: "/services",
+  },
+];
+
 export default function ProjectCarousel() {
   const trackRef = useRef<HTMLDivElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const cards = [
-    <div
-      key="pendampingan"
-      className="relative flex-1 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-8 sm:p-10"
-    >
-      <img
-        src={imgUmkm}
-        alt="Pendampingan tenaga ahli UMKM"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/20" />
-      <div className="relative z-10 w-1/2">
-        <h4 className="text-white font-extrabold text-4xl sm:text-6xl tracking-tight">
-          Membangun etamhub, rumah digital UMKM Kutai Kartanegara.
-        </h4>
-        <div className="mt-5 mb-6 space-y-1 text-sm font-semibold text-white">
-          <p>Dinas Koperasi &amp; UKM Kutai Kartanegara</p>
-          <p>Web Development</p>
-        </div>
-        <Link
-          href="/projects"
-          className="inline-flex items-center gap-1 bg-white text-black font-semibold text-sm px-5 py-2 rounded-full hover:bg-zinc-200 transition-colors"
-        >
-          Lihat detail
-        </Link>
-      </div>
-    </div>,
-    <div
-      key="integrasi"
-      className="relative flex-1 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-8 sm:p-10"
-    >
-      <img
-        src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=80"
-        alt="Tenaga ahli pendamping UMKM"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/20" />
-      <div className="relative z-10 w-1/2">
-        <h4 className="text-white font-extrabold text-4xl sm:text-6xl tracking-tight">
-          Menghadirkan tenaga ahli pendamping UMKM yang siap bertugas.
-        </h4>
-        <div className="mt-5 mb-6 space-y-1 text-sm font-semibold text-white">
-          <p>Dinas Koperasi &amp; UKM Kutai Kartanegara</p>
-          <p>Outsourcing</p>
-        </div>
-        <Link
-          href="/services"
-          className="inline-flex items-center gap-1 bg-white text-black font-semibold text-sm px-5 py-2 rounded-full hover:bg-zinc-200 transition-colors"
-        >
-          Lihat detail
-        </Link>
-      </div>
-    </div>,
-  ];
+  const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Slot yang lagi di tengah — cuma slot ini teks + button-nya tampil (fade)
+  const [active, setActive] = useState(START);
 
   const measure = () => {
     const el = trackRef.current!;
@@ -79,6 +42,12 @@ export default function ProjectCarousel() {
     const w = kids[0].offsetWidth;
     const step = kids[1].offsetLeft - kids[0].offsetLeft;
     return { el, kids, pos: (i: number) => kids[i].offsetLeft - (el.clientWidth - w) / 2, step };
+  };
+
+  const nearest = () => {
+    const { el, kids, step } = measure();
+    const base = kids[0].offsetLeft - (el.clientWidth - kids[0].offsetWidth) / 2;
+    return Math.max(0, Math.min(kids.length - 1, Math.round((el.scrollLeft - base) / step)));
   };
 
   const scrollToSlot = (i: number, smooth: boolean) => {
@@ -94,13 +63,10 @@ export default function ProjectCarousel() {
   const go = (dir: 1 | -1) => {
     const el = trackRef.current;
     if (!el) return;
-    const { kids, pos, step } = measure();
-    const base = kids[0].offsetLeft - (el.clientWidth - kids[0].offsetWidth) / 2;
-    const current = Math.max(
-      0,
-      Math.min(kids.length - 1, Math.round((el.scrollLeft - base) / step))
-    );
-    const target = Math.max(0, Math.min(kids.length - 1, current + dir));
+    const { pos, kids } = measure();
+    const target = Math.max(0, Math.min(kids.length - 1, nearest() + dir));
+    // Transisi teks langsung mulai saat diklik, jalan bareng animasi slide
+    setActive(target);
     el.scrollTo({ left: pos(target), behavior: "smooth" });
 
     // Looping tak terlihat: kembalikan ke slot setara di area tengah
@@ -109,21 +75,65 @@ export default function ProjectCarousel() {
       let n = target;
       while (n > MAX) n -= 2;
       while (n < MIN) n += 2;
-      if (n !== target) scrollToSlot(n, false);
+      if (n !== target) {
+        scrollToSlot(n, false);
+        setActive(n);
+      }
     }, 550);
+  };
+
+  // Sinkronkan status aktif saat user swipe manual
+  const onScroll = () => {
+    if (syncTimer.current) clearTimeout(syncTimer.current);
+    syncTimer.current = setTimeout(() => setActive(nearest()), 120);
   };
 
   return (
     <div className="relative">
       <div
         ref={trackRef}
+        onScroll={onScroll}
         className="flex gap-2 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {Array.from({ length: COUNT }, (_, i) => (
-          <div key={i} className="flex w-[calc(100%-1rem)] max-w-[1294px] sm:w-[calc(100%-2rem)] sm:max-w-[1278px] lg:w-[calc(100%-3rem)] lg:max-w-[1262px] shrink-0 snap-center">
-            {cards[(i + 1) % 2]}
-          </div>
-        ))}
+        {Array.from({ length: COUNT }, (_, i) => {
+          const c = data[(i + 1) % 2];
+          const on = i === active;
+          return (
+            <div
+              key={i}
+              className="flex w-[calc(100%-1rem)] max-w-[1294px] sm:w-[calc(100%-2rem)] sm:max-w-[1278px] lg:w-[calc(100%-3rem)] lg:max-w-[1262px] shrink-0 snap-center"
+            >
+              <div className="relative flex-1 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-14 sm:p-18">
+                <img
+                  src={c.img}
+                  alt={c.alt}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/20" />
+                <div
+                  className={`relative z-10 w-1/2 transition-opacity ${
+                    on ? "opacity-100 duration-300" : "opacity-0 duration-300"
+                  }`}
+                >
+                  <h4 className="text-white font-extrabold text-4xl sm:text-6xl tracking-tight">
+                    {c.title}
+                  </h4>
+                  <div className="mt-5 mb-6 space-y-1 text-sm font-semibold text-white">
+                    {c.lines.map((line) => (
+                      <p key={line}>{line}</p>
+                    ))}
+                  </div>
+                  <Link
+                    href={c.href}
+                    className="inline-flex items-center gap-1 bg-white text-black font-semibold text-sm px-5 py-2 rounded-full hover:bg-zinc-200 transition-colors"
+                  >
+                    Lihat detail
+                  </Link>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
       <button
         type="button"
