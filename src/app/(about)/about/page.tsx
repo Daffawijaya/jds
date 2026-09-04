@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { companyInfo } from "@/data/companyData";
+import { Footer } from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "Tentang Kami",
@@ -8,13 +9,13 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
+    <div className="w-full min-h-screen bg-white font-sans text-gray-900 antialiased">
       {/* 1. HERO SECTION & FEATURES GRID */}
       <section className="bg-black text-white relative mt-1.5">
         {/* Top Gradient Bar */}
         <div className="h-2 w-full bg-gradient-to-r from-red-600 via-orange-500 to-purple-600"></div>
 
-        <div className="max-w-7xl mx-auto px-6 pt-20 pb-32 flex flex-col items-center text-center">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 pt-20 pb-32 flex flex-col items-center text-center">
           <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-4">
             Profil Perusahaan JDS
           </p>
@@ -215,7 +216,7 @@ export default function AboutPage() {
       </section>
 
       {/* 3. HIGHLIGHT 1: FIREFLY */}
-      <section className="max-w-6xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center gap-16">
+      <section className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-20 flex flex-col md:flex-row items-center gap-16">
         <div className="w-full md:w-1/2">
           <img
             src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop"
@@ -245,7 +246,7 @@ export default function AboutPage() {
       </section>
 
       {/* 4. HIGHLIGHT 2: PREMIERE PRO */}
-      <section className="max-w-6xl mx-auto px-6 py-20 flex flex-col md:flex-row-reverse items-center gap-16">
+      <section className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-20 flex flex-col md:flex-row-reverse items-center gap-16">
         <div className="w-full md:w-1/2">
           <img
             src="https://images.unsplash.com/photo-1516280440502-861f6966699b?q=80&w=800&auto=format&fit=crop"
@@ -275,15 +276,15 @@ export default function AboutPage() {
       </section>
 
       {/* 5. INSPIRATION SECTION */}
-      <section className="bg-[#f8f8f8] py-20 px-6">
-        <div className="max-w-5xl mx-auto text-center mb-12">
+      <section className="bg-[#f8f8f8] py-20 px-2 sm:px-4 lg:px-6 w-full">
+        <div className="max-w-[1310px] mx-auto text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">Nilai-nilai kerja JDS.</h2>
           <p className="text-gray-600 text-sm">
             Prinsip dasar yang menjadi pegangan kami dalam membangun kepercayaan
             dan hasil karya.
           </p>
         </div>
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="max-w-[1310px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Inspiration Card 1 */}
           <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
             <img
@@ -320,7 +321,7 @@ export default function AboutPage() {
       </section>
 
       {/* 6. WHICH APP IS BEST */}
-      <section className="bg-[#f8f8f8] py-12 px-6 text-center border-b border-gray-200">
+      <section className="bg-[#f8f8f8] py-12 px-2 sm:px-4 lg:px-6 text-center border-b border-gray-200">
         <h3 className="text-xl font-bold mb-2">
           Belum yakin layanan mana yang sesuai?
         </h3>
@@ -333,7 +334,7 @@ export default function AboutPage() {
       </section>
 
       {/* 7. CREATIVITY FOR ALL */}
-      <section className="bg-white py-20 px-6 text-center">
+      <section className="bg-white py-20 px-2 sm:px-4 lg:px-6 text-center">
         {/* Abstract Logo Placeholder */}
         <div className="w-12 h-12 mx-auto mb-6 bg-gradient-to-tr from-yellow-400 via-red-500 to-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
           JDS
@@ -348,198 +349,11 @@ export default function AboutPage() {
         </a>
       </section>
 
-      {/* 8. FOOTER */}
-      <footer className="bg-[#fafafa] border-t border-gray-200 pt-1 text-sm text-gray-600">
-        {/* Footer Top Gradient Line */}
-        <div className="h-1 w-full bg-gradient-to-r from-yellow-400 via-red-500 to-blue-600 mb-12"></div>
+      {/* Bottom Gradient Bar */}
+      <div className="h-2 w-full bg-gradient-to-r from-red-600 via-orange-500 to-purple-600"></div>
 
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 mb-12">
-          {/* Col 1 */}
-          <div>
-            <h4 className="font-bold text-black mb-4">Layanan</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Web Development
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Software Development
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  UI/UX Design
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Digitalisasi Sistem
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Konsultasi IT
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Tenaga Ahli
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Multimedia Konten
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* Col 2 */}
-          <div>
-            <h4 className="font-bold text-black mb-4">Perusahaan</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Tentang Kami
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Profil Perusahaan
-                </a>
-              </li>
-              <h4 className="font-bold text-black mt-6 mb-4">Navigasi</h4>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Beranda
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Kontak
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* Col 3 */}
-          <div>
-            <h4 className="font-bold text-black mb-4">Solusi</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Digitalisasi Sistem
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Konsultasi IT
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Tenaga Ahli
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* Col 4 */}
-          <div>
-            <h4 className="font-bold text-black mb-4">Dukungan</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Bantuan
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Komunitas
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Konsultasi Gratis
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* Col 5 */}
-          <div>
-            <h4 className="font-bold text-black mb-4">Sumber Daya</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Blog JDS
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Dokumentasi
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* Col 6 */}
-          <div>
-            <h4 className="font-bold text-black mb-4">Akun &amp; Kontak</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Hubungi Kami
-                </a>
-              </li>
-            </ul>
-            <h4 className="font-bold text-black mt-6 mb-4">JDS</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Tentang Kami
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Karir
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Proyek
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Footer Bottom Line */}
-        <div className="border-t border-gray-200 py-6 px-6 flex flex-col md:flex-row justify-between items-center text-xs">
-          <div className="flex items-center space-x-4 mb-4 md:mb-0">
-            <span className="font-semibold text-black cursor-pointer">
-              Bahasa Indonesia
-            </span>
-            <div className="flex space-x-3">
-              {/* Social Icons Placeholders */}
-              <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
-              <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
-              <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-4 text-gray-500">
-            <a href="#" className="hover:text-black">
-              © 2026 Jaya Dinara Sukses. Seluruh hak cipta dilindungi.
-            </a>
-            <a href="#" className="hover:text-black">
-              Kebijakan Privasi
-            </a>
-            <a href="#" className="hover:text-black">
-              Syarat &amp; Ketentuan
-            </a>
-            <a href="#" className="hover:text-black">
-              Preferensi Cookie
-            </a>
-          </div>
-        </div>
-      </footer>
+      {/* Footer */}
+      <Footer variant="light" />
     </div>
   );
 }

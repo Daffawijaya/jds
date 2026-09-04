@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "lenis/dist/lenis.css";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import { companyInfo } from "@/data/companyData";
 
@@ -68,11 +66,7 @@ export default function RootLayout({
     <html lang="id" className={`scroll-smooth ${myriad.variable} ${myriadCondensed.variable}`}>
       <body className="font-sans bg-white text-slate-900 antialiased selection:bg-red-600 selection:text-white">
         <SmoothScroll />
-        <Navbar />
-        <main className="relative z-10 min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        {children}
       </body>
     </html>
   );
