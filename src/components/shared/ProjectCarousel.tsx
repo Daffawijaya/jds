@@ -2,12 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const imgUmkm =
-  "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80";
-const imgIntegrated =
-  "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=80";
+const imgUmkm = "/image/etamhub.png";
 
 // 9 slot selang-seling [2,1,2,1,2,1,2,1,2] supaya tengah selalu punya tetangga kiri-kanan.
 // Tengah mulai di slot 3 → tampil "2 1 2". Lompat normalisasi kelipatan 2 tidak terlihat
@@ -24,55 +21,53 @@ export default function ProjectCarousel() {
   const cards = [
     <div
       key="pendampingan"
-      className="relative flex-1 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[85vh] p-8 sm:p-10"
+      className="relative flex-1 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-8 sm:p-10"
     >
       <img
         src={imgUmkm}
         alt="Pendampingan tenaga ahli UMKM"
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/10" />
-      <div className="relative z-10 max-w-md">
-        <h4 className="text-white font-extrabold text-2xl sm:text-3xl tracking-tight">
-          Pendampingan &amp; Tenaga Ahli UMKM.
+      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/20" />
+      <div className="relative z-10 w-1/2">
+        <h4 className="text-white font-extrabold text-4xl sm:text-6xl tracking-tight">
+          Membangun etamhub, rumah digital UMKM Kutai Kartanegara.
         </h4>
-        <p className="text-zinc-200 text-sm mt-3 mb-5">
-          Penyediaan tenaga ahli IT yang mendampingi digitalisasi pelaku UMKM di Kutai
-          Kartanegara.
-        </p>
+        <div className="mt-5 mb-6 space-y-1 text-sm font-semibold text-white">
+          <p>Dinas Koperasi &amp; UKM Kutai Kartanegara</p>
+          <p>Web Development</p>
+        </div>
         <Link
           href="/projects"
-          className="text-sm font-semibold text-white hover:underline inline-flex items-center gap-0.5"
+          className="inline-flex items-center gap-1 bg-white text-black font-semibold text-sm px-5 py-2 rounded-full hover:bg-zinc-200 transition-colors"
         >
-          Lihat proyek
-          <ArrowUpRight className="w-4 h-4" />
+          Lihat detail
         </Link>
       </div>
     </div>,
     <div
       key="integrasi"
-      className="relative flex-1 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[85vh] p-8 sm:p-10"
+      className="relative flex-1 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-8 sm:p-10"
     >
       <img
-        src={imgIntegrated}
-        alt="Layanan teknologi terintegrasi"
+        src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=80"
+        alt="Tenaga ahli pendamping UMKM"
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/10" />
-      <div className="relative z-10 max-w-md">
-        <h4 className="text-white font-extrabold text-2xl sm:text-3xl tracking-tight">
-          Layanan terintegrasi, satu pintu.
+      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/20" />
+      <div className="relative z-10 w-1/2">
+        <h4 className="text-white font-extrabold text-4xl sm:text-6xl tracking-tight">
+          Menghadirkan tenaga ahli pendamping UMKM yang siap bertugas.
         </h4>
-        <p className="text-zinc-200 text-sm mt-3 mb-5">
-          Software, web, UI/UX, konsultasi IT, hingga tenaga ahli, semuanya dikelola dalam satu
-          ekosistem layanan.
-        </p>
+        <div className="mt-5 mb-6 space-y-1 text-sm font-semibold text-white">
+          <p>Dinas Koperasi &amp; UKM Kutai Kartanegara</p>
+          <p>Outsourcing</p>
+        </div>
         <Link
           href="/services"
-          className="text-sm font-semibold text-white hover:underline inline-flex items-center gap-0.5"
+          className="inline-flex items-center gap-1 bg-white text-black font-semibold text-sm px-5 py-2 rounded-full hover:bg-zinc-200 transition-colors"
         >
-          Lihat layanan
-          <ArrowUpRight className="w-4 h-4" />
+          Lihat detail
         </Link>
       </div>
     </div>,
