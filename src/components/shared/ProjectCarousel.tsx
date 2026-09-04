@@ -121,6 +121,9 @@ export default function ProjectCarousel() {
   // Slot ikut menyusut (bukan cuma inner) supaya kartu tetangga ketarik
   // masuk dan arrow bisa nempel di tepi kartu.
   const cardEnd = Math.min(vw - endPad, endMax);
+  // Kunci ke setengah area isi kartu terkecil, setelah padding p-14 / sm:p-18.
+  // Lebar hanya berubah saat viewport berubah, bukan saat animasi scroll.
+  const textWidth = `calc(${cardEnd / 2}px - ${bp === 0 ? 3.5 : 4.5}rem)`;
   const endInset = Math.max(0, (vw - cardEnd) / 2);
   const arrowL = useTransform(progress, [0, 1], [40, 40 + endInset], { ease: easeOutScroll });
   const arrowR = useTransform(progress, [0, 1], [40, 40 + endInset], { ease: easeOutScroll });
@@ -260,14 +263,16 @@ export default function ProjectCarousel() {
                 style={{ x: on || reduce ? 0 : i < centerSlot ? sideXL : sideXR }}
                 className="relative w-full shrink-0 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-14 sm:p-18"
               >
+                {/* Isi kartu dengan skala proporsional; kelebihan gambar terpotong dari tengah. */}
                 <img
                   src={c.img}
                   alt={c.alt}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover object-center"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/20" />
                 <div
-                  className={`relative z-10 w-1/2 transition-opacity ${
+                  style={{ width: textWidth }}
+                  className={`relative z-10 max-w-[50%] transition-opacity ${
                     on ? "opacity-100 duration-500" : "opacity-0 duration-200"
                   }`}
                   data-text="carousel-text"

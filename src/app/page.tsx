@@ -14,6 +14,7 @@ import {
 import { FaChevronRight } from "react-icons/fa6";
 import { companyInfo, servicesData, testimonialsData } from "@/data/companyData";
 import ProjectCarousel from "@/components/shared/ProjectCarousel";
+import FeaturedServicesRow from "@/components/shared/FeaturedServicesRow";
 
 /* ═══════════════════════════════════════════════════════════════
    Homepage JDS — layout & styling mengikuti halaman /adobe-demo
@@ -154,7 +155,7 @@ export default function HomePage() {
       </section>
 
       {/* 2. LAYANAN UNGGULAN */}
-      <section className="featured-sec relative -mt-12 sm:-mt-16 rounded-t-4xl bg-white text-zinc-900 py-20">
+      <section className="featured-sec relative overflow-x-clip -mt-12 sm:-mt-16 rounded-t-4xl bg-white text-zinc-900 py-20">
         <div className="row-wrap px-3 sm:px-4 lg:px-6 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
             Satu mitra untuk setiap kebutuhan digital.
@@ -164,7 +165,7 @@ export default function HomePage() {
             satu tim.
           </p>
 
-          <div className="card-row grid grid-cols-1 sm:grid-cols-2 gap-2 text-left lg:flex">
+          <FeaturedServicesRow>
             {featuredServices.map((service) => {
               const image = featuredCardImages.find((i) => i.id === service!.id);
               return (
@@ -197,7 +198,7 @@ export default function HomePage() {
                 </div>
               );
             })}
-          </div>
+          </FeaturedServicesRow>
 
           <div className="mt-10">
             <Link
