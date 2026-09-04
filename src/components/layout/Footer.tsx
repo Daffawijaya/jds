@@ -6,7 +6,7 @@ const logoAlt = `${companyInfo.shortName} - ${companyInfo.officialName}`;
 
 export function Footer() {
   return (
-    <footer className="bg-black text-zinc-400 text-[11px] py-12 border-t border-zinc-900">
+    <footer className="bg-black text-zinc-400 text-[11px] py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Brand & Profil */}

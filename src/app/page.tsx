@@ -87,8 +87,6 @@ const homeImages = {
     "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80",
   integrated:
     "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80",
-  showcase:
-    "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=1200&q=80",
 };
 
 const featuredCardImages = [
@@ -214,7 +212,7 @@ export default function HomePage() {
       </section>
 
       {/* 3. PROYEK & KEUNGGULAN */}
-      <section className="py-20 bg-zinc-50 text-zinc-900 border-t border-zinc-200">
+      <section className="relative z-10 -mb-12 sm:-mb-16 rounded-b-4xl py-20 bg-zinc-50 text-zinc-900 border-t border-zinc-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
@@ -323,58 +321,39 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. TESTIMONIAL BANNER */}
-      <section className="bg-zinc-950 text-white py-20 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
-          <blockquote className="text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight mb-6 leading-snug">
-            &ldquo;Tenaga ahli JDS mendampingi pelaku UMKM kami secara profesional; digitalisasi berjalan
-            lancar dan tepat waktu.&rdquo;
-          </blockquote>
-          <p className="text-xs text-zinc-400 uppercase tracking-widest font-semibold mb-6">
-            DINAS KOPERASI &amp; UKM KAB. KUTAI KARTANEGARA
-          </p>
-          <Link
-            href="/projects"
-            className="inline-block bg-white text-black font-semibold text-xs px-5 py-2 rounded-full hover:bg-zinc-200 transition-all"
-          >
-            Lihat cerita kami
-          </Link>
-        </div>
-      </section>
-
       {/* 5. KATALOG LAYANAN LENGKAP */}
-      <section className="bg-[#0a0a0c] text-white py-20 border-t border-zinc-900">
+      <section className="bg-black text-white py-20 pt-32 sm:pt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
+          <div className="text-center mb-0 relative z-10">
             <h2 className="text-3xl font-extrabold mb-2">Satu mitra, semua solusi digital.</h2>
             <p className="text-xs text-zinc-400 mb-6">
               Layanan lengkap untuk instansi pemerintah, korporasi, dan pelaku usaha di Kalimantan Timur.
             </p>
-            <div className="inline-flex border border-zinc-700 rounded-full p-1 bg-zinc-900">
+            <div className="inline-flex border border-white rounded-full p-1 bg-transparent">
               <Link
                 href="/services"
-                className="bg-zinc-800 text-white text-xs px-4 py-1.5 rounded-full font-medium hover:bg-zinc-700 transition-colors"
+                className="text-white text-xs px-4 py-1.5 rounded-full font-medium hover:bg-white/10 transition-colors"
               >
                 Lihat semua layanan
               </Link>
             </div>
           </div>
+        </div>
 
-          {/* Visual Ruang Kerja */}
-          <div className="rounded-2xl overflow-hidden border border-zinc-800 mb-12 shadow-2xl max-w-4xl mx-auto">
-            <img
-              src={homeImages.showcase}
-              alt="Ruang kerja tim JDS"
-              className="w-full h-[360px] object-cover"
-            />
-          </div>
+        {/* Visual full-bleed */}
+        <img
+          src="/bg.png"
+          alt="Tim JDS"
+          className="w-full h-auto block -mt-28 -mb-16 opacity-80 [mask-image:linear-gradient(to_bottom,black_70%,transparent_85%)] [-webkit-mask-image:linear-gradient(to_bottom,black_70%,transparent_85%)]"
+        />
 
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* 3x3 Grid Layanan */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
             {servicesData.map((service) => (
               <div
                 key={service.id}
-                className="group relative overflow-hidden bg-zinc-900 p-6 rounded-xl transition-all min-h-[260px] flex flex-col"
+                className="group relative overflow-hidden bg-[#141414] p-6 rounded-xl transition-all min-h-[260px] flex flex-col"
               >
                 <img
                   src={catalogImages[service.id]}
