@@ -114,6 +114,11 @@ export default function ProjectCarousel() {
   const endInset = Math.max(0, (vw - cardEnd) / 2);
   const arrowL = useTransform(smooth, [0, 1], [40, 40 + endInset]);
   const arrowR = useTransform(smooth, [0, 1], [40, 40 + endInset]);
+  // Chevron duduk di card samping (di luar tepi card tengah). Geser sama besar
+  // kiri-kanan; dijaga min 8px supaya tidak kepotong viewport saat peek sempit.
+  const OUT = 135;
+  const arrowLOut = useTransform(arrowL, (v) => Math.max(8, v - OUT));
+  const arrowROut = useTransform(arrowR, (v) => Math.max(8, v - OUT));
 
   const measure = () => {
     const el = trackRef.current!;
@@ -252,7 +257,7 @@ export default function ProjectCarousel() {
         type="button"
         onClick={() => go(-1)}
         aria-label="Geser ke kiri"
-        style={reduce ? { left: 40 + endInset } : { left: arrowL }}
+        style={reduce ? { left: Math.max(8, 40 + endInset - OUT) } : { left: arrowLOut, x: sideXL }}
         className="absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-zinc-900 flex items-center justify-center hover:bg-black hover:text-white transition-colors"
       >
         <ChevronLeft className="w-5 h-5" />
@@ -261,7 +266,7 @@ export default function ProjectCarousel() {
         type="button"
         onClick={() => go(1)}
         aria-label="Geser ke kanan"
-        style={reduce ? { right: 40 + endInset } : { right: arrowR }}
+        style={reduce ? { right: Math.max(8, 40 + endInset - OUT) } : { right: arrowROut, x: sideXR }}
         className="absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-zinc-900 flex items-center justify-center hover:bg-black hover:text-white transition-colors"
       >
         <ChevronRight className="w-5 h-5" />
