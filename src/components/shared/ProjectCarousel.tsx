@@ -112,7 +112,7 @@ export default function ProjectCarousel() {
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/20" />
                 <div
                   className={`relative z-10 w-1/2 transition-opacity ${
-                    on ? "opacity-100 duration-300" : "opacity-0 duration-300"
+                    on ? "opacity-100 duration-500" : "opacity-0 duration-300"
                   }`}
                 >
                   <h4 className="text-white font-extrabold text-4xl sm:text-6xl tracking-tight">
