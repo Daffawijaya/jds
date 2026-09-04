@@ -31,8 +31,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 px-2 pt-2 transition-colors duration-300">
       <div
-        className={`relative h-16 rounded-2xl px-3.5 flex items-center justify-between transition-colors duration-300 ${
-          isScrolled ? "bg-white/70 backdrop-blur-xl" : "bg-transparent"
+        className={`relative h-16 rounded-2xl px-3.5 flex items-center justify-between transition-all duration-300 ${
+          isScrolled ? "bg-white/70 backdrop-blur-xl shadow-lg shadow-black/10" : "bg-transparent"
         }`}
       >
         {/* Logo + Desktop Navigation */}
