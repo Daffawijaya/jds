@@ -4,9 +4,13 @@ import { companyInfo, servicesData, siteNavLinks } from "@/data/companyData";
 
 const logoAlt = `${companyInfo.shortName} - ${companyInfo.officialName}`;
 
-export function Footer() {
+export function Footer({ showBrand = true }: { showBrand?: boolean }) {
   return (
-    <footer className="bg-black text-zinc-400 text-[11px] py-12">
+    <footer
+      className={`bg-black text-zinc-400 text-[11px] overflow-hidden ${
+        showBrand ? "pt-12" : "py-12"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Brand & Profil */}
@@ -96,6 +100,19 @@ export function Footer() {
           </span>
         </div>
       </div>
+
+      {showBrand && (
+        <div aria-hidden="true" className="mt-8 select-none pointer-events-none overflow-hidden">
+          <Image
+            src="/jdsbrand.png"
+            alt=""
+            width={626}
+            height={271}
+            sizes="100vw"
+            className="w-[105%] max-w-none h-auto block object-cover object-top -ml-[2.5%] -mb-[13%]"
+          />
+        </div>
+      )}
     </footer>
   );
 }
