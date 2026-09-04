@@ -184,7 +184,7 @@ export default function HomePage() {
                     </span>
                     <span className="group-hover:text-white transition-colors duration-300">{service!.title}</span>
                   </div>
-                  <div className="card-img-frame h-64 sm:h-80 overflow-hidden rounded-2xl relative flex items-center justify-center">
+                  <div className="card-img-frame h-72 sm:h-96 overflow-hidden rounded-2xl relative flex items-center justify-center">
                     <img
                       src={image!.src}
                       alt={service!.title}
@@ -216,7 +216,7 @@ export default function HomePage() {
       </section>
 
       {/* 3. PROYEK & KEUNGGULAN */}
-      <section className="relative z-10 rounded-b-4xl py-20 bg-zinc-50 text-zinc-900 border-t border-zinc-200">
+      <section className="relative z-10 py-20 bg-white text-zinc-900">
         <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
           <div className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
@@ -267,7 +267,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {testimonialsData.map((t) => (
               <div key={t.id} className="p-2 flex flex-col">
-                <div className="flex items-center gap-3 mb-3">
+                <div className="flex items-center gap-3 mb-8">
                   <img
                     src={t.image}
                     alt=""
@@ -281,7 +281,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 <h4 className="font-bold text-base mb-1">{t.title}</h4>
-                <p className="text-sm font-medium leading-relaxed mb-3 flex-1">&quot;{t.quote}&quot;</p>
+                <p className="text-sm font-medium leading-relaxed mb-8 flex-1">&quot;{t.quote}&quot;</p>
                 <Link
                   href="/projects"
                   className="group text-xs font-bold text-zinc-900 inline-flex items-center gap-0.5"
