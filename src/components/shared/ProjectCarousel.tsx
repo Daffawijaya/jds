@@ -47,6 +47,8 @@ export default function ProjectCarousel() {
   // Kartu yang lagi di tengah (0/1) — cuma kartu ini teks + button-nya tampil (fade).
   // Dikunci ke kartu (bukan slot) supaya lompat normalisasi loop tak memicu fade ulang.
   const [activeCard, setActiveCard] = useState(0);
+  // Slot yang lagi di tengah — buat arah slide kartu samping (kiri/kanan).
+  const [centerSlot, setCenterSlot] = useState(START);
   // Swipe manual terakhir (di luar adjust sistem) — recenter mengalah.
   const lastUserH = useRef(0);
   const selfAdjust = useRef(0);
@@ -61,6 +63,18 @@ export default function ProjectCarousel() {
   });
   const smooth = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.6 });
   const reduce = useReducedMotion();
+
+  // ── Entrance kartu samping: timing sendiri ──
+  // Mulai saat top card menyentuh 30% dari bawah layar (0.7 viewport),
+  // selesai saat top card mencapai 70% dari bawah layar (0.3 viewport).
+  // Cuma geser horizontal (transform, tanpa layout) supaya measure() & snap aman.
+  const { scrollYProgress: sideProgress } = useScroll({
+    target: wrapRef,
+    offset: ["start 0.7", "start 0.3"],
+  });
+  const sideSmooth = useSpring(sideProgress, { stiffness: 90, damping: 28, mass: 0.6 });
+  const sideXL = useTransform(sideSmooth, [0, 1], [-120, 0]);
+  const sideXR = useTransform(sideSmooth, [0, 1], [120, 0]);
 
   // Inset & cap akhir mengikuti container (px-2/px-4/px-6 + max-w 1310).
   const [bp, setBp] = useState(0);
@@ -152,6 +166,7 @@ export default function ProjectCarousel() {
     const target = Math.max(0, Math.min(kids.length - 1, nearest() + dir));
     // Transisi teks langsung mulai saat diklik, jalan bareng animasi slide
     setActiveCard((target + 1) % 2);
+    setCenterSlot(target);
     animGuard.current = Date.now() + 600;
     el.scrollTo({ left: pos(target), behavior: "smooth" });
 
@@ -163,6 +178,7 @@ export default function ProjectCarousel() {
       while (n > MAX) n -= 2;
       while (n < MIN) n += 2;
       if (n !== target) scrollToSlot(n, false);
+      setCenterSlot(n);
     }, 550);
   };
 
@@ -172,7 +188,9 @@ export default function ProjectCarousel() {
     if (syncTimer.current) clearTimeout(syncTimer.current);
     syncTimer.current = setTimeout(() => {
       if (Date.now() < animGuard.current) return;
-      setActiveCard((nearest() + 1) % 2);
+      const n = nearest();
+      setActiveCard((n + 1) % 2);
+      setCenterSlot(n);
     }, 120);
   };
 
@@ -190,7 +208,11 @@ export default function ProjectCarousel() {
             <motion.div
               key={i}
               data-slot={i}
-              style={innerStyle}
+              style={
+                on || reduce
+                  ? innerStyle
+                  : { ...innerStyle, x: i < centerSlot ? sideXL : sideXR }
+              }
               className="flex w-full shrink-0 snap-center"
             >
               <div className="relative w-full shrink-0 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-14 sm:p-18">
