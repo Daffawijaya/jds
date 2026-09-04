@@ -28,7 +28,7 @@ for (const viewport of [
       await renderedFrame();
       const docTop = slots[3].getBoundingClientRect().top + window.scrollY;
       const top = docTop - window.innerHeight * 0.97;
-      const bottom = docTop - window.innerHeight * 0.28;
+      const bottom = docTop - window.innerHeight * 0.18;
       const result: { scrollY: number; centerOff: number; peekDiff: number }[] = [];
 
       // A wide viewport exercises the substantial full-bleed -> max-width shrink.

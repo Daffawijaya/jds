@@ -21,6 +21,12 @@ const START = 3;
 const MIN = 2;
 const MAX = 6;
 
+// Turun: cepat lalu melambat. Naik menelusuri kurva yang sama secara terbalik.
+// Sisakan kecepatan di ujung agar gerak balik langsung terlihat saat melewati
+// batas 70%/80% dari bawah, bukan tertahan di bagian kurva yang nyaris datar.
+const easeOutScroll = (progress: number) =>
+  0.25 * progress + 0.75 * (1 - (1 - progress) ** 3);
+
 const data = [
   {
     img: "/image/etamhub.png",
@@ -59,26 +65,26 @@ export default function ProjectCarousel() {
   const centerRef = useRef(START);
 
   // ── Lebar dinamis saat scroll: full-bleed → sejajar container ──
-  // Mulai saat top carousel di 95% viewport, selesai saat di 50% (tengah layar).
+  // Mulai saat top carousel di 95% viewport, selesai di 70% dari bawah (0.3 viewport).
   // Slot luar yang dianimasikan (width/maxWidth) supaya tetangga ketarik
   // masuk saat card menyusut; scroll tetap mengikuti slot tengah yang sama.
   const { scrollYProgress: progress } = useScroll({
     target: wrapRef,
-    offset: ["start 0.95", "start 0.5"],
+    offset: ["start 0.95", "start 0.3"],
   });
-  // Langsung tanpa spring: animasi 1:1 ngikut kecepatan scroll.
+  // Posisi mengikuti scroll dengan ease-out, tanpa jeda atau pantulan spring.
   const reduce = useReducedMotion();
 
   // ── Entrance kartu samping: timing sendiri ──
   // Mulai saat top card menyentuh 30% dari bawah layar (0.7 viewport),
-  // selesai saat top card mencapai 70% dari bawah layar (0.3 viewport).
+  // selesai saat top card mencapai 80% dari bawah layar (0.2 viewport).
   // Cuma geser horizontal (transform, tanpa layout) supaya measure() & snap aman.
   const { scrollYProgress: sideProgress } = useScroll({
     target: wrapRef,
-    offset: ["start 0.7", "start 0.3"],
+    offset: ["start 0.7", "start 0.2"],
   });
-  const sideXL = useTransform(sideProgress, [0, 1], [-120, 0]);
-  const sideXR = useTransform(sideProgress, [0, 1], [120, 0]);
+  const sideXL = useTransform(sideProgress, [0, 1], [-120, 0], { ease: easeOutScroll });
+  const sideXR = useTransform(sideProgress, [0, 1], [120, 0], { ease: easeOutScroll });
 
   // Inset & cap akhir mengikuti container (px-2/px-4/px-6 + max-w 1310).
   const [bp, setBp] = useState(0);
@@ -103,9 +109,9 @@ export default function ProjectCarousel() {
   const endPad = bp === 2 ? 48 : bp === 1 ? 32 : 16;
   const endMax = bp === 2 ? 1262 : bp === 1 ? 1278 : 1294;
 
-  const pad = useTransform(progress, [0, 1], [0, endPad]);
+  const pad = useTransform(progress, [0, 1], [0, endPad], { ease: easeOutScroll });
   const width = useMotionTemplate`calc(100% - ${pad}px)`;
-  const maxWidth = useTransform(progress, [0, 1], [vw, endMax]);
+  const maxWidth = useTransform(progress, [0, 1], [vw, endMax], { ease: easeOutScroll });
   // ponytail: reduced-motion langsung state akhir, tambah animasi saat ada kebutuhan
   const innerStyle = reduce
     ? { width: `calc(100% - ${endPad}px)`, maxWidth: endMax }
@@ -116,8 +122,8 @@ export default function ProjectCarousel() {
   // masuk dan arrow bisa nempel di tepi kartu.
   const cardEnd = Math.min(vw - endPad, endMax);
   const endInset = Math.max(0, (vw - cardEnd) / 2);
-  const arrowL = useTransform(progress, [0, 1], [40, 40 + endInset]);
-  const arrowR = useTransform(progress, [0, 1], [40, 40 + endInset]);
+  const arrowL = useTransform(progress, [0, 1], [40, 40 + endInset], { ease: easeOutScroll });
+  const arrowR = useTransform(progress, [0, 1], [40, 40 + endInset], { ease: easeOutScroll });
   // Chevron duduk di card samping (di luar tepi card tengah). Geser sama besar
   // kiri-kanan; dijaga min 8px supaya tidak kepotong viewport saat peek sempit.
   const OUT = 135;
