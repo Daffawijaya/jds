@@ -28,18 +28,21 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Di halaman /about, navbar selalu tampil versi gelap (seperti sudah di-scroll)
+  const isDark = isScrolled || pathname === "/about";
+
   return (
     <header className="sticky top-0 z-50 px-2 pt-2 transition-colors duration-300">
       <div
         className={`relative h-16 rounded-2xl px-3.5 flex items-center justify-between transition-all duration-300 ${
-          isScrolled ? "bg-white/60 backdrop-blur-xl shadow-lg shadow-black/10" : "bg-transparent"
-        }`}
+          isDark ? "bg-white/60 backdrop-blur-xl" : "bg-transparent"
+        } ${isScrolled ? "shadow-lg shadow-black/10" : ""}`}
       >
         {/* Logo + Desktop Navigation */}
         <div className="flex items-center gap-8">
           <Link href="/" aria-label={logoAlt} className="flex items-center shrink-0">
             <Image
-              src={isScrolled ? "/jds.png" : "/jdsw.png"}
+              src={isDark ? "/jds.png" : "/jdsw.png"}
               alt={logoAlt}
               width={626}
               height={271}
@@ -50,16 +53,16 @@ export function Navbar() {
 
           <nav
             className={`hidden md:flex items-center gap-6 text-xs font-semibold tracking-wide transition-colors ${
-              isScrolled ? "text-zinc-600" : "text-zinc-300"
+              isDark ? "text-zinc-600" : "text-zinc-300"
             }`}
           >
             {siteNavLinks.map((link) => {
               const isActive = pathname === link.href;
               const colorClass = isActive
-                ? isScrolled
+                ? isDark
                   ? "text-zinc-900"
                   : "text-white"
-                : isScrolled
+                : isDark
                   ? "hover:text-zinc-900"
                   : "hover:text-white";
               return (
@@ -81,7 +84,7 @@ export function Navbar() {
           <Link
             href="/contact"
             className={`font-semibold px-5 py-2 rounded-full text-xs transition-all ${
-              isScrolled
+              isDark
                 ? "bg-transparent text-zinc-900 border border-zinc-900 hover:bg-zinc-900 hover:text-white"
                 : "bg-white text-black border border-white hover:bg-zinc-200"
             }`}
@@ -96,7 +99,7 @@ export function Navbar() {
                   type="button"
                   aria-label="Buka Menu"
                   className={`inline-flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
-                    isScrolled
+                    isDark
                       ? "text-zinc-900 hover:bg-zinc-100"
                       : "text-white hover:bg-white/10"
                   }`}

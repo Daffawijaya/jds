@@ -1,333 +1,545 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Award,
-  Building,
-  CheckCircle2,
-  Compass,
-  Handshake,
-  Layers,
-  MapPin,
-  ShieldCheck,
-  Sparkles,
-  Target,
-  UserCheck,
-  Zap,
-} from "lucide-react";
-import { FaChevronRight } from "react-icons/fa6";
-import { companyInfo, coreValuesData, companyStrengthsData } from "@/data/companyData";
-import ParallaxHero from "@/components/shared/ParallaxHero";
-import FeaturedServicesRow from "@/components/shared/FeaturedServicesRow";
-import RevealServices from "@/components/shared/RevealServices";
-import ServiceCardsReveal from "@/components/shared/ServiceCardsReveal";
-
-/* ═══════════════════════════════════════════════════════════════
-   Tentang Kami — bahasa visual sama persis seperti homepage (/):
-   ParallaxHero, section putih overlap, kartu zinc-100 rounded-2xl,
-   kartu katalog gelap, RevealServices + entrance berbasis scroll.
-   Isi tetap profil perusahaan, bukan salinan homepage.
-   ═══════════════════════════════════════════════════════════════ */
+import { companyInfo } from "@/data/companyData";
 
 export const metadata: Metadata = {
   title: "Tentang Kami",
   description: `Profil perusahaan ${companyInfo.officialName} (${companyInfo.shortName}) - Penyedia Solusi IT, Digitalisasi, dan Tenaga Ahli Profesional di Kutai Kartanegara, Kalimantan Timur.`,
 };
 
-const valueIconMap: Record<string, React.ReactNode> = {
-  ShieldCheck: <ShieldCheck className="w-3 h-3" />,
-  Sparkles: <Sparkles className="w-3 h-3" />,
-  Handshake: <Handshake className="w-3 h-3" />,
-  UserCheck: <UserCheck className="w-3 h-3" />,
-};
-
-const strengthIconMap: Record<string, React.ReactNode> = {
-  MapPin: <MapPin className="w-4 h-4" />,
-  Layers: <Layers className="w-4 h-4" />,
-  Award: <Award className="w-4 h-4" />,
-  Zap: <Zap className="w-4 h-4" />,
-};
-
-// Warna chip mengikuti pola homepage (terang untuk kartu terang, redup untuk kartu gelap)
-const solidChip = ["bg-cyan-600", "bg-teal-600", "bg-violet-600", "bg-amber-500"];
-const darkChip = [
-  "bg-cyan-500/15 text-cyan-300",
-  "bg-teal-500/15 text-teal-300",
-  "bg-violet-500/15 text-violet-300",
-  "bg-amber-500/15 text-amber-300",
-];
-
 export default function AboutPage() {
   return (
-    <div className="w-full min-h-screen bg-white text-slate-900 font-sans antialiased">
-      {/* 1. HERO SECTION */}
-      <ParallaxHero>
-        <img
-          src="/bggggg.png"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="relative w-full max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-20 sm:py-24 lg:py-28">
-          <div className="max-w-2xl">
-            <span className="text-xs font-semibold tracking-widest text-zinc-300">
-              PROFIL PERUSAHAAN
-            </span>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mt-3 mb-5 leading-tight">
-              Mengenal {companyInfo.officialName}.
-            </h1>
-            <p className="text-zinc-200 text-sm leading-relaxed mb-6">
-              {companyInfo.positioning}: berpusat di {companyInfo.regency},{" "}
-              {companyInfo.province}, melayani instansi pemerintah dan mitra bisnis.
-            </p>
-            <div className="flex flex-wrap items-center gap-4">
-              <Link
-                href="/contact"
-                className="bg-white text-black hover:bg-zinc-200 font-semibold px-6 py-2.5 rounded-full text-sm transition-all shadow-md"
-              >
-                Hubungi Kami
-              </Link>
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-1.5 text-zinc-300 hover:text-white font-semibold text-sm transition-colors"
-              >
-                Lihat Layanan
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </ParallaxHero>
+    <div className="min-h-screen bg-white font-sans text-gray-900">
+      {/* 1. HERO SECTION & FEATURES GRID */}
+      <section className="bg-black text-white relative mt-1.5">
+        {/* Top Gradient Bar */}
+        <div className="h-2 w-full bg-gradient-to-r from-red-600 via-orange-500 to-purple-600"></div>
 
-      {/* 2. PROFIL RINGKAS */}
-      <section className="featured-sec relative z-10 overflow-x-clip -mt-12 sm:-mt-16 rounded-t-4xl bg-white text-zinc-900 py-20">
-        <div className="row-wrap px-3 sm:px-4 lg:px-6 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
-            Mitra profesional solusi digital &amp; SDM.
-          </h2>
-          <p className="text-black text-sm max-w-2xl mx-auto mb-12">
-            {companyInfo.tagline}: kombinasi pengembangan perangkat lunak, digitalisasi
-            sistem, dan penyiapan tenaga ahli dalam satu tim.
+        <div className="max-w-7xl mx-auto px-6 pt-20 pb-32 flex flex-col items-center text-center">
+          <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-4">
+            Profil Perusahaan JDS
+          </p>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
+            Mengenal Jaya Dinara Sukses,
+            <br />
+            mitra solusi digital terpercaya.
+          </h1>
+          <p className="text-gray-300 max-w-3xl mb-8 text-sm md:text-base">
+            IT, Digital Solutions, Outsourcing &amp; Professional Services — berpusat
+            di Kutai Kartanegara, Kalimantan Timur, melayani instansi pemerintah dan
+            mitra bisnis.{" "}
+            <span className="underline cursor-pointer hover:text-white">
+              Lihat layanan kami.
+            </span>
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-left max-w-[1310px] mx-auto">
-            <div className="bg-zinc-100 rounded-2xl p-6 sm:p-8 flex flex-col">
-              <h3 className="text-base font-bold mb-3">Profil ringkas</h3>
-              <p className="text-xs text-zinc-600 leading-relaxed mb-4">{companyInfo.overview}</p>
-              <p className="text-xs text-zinc-600 leading-relaxed mb-6">
-                Kami menghadirkan kombinasi keahlian pengembangan perangkat lunak, perancangan
-                web, konsultasi strategi teknologi, hingga penyediaan tenaga pendamping teknis
-                untuk mendukung keberhasilan program instansi pemerintah maupun entitas swasta.
-              </p>
-              <div className="mt-auto bg-white rounded-xl p-4 flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-zinc-900 shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-xs font-bold text-zinc-900">Alamat resmi perusahaan</p>
-                  <p className="text-xs text-zinc-600 leading-relaxed mt-1">{companyInfo.address}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-zinc-100 rounded-2xl p-6 sm:p-8 flex flex-col">
-              <h3 className="text-base font-bold mb-3 flex items-center gap-2">
-                <Building className="w-4 h-4" />
-                Informasi bisnis
-              </h3>
-              <dl className="space-y-4 text-left">
-                <div>
-                  <dt className="text-xs text-zinc-500 font-semibold">Nama resmi perusahaan</dt>
-                  <dd className="text-sm font-bold text-zinc-900">{companyInfo.officialName}</dd>
-                </div>
-                <div>
-                  <dt className="text-xs text-zinc-500 font-semibold">Nama singkat / brand</dt>
-                  <dd className="text-sm font-bold text-zinc-900">{companyInfo.shortName}</dd>
-                </div>
-                <div>
-                  <dt className="text-xs text-zinc-500 font-semibold">Posisi bisnis</dt>
-                  <dd className="text-xs font-semibold text-zinc-700 mt-0.5">{companyInfo.positioning}</dd>
-                </div>
-                <div>
-                  <dt className="text-xs text-zinc-500 font-semibold">Wilayah kabupaten / provinsi</dt>
-                  <dd className="text-xs font-medium text-zinc-600">
-                    {companyInfo.regency}, {companyInfo.province}
-                  </dd>
-                </div>
-              </dl>
-              <Link
-                href="/contact"
-                className="mt-auto pt-6 inline-flex items-center gap-2 border border-zinc-300 hover:border-zinc-900 text-zinc-700 hover:text-zinc-950 font-semibold text-sm px-6 py-2.5 rounded-full transition-all self-start"
-              >
-                Hubungi tim JDS
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. VISI & MISI */}
-      <section className="relative z-10 bg-white text-zinc-900 py-20">
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
-          <div className="text-center mb-12">
-            <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
-              ARAH STRATEGIS
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold mt-1 mb-2">Visi &amp; misi perusahaan.</h2>
-            <p className="text-zinc-600 text-sm">
-              Landasan dan tujuan operasional {companyInfo.shortName} dalam melayani mitra kerja sama.
-            </p>
+          <div className="flex space-x-4 mb-20">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full transition-colors">
+              Hubungi Kami
+            </button>
+            <button className="border border-white hover:bg-white hover:text-black text-white font-semibold py-2 px-6 rounded-full transition-colors">
+              Lihat Layanan
+            </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            <div className="bg-zinc-100 rounded-2xl p-6 sm:p-8">
-              <div className="w-8 h-8 bg-cyan-600 rounded font-black flex items-center justify-center text-white mb-12">
-                <Compass className="w-4 h-4" />
-              </div>
-              <h3 className="font-bold text-base mb-1">Visi perusahaan</h3>
-              <p className="text-xs text-zinc-600 leading-relaxed italic border-l-2 border-zinc-900 pl-4 py-1 mt-3">
-                &quot;Menjadi penyedia solusi IT, digitalisasi, dan penyiapan tenaga ahli
-                profesional terdepan yang terpercaya dalam mempercepat modernisasi pelayanan
-                dan bisnis daerah.&quot;
-              </p>
-            </div>
-            <div className="bg-zinc-100 rounded-2xl p-6 sm:p-8">
-              <div className="w-8 h-8 bg-violet-600 rounded font-black flex items-center justify-center text-white mb-12">
-                <Target className="w-4 h-4" />
-              </div>
-              <h3 className="font-bold text-base mb-1">Misi utama</h3>
-              <ul className="space-y-3 text-xs text-zinc-600 mt-3">
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-zinc-900 shrink-0 mt-0.5" />
-                  <span>Menghadirkan produk perangkat lunak dan web yang aman, inovatif, dan responsif.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-zinc-900 shrink-0 mt-0.5" />
-                  <span>Menyiapkan tenaga ahli IT dan pendamping profesional berdedikasi tinggi.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-zinc-900 shrink-0 mt-0.5" />
-                  <span>Memperkuat efisiensi operasional organisasi melalui digitalisasi sistem.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. NILAI PERUSAHAAN */}
-      <section className="featured-sec relative z-10 overflow-x-clip bg-white text-zinc-900 py-20">
-        <div className="row-wrap px-3 sm:px-4 lg:px-6 text-center">
-          <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
-            NILAI PERUSAHAAN
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mt-1 mb-2">
-            Nilai-nilai kerja {companyInfo.shortName}.
-          </h2>
-          <p className="text-black text-sm max-w-2xl mx-auto mb-12">
-            Prinsip dasar yang menjadi pegangan kami dalam membangun kepercayaan dan hasil karya.
-          </p>
-
-          <FeaturedServicesRow>
-            {coreValuesData.map((val, i) => (
-              <div
-                key={val.id}
-                className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group relative flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
-              >
-                <div className="px-4 py-5 flex items-center space-x-2 text-xs font-semibold">
-                  <span
-                    className={`w-5 h-5 ${solidChip[i % solidChip.length]} rounded flex items-center justify-center text-white`}
-                  >
-                    {valueIconMap[val.iconName]}
+          {/* Grid Cards (Overlapping slightly) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full text-left">
+            {/* Card 1 */}
+            <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
+              <img
+                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop"
+                alt="Web Development"
+                className="h-48 object-cover"
+              />
+              <div className="p-6 flex flex-col flex-grow">
+                <div className="flex items-center space-x-2 text-xs font-bold text-gray-600 mb-2">
+                  <span className="w-4 h-4 bg-red-500 rounded-sm text-white flex items-center justify-center text-[8px]">
+                    WD
                   </span>
-                  <span className="group-hover:text-white transition-colors duration-300">{val.title}</span>
+                  <span>Web Development</span>
                 </div>
-                <div className="w-full px-4 pb-5 text-xs text-zinc-600 leading-relaxed group-hover:text-white transition-colors duration-300">
-                  {val.desc}
+                <h3 className="text-xl font-bold mb-6 flex-grow">
+                  Pengembangan situs web modern, responsif, dan teroptimasi.
+                </h3>
+                <div className="flex items-center space-x-3">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full">
+                    Selengkapnya
+                  </button>
+                  <button className="text-black text-sm font-semibold hover:underline">
+                    Lihat layanan ›
+                  </button>
                 </div>
-                <span className="pointer-events-none absolute bottom-3 right-3 w-6 h-6 rounded-full border border-zinc-200 bg-white text-zinc-900 group-hover:border-white group-hover:bg-white flex items-center justify-center opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out shadow-sm">
-                  <FaChevronRight className="w-3 h-3" />
-                </span>
               </div>
-            ))}
-          </FeaturedServicesRow>
+            </div>
 
-          <div className="mt-10">
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-2 border border-zinc-300 hover:border-zinc-900 text-zinc-700 hover:text-zinc-950 font-semibold text-sm px-6 py-2.5 rounded-full transition-all"
-            >
-              Lihat semua layanan
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            {/* Card 2 */}
+            <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
+              <img
+                src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop"
+                alt="Software Development"
+                className="h-48 object-cover"
+              />
+              <div className="p-6 flex flex-col flex-grow">
+                <div className="flex items-center space-x-2 text-xs font-bold text-gray-600 mb-2">
+                  <span className="w-4 h-4 bg-blue-500 rounded-sm text-white flex items-center justify-center text-[8px]">
+                    SD
+                  </span>
+                  <span>Software Development</span>
+                </div>
+                <h3 className="text-xl font-bold mb-6 flex-grow">
+                  Rancang bangun perangkat lunak custom untuk otomatisasi proses bisnis.
+                </h3>
+                <div className="flex items-center space-x-3">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full">
+                    Selengkapnya
+                  </button>
+                  <button className="text-black text-sm font-semibold hover:underline">
+                    Lihat layanan ›
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
+              <img
+                src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=600&auto=format&fit=crop"
+                alt="UI/UX Design"
+                className="h-48 object-cover"
+              />
+              <div className="p-6 flex flex-col flex-grow">
+                <div className="flex items-center space-x-2 text-xs font-bold text-gray-600 mb-2">
+                  <span className="w-4 h-4 bg-blue-300 rounded-sm text-blue-900 flex items-center justify-center text-[8px]">
+                    UX
+                  </span>
+                  <span>UI/UX Design</span>
+                </div>
+                <h3 className="text-xl font-bold mb-6 flex-grow">
+                  Perancangan antarmuka intuitif untuk aplikasi web dan mobile.
+                </h3>
+                <div className="flex items-center space-x-3">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full">
+                    Selengkapnya
+                  </button>
+                  <button className="text-black text-sm font-semibold hover:underline">
+                    Lihat layanan ›
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 4 */}
+            <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
+              <img
+                src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=600&auto=format&fit=crop"
+                alt="Digitalisasi Sistem"
+                className="h-48 object-cover"
+              />
+              <div className="p-6 flex flex-col flex-grow">
+                <div className="flex items-center space-x-2 text-xs font-bold text-gray-600 mb-2">
+                  <span className="w-4 h-4 bg-purple-500 rounded-sm text-white flex items-center justify-center text-[8px]">
+                    DS
+                  </span>
+                  <span>Digitalisasi Sistem</span>
+                </div>
+                <h3 className="text-xl font-bold mb-6 flex-grow">
+                  Modernisasi alur kerja menjadi ekosistem digital terintegrasi.
+                </h3>
+                <div className="flex items-center space-x-3">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full">
+                    Selengkapnya
+                  </button>
+                  <button className="text-black text-sm font-semibold hover:underline">
+                    Lihat layanan ›
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 5 */}
+            <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
+              <img
+                src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=600&auto=format&fit=crop"
+                alt="IT Consulting"
+                className="h-48 object-cover"
+              />
+              <div className="p-6 flex flex-col flex-grow">
+                <div className="flex items-center space-x-2 text-xs font-bold text-gray-600 mb-2">
+                  <span className="w-4 h-4 bg-orange-500 rounded-sm text-white flex items-center justify-center text-[8px]">
+                    IC
+                  </span>
+                  <span>IT Consulting</span>
+                </div>
+                <h3 className="text-xl font-bold mb-6 flex-grow">
+                  Konsultasi strategis perencanaan teknologi dan peta jalan digitalisasi.
+                </h3>
+                <div className="flex items-center space-x-3">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full">
+                    Selengkapnya
+                  </button>
+                  <button className="text-black text-sm font-semibold hover:underline">
+                    Lihat layanan ›
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 6 */}
+            <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
+              <img
+                src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?q=80&w=600&auto=format&fit=crop"
+                alt="IT Outsourcing"
+                className="h-48 object-cover"
+              />
+              <div className="p-6 flex flex-col flex-grow">
+                <div className="flex items-center space-x-2 text-xs font-bold text-gray-600 mb-2">
+                  <span className="w-4 h-4 bg-gray-800 rounded-sm text-white flex items-center justify-center text-[8px]">
+                    IO
+                  </span>
+                  <span>IT Outsourcing</span>
+                </div>
+                <h3 className="text-xl font-bold mb-6 flex-grow">
+                  Pengelolaan operasional IT secara terstruktur dan terukur.
+                </h3>
+                <div className="flex items-center space-x-3">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full">
+                    Selengkapnya
+                  </button>
+                  <button className="text-black text-sm font-semibold hover:underline">
+                    Lihat layanan ›
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 5. KEKUATAN PERUSAHAAN */}
-      <RevealServices heading={
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
-          <div className="text-center mb-0 relative z-10">
-            <h2 className="text-3xl font-extrabold mb-2">Kekuatan utama {companyInfo.shortName}.</h2>
-            <p className="text-xs text-zinc-400 mb-6">
-              Faktor pembeda yang membuat kami siap mendampingi program instansi dan bisnis Anda.
-            </p>
-            <div className="inline-flex border border-white rounded-full p-1 bg-transparent">
-              <Link
-                href="/services"
-                className="text-white text-xs px-4 py-1.5 rounded-full font-medium hover:bg-white/10 transition-colors"
-              >
-                Lihat semua layanan
-              </Link>
+      {/* 3. HIGHLIGHT 1: FIREFLY */}
+      <section className="max-w-6xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center gap-16">
+        <div className="w-full md:w-1/2">
+          <img
+            src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop"
+            alt="Visi Perusahaan"
+            className="rounded-xl shadow-xl w-full"
+          />
+        </div>
+        <div className="w-full md:w-1/2 flex flex-col items-start">
+          <div className="flex items-center space-x-2 text-sm font-bold text-gray-600 mb-4">
+            <span className="w-5 h-5 bg-red-500 rounded-sm text-white flex items-center justify-center text-[10px]">
+              VI
+            </span>
+            <span>Visi Perusahaan</span>
+          </div>
+          <h2 className="text-3xl font-bold mb-4 leading-tight">
+            Menjadi penyedia solusi IT dan digitalisasi terdepan yang terpercaya.
+          </h2>
+          <p className="text-gray-600 mb-6 text-sm">
+            Mempercepat modernisasi pelayanan dan bisnis daerah — mulai dari
+            pengembangan perangkat lunak, digitalisasi sistem, hingga penyiapan
+            tenaga ahli profesional dalam satu tim.
+          </p>
+          <button className="border border-gray-300 hover:border-gray-800 text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors">
+            Tentang Kami
+          </button>
+        </div>
+      </section>
+
+      {/* 4. HIGHLIGHT 2: PREMIERE PRO */}
+      <section className="max-w-6xl mx-auto px-6 py-20 flex flex-col md:flex-row-reverse items-center gap-16">
+        <div className="w-full md:w-1/2">
+          <img
+            src="https://images.unsplash.com/photo-1516280440502-861f6966699b?q=80&w=800&auto=format&fit=crop"
+            alt="Misi Utama"
+            className="rounded-xl shadow-xl w-full"
+          />
+        </div>
+        <div className="w-full md:w-1/2 flex flex-col items-start">
+          <div className="flex items-center space-x-2 text-sm font-bold text-gray-600 mb-4">
+            <span className="w-5 h-5 bg-indigo-900 rounded-sm text-purple-300 flex items-center justify-center text-[10px]">
+              MS
+            </span>
+            <span>Misi Utama</span>
+          </div>
+          <h2 className="text-3xl font-bold mb-4 leading-tight">
+            Misi utama JDS dalam melayani mitra kerja sama.
+          </h2>
+          <p className="text-gray-600 mb-6 text-sm">
+            Menghadirkan produk perangkat lunak dan web yang aman, inovatif, dan
+            responsif; menyiapkan tenaga ahli berdedikasi; serta memperkuat
+            efisiensi operasional organisasi melalui digitalisasi sistem.
+          </p>
+          <button className="border border-gray-300 hover:border-gray-800 text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors">
+            Lihat Layanan
+          </button>
+        </div>
+      </section>
+
+      {/* 5. INSPIRATION SECTION */}
+      <section className="bg-[#f8f8f8] py-20 px-6">
+        <div className="max-w-5xl mx-auto text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4">Nilai-nilai kerja JDS.</h2>
+          <p className="text-gray-600 text-sm">
+            Prinsip dasar yang menjadi pegangan kami dalam membangun kepercayaan
+            dan hasil karya.
+          </p>
+        </div>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Inspiration Card 1 */}
+          <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <img
+              src="https://images.unsplash.com/photo-1565578762-b91c1404c07d?q=80&w=800&auto=format&fit=crop"
+              alt="Frog"
+              className="w-full h-64 object-cover"
+            />
+            <div className="p-6">
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                Nilai | Profesionalisme
+              </p>
+              <h3 className="text-lg font-bold hover:underline cursor-pointer">
+                Menjalankan setiap penugasan dengan standar kualitas tinggi, integritas, dan tanggung jawab penuh.
+              </h3>
+            </div>
+          </div>
+          {/* Inspiration Card 2 */}
+          <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <img
+              src="https://images.unsplash.com/photo-1555580168-9deea6873132?q=80&w=800&auto=format&fit=crop"
+              alt="Butterfly"
+              className="w-full h-64 object-cover"
+            />
+            <div className="p-6">
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                Nilai | Inovasi Tepat Guna
+              </p>
+              <h3 className="text-lg font-bold hover:underline cursor-pointer">
+                Menghadirkan solusi digitalisasi yang praktis, efektif, dan memberi manfaat nyata.
+              </h3>
             </div>
           </div>
         </div>
+      </section>
 
-      }>
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
-          <ServiceCardsReveal>
-            {companyStrengthsData.map((strength, i) => (
-              <div
-                key={strength.id}
-                className="group relative overflow-hidden bg-[#141414] p-6 rounded-xl transition-all min-h-[260px] flex flex-col"
-              >
-                <div
-                  className={`relative z-10 w-8 h-8 ${darkChip[i % darkChip.length]} rounded font-black flex items-center justify-center mb-12`}
-                >
-                  {strengthIconMap[strength.iconName]}
-                </div>
-                <div className="relative z-10 mt-auto">
-                  <h3 className="font-bold text-base mb-1">{strength.title}</h3>
-                  <p className="text-xs text-zinc-400 group-hover:text-zinc-200 leading-relaxed transition-colors duration-500">
-                    {strength.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
+      {/* 6. WHICH APP IS BEST */}
+      <section className="bg-[#f8f8f8] py-12 px-6 text-center border-b border-gray-200">
+        <h3 className="text-xl font-bold mb-2">
+          Belum yakin layanan mana yang sesuai?
+        </h3>
+        <p className="text-sm text-gray-600 mb-6">
+          Ceritakan kebutuhan Anda. Tim kami siap membantu dari konsultasi hingga implementasi.
+        </p>
+        <button className="border border-gray-300 hover:border-gray-800 text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors">
+          Konsultasi Gratis
+        </button>
+      </section>
 
-            {/* Kartu CTA */}
-            <Link
-              href="/contact"
-              className="bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 p-6 rounded-xl transition-all flex flex-col justify-between group"
-            >
-              <div>
-                <div className="w-8 h-8 bg-white text-black rounded font-black flex items-center justify-center mb-4">
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-                </div>
-                <h3 className="font-bold text-base mb-1">Diskusikan kebutuhan Anda.</h3>
-                <p className="text-xs text-zinc-400 leading-relaxed">
-                  Ceritakan rencana digitalisasi Anda. Tim kami siap membantu dari konsultasi hingga
-                  implementasi.
-                </p>
-              </div>
-              <span className="mt-4 text-xs font-semibold text-white inline-flex items-center gap-1">
-                Konsultasi Gratis
-                <ArrowUpRight className="w-3 h-3" />
-              </span>
-            </Link>
-          </ServiceCardsReveal>
+      {/* 7. CREATIVITY FOR ALL */}
+      <section className="bg-white py-20 px-6 text-center">
+        {/* Abstract Logo Placeholder */}
+        <div className="w-12 h-12 mx-auto mb-6 bg-gradient-to-tr from-yellow-400 via-red-500 to-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+          JDS
         </div>
-      </RevealServices>
+        <h2 className="text-2xl font-bold mb-4">Solusi IT untuk semua</h2>
+        <p className="text-gray-600 text-sm max-w-2xl mx-auto mb-6">
+          Web, software, desain, digitalisasi, konsultasi IT, hingga tenaga ahli —
+          semuanya dalam satu tim. Berpusat di Kutai Kartanegara, Kalimantan Timur.
+        </p>
+        <a href="#" className="text-blue-600 font-semibold hover:underline">
+          Lihat semua layanan
+        </a>
+      </section>
+
+      {/* 8. FOOTER */}
+      <footer className="bg-[#fafafa] border-t border-gray-200 pt-1 text-sm text-gray-600">
+        {/* Footer Top Gradient Line */}
+        <div className="h-1 w-full bg-gradient-to-r from-yellow-400 via-red-500 to-blue-600 mb-12"></div>
+
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 mb-12">
+          {/* Col 1 */}
+          <div>
+            <h4 className="font-bold text-black mb-4">Layanan</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="#" className="hover:text-black">
+                  Web Development
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Software Development
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  UI/UX Design
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Digitalisasi Sistem
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Konsultasi IT
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Tenaga Ahli
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Multimedia Konten
+                </a>
+              </li>
+            </ul>
+          </div>
+          {/* Col 2 */}
+          <div>
+            <h4 className="font-bold text-black mb-4">Perusahaan</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="#" className="hover:text-black">
+                  Tentang Kami
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Profil Perusahaan
+                </a>
+              </li>
+              <h4 className="font-bold text-black mt-6 mb-4">Navigasi</h4>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Beranda
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Kontak
+                </a>
+              </li>
+            </ul>
+          </div>
+          {/* Col 3 */}
+          <div>
+            <h4 className="font-bold text-black mb-4">Solusi</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="#" className="hover:text-black">
+                  Digitalisasi Sistem
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Konsultasi IT
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Tenaga Ahli
+                </a>
+              </li>
+            </ul>
+          </div>
+          {/* Col 4 */}
+          <div>
+            <h4 className="font-bold text-black mb-4">Dukungan</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="#" className="hover:text-black">
+                  Bantuan
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Komunitas
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Konsultasi Gratis
+                </a>
+              </li>
+            </ul>
+          </div>
+          {/* Col 5 */}
+          <div>
+            <h4 className="font-bold text-black mb-4">Sumber Daya</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="#" className="hover:text-black">
+                  Blog JDS
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Dokumentasi
+                </a>
+              </li>
+            </ul>
+          </div>
+          {/* Col 6 */}
+          <div>
+            <h4 className="font-bold text-black mb-4">Akun &amp; Kontak</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="#" className="hover:text-black">
+                  Hubungi Kami
+                </a>
+              </li>
+            </ul>
+            <h4 className="font-bold text-black mt-6 mb-4">JDS</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="#" className="hover:text-black">
+                  Tentang Kami
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Karir
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-black">
+                  Proyek
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Footer Bottom Line */}
+        <div className="border-t border-gray-200 py-6 px-6 flex flex-col md:flex-row justify-between items-center text-xs">
+          <div className="flex items-center space-x-4 mb-4 md:mb-0">
+            <span className="font-semibold text-black cursor-pointer">
+              Bahasa Indonesia
+            </span>
+            <div className="flex space-x-3">
+              {/* Social Icons Placeholders */}
+              <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
+              <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
+              <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-4 text-gray-500">
+            <a href="#" className="hover:text-black">
+              © 2026 Jaya Dinara Sukses. Seluruh hak cipta dilindungi.
+            </a>
+            <a href="#" className="hover:text-black">
+              Kebijakan Privasi
+            </a>
+            <a href="#" className="hover:text-black">
+              Syarat &amp; Ketentuan
+            </a>
+            <a href="#" className="hover:text-black">
+              Preferensi Cookie
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
