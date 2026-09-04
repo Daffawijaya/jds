@@ -12,7 +12,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { FaChevronRight } from "react-icons/fa6";
-import { companyInfo, servicesData } from "@/data/companyData";
+import { companyInfo, servicesData, testimonialsData } from "@/data/companyData";
 import ProjectCarousel from "@/components/shared/ProjectCarousel";
 
 /* ═══════════════════════════════════════════════════════════════
@@ -257,6 +257,35 @@ export default function HomePage() {
           {/* Baris 2: Carousel looping 2 kartu (full-bleed, tanpa container) */}
         </div>
         <ProjectCarousel />
+
+        {/* Baris 3: Testimoni */}
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 mt-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {testimonialsData.map((t) => (
+              <div
+                key={t.id}
+                className="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-all flex flex-col"
+              >
+                <img
+                  src={t.image}
+                  alt={t.name}
+                  loading="lazy"
+                  className="w-full h-48 object-cover rounded-lg mb-4"
+                />
+                <p className="text-sm font-medium leading-relaxed mb-3 flex-1">“{t.quote}”</p>
+                <p className="font-bold text-sm">{t.name}</p>
+                <p className="text-xs text-zinc-500 mb-3">{t.role}</p>
+                <Link
+                  href="/projects"
+                  className="text-xs font-semibold text-blue-600 hover:underline inline-flex items-center gap-0.5"
+                >
+                  Lihat studi kasus
+                  <ArrowUpRight className="w-3 h-3" />
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* 5. KATALOG LAYANAN LENGKAP */}

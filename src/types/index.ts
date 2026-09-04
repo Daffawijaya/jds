@@ -74,3 +74,12 @@ export interface JobPosting {
   requirements: string[];
   isActive: boolean;
 }
+
+export interface Testimonial {
+  id: string;
+  quote: string;
+  name: string;
+  role: string;
+  image: string;
+}
+

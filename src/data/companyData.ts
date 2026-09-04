@@ -1,4 +1,4 @@
-import { CompanyInfo, Service, Project, CoreValue, CompanyStrength, JobPosting } from '@/types';
+import { CompanyInfo, Service, Project, CoreValue, CompanyStrength, JobPosting, Testimonial } from '@/types';
 
 export const companyInfo: CompanyInfo = {
   officialName: 'Jaya Dinara Sukses',
@@ -278,3 +278,28 @@ export const companyStrengthsData: CompanyStrength[] = [
 ];
 
 export const jobPostingsData: JobPosting[] = [];
+
+// Placeholder generik — ganti dengan testimoni asli bila sudah ada
+export const testimonialsData: Testimonial[] = [
+  {
+    id: 'umkm-kuliner',
+    quote: 'Sejak usaha saya masuk etamhub, pembeli dari luar kecamatan mulai berdatangan.',
+    name: 'Hj. Ratna',
+    role: 'Pelaku UMKM Kuliner',
+    image: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    id: 'umkm-kriya',
+    quote: 'Pendampingannya praktis. Sekarang saya bisa promosi lewat HP sendiri.',
+    name: 'Samsul',
+    role: 'Pelaku UMKM Kriya',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    id: 'mitra-instansi',
+    quote: 'Program pendampingan berjalan tertib, terdokumentasi, dan tepat sasaran.',
+    name: 'Andi Pratama',
+    role: 'Mitra Dinas KUKM Kukar',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80',
+  },
+];
