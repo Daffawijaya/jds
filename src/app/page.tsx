@@ -17,6 +17,7 @@ import ProjectCarousel from "@/components/shared/ProjectCarousel";
 import FeaturedServicesRow from "@/components/shared/FeaturedServicesRow";
 import ParallaxHero from "@/components/shared/ParallaxHero";
 import RevealServices from "@/components/shared/RevealServices";
+import ServiceCardsReveal from "@/components/shared/ServiceCardsReveal";
 
 /* ═══════════════════════════════════════════════════════════════
    Homepage JDS — layout & styling mengikuti halaman /adobe-demo
@@ -323,7 +324,7 @@ export default function HomePage() {
 
         <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
           {/* 3x3 Grid Layanan */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <ServiceCardsReveal>
             {servicesData.map((service) => (
               <div
                 key={service.id}
@@ -371,7 +372,7 @@ export default function HomePage() {
                 <ArrowUpRight className="w-3 h-3" />
               </span>
             </Link>
-          </div>
+          </ServiceCardsReveal>
         </div>
       </RevealServices>
     </div>

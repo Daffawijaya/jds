@@ -69,7 +69,7 @@ export default function RootLayout({
       <body className="font-sans bg-white text-slate-900 antialiased selection:bg-red-600 selection:text-white">
         <SmoothScroll />
         <Navbar />
-        <main className="min-h-screen">
+        <main className="relative z-10 min-h-screen">
           {children}
         </main>
         <Footer />
