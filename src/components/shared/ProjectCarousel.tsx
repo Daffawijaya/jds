@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   motion,
+  frame,
+  cancelFrame,
   useScroll,
-  useSpring,
   useTransform,
   useMotionTemplate,
   useReducedMotion,
@@ -51,17 +52,21 @@ export default function ProjectCarousel() {
   const [centerSlot, setCenterSlot] = useState(START);
   // Swipe manual terakhir (di luar adjust sistem) — recenter mengalah.
   const lastUserH = useRef(0);
-  const selfAdjust = useRef(0);
+  const selfAdjust = useRef<number | null>(null);
+  // Slot tengah kanonis. Recenter selalu nempel ke sini — jangan pakai
+  // nearest() per-tick karena pembulatan saat lebar berubah bisa flip ke
+  // tetangga (carousel kejambak + arah slide samping asimetris).
+  const centerRef = useRef(START);
 
   // ── Lebar dinamis saat scroll: full-bleed → sejajar container ──
   // Mulai saat top carousel di 95% viewport, selesai saat di 50% (tengah layar).
   // Slot luar yang dianimasikan (width/maxWidth) supaya tetangga ketarik
-  // masuk saat card menyusut; scroll ditempel ulang ke slot terdekat.
-  const { scrollYProgress } = useScroll({
+  // masuk saat card menyusut; scroll tetap mengikuti slot tengah yang sama.
+  const { scrollYProgress: progress } = useScroll({
     target: wrapRef,
     offset: ["start 0.95", "start 0.5"],
   });
-  const smooth = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.6 });
+  // Langsung tanpa spring: animasi 1:1 ngikut kecepatan scroll.
   const reduce = useReducedMotion();
 
   // ── Entrance kartu samping: timing sendiri ──
@@ -72,9 +77,8 @@ export default function ProjectCarousel() {
     target: wrapRef,
     offset: ["start 0.7", "start 0.3"],
   });
-  const sideSmooth = useSpring(sideProgress, { stiffness: 90, damping: 28, mass: 0.6 });
-  const sideXL = useTransform(sideSmooth, [0, 1], [-120, 0]);
-  const sideXR = useTransform(sideSmooth, [0, 1], [120, 0]);
+  const sideXL = useTransform(sideProgress, [0, 1], [-120, 0]);
+  const sideXR = useTransform(sideProgress, [0, 1], [120, 0]);
 
   // Inset & cap akhir mengikuti container (px-2/px-4/px-6 + max-w 1310).
   const [bp, setBp] = useState(0);
@@ -99,9 +103,9 @@ export default function ProjectCarousel() {
   const endPad = bp === 2 ? 48 : bp === 1 ? 32 : 16;
   const endMax = bp === 2 ? 1262 : bp === 1 ? 1278 : 1294;
 
-  const pad = useTransform(smooth, [0, 1], [0, endPad]);
+  const pad = useTransform(progress, [0, 1], [0, endPad]);
   const width = useMotionTemplate`calc(100% - ${pad}px)`;
-  const maxWidth = useTransform(smooth, [0, 1], [vw, endMax]);
+  const maxWidth = useTransform(progress, [0, 1], [vw, endMax]);
   // ponytail: reduced-motion langsung state akhir, tambah animasi saat ada kebutuhan
   const innerStyle = reduce
     ? { width: `calc(100% - ${endPad}px)`, maxWidth: endMax }
@@ -112,57 +116,68 @@ export default function ProjectCarousel() {
   // masuk dan arrow bisa nempel di tepi kartu.
   const cardEnd = Math.min(vw - endPad, endMax);
   const endInset = Math.max(0, (vw - cardEnd) / 2);
-  const arrowL = useTransform(smooth, [0, 1], [40, 40 + endInset]);
-  const arrowR = useTransform(smooth, [0, 1], [40, 40 + endInset]);
+  const arrowL = useTransform(progress, [0, 1], [40, 40 + endInset]);
+  const arrowR = useTransform(progress, [0, 1], [40, 40 + endInset]);
   // Chevron duduk di card samping (di luar tepi card tengah). Geser sama besar
   // kiri-kanan; dijaga min 8px supaya tidak kepotong viewport saat peek sempit.
   const OUT = 135;
   const arrowLOut = useTransform(arrowL, (v) => Math.max(8, v - OUT));
   const arrowROut = useTransform(arrowR, (v) => Math.max(8, v - OUT));
 
-  const measure = () => {
+  const measure = useCallback(() => {
     const el = trackRef.current!;
     const kids = Array.from(el.children) as HTMLElement[];
-    const w = kids[0].offsetWidth;
-    const step = kids[1].offsetLeft - kids[0].offsetLeft;
-    return { el, kids, pos: (i: number) => kids[i].offsetLeft - (el.clientWidth - w) / 2, step };
-  };
+    const track = el.getBoundingClientRect();
+    const first = kids[0].getBoundingClientRect();
+    const step = kids[1].getBoundingClientRect().left - first.left;
+    const base = el.scrollLeft + first.left - track.left - (el.clientWidth - first.width) / 2;
+    return { el, kids, pos: (i: number) => base + i * step, step };
+  }, []);
 
   const nearest = () => {
-    const { el, kids, step } = measure();
-    const base = kids[0].offsetLeft - (el.clientWidth - kids[0].offsetWidth) / 2;
-    return Math.max(0, Math.min(kids.length - 1, Math.round((el.scrollLeft - base) / step)));
+    const { el, kids, pos, step } = measure();
+    return Math.max(0, Math.min(kids.length - 1, Math.round((el.scrollLeft - pos(0)) / step)));
   };
 
-  const scrollToSlot = (i: number, smooth: boolean) => {
+  const scrollToSlot = useCallback((i: number, smooth: boolean) => {
     const { el, pos } = measure();
     el.scrollTo({ left: pos(i), behavior: smooth ? "smooth" : "auto" });
-  };
+    if (!smooth) selfAdjust.current = el.scrollLeft;
+  }, [measure]);
 
   // Posisi awal: slot 3 (kartu 1) tepat di tengah
   useEffect(() => {
     scrollToSlot(START, false);
-  }, []);
+  }, [scrollToSlot]);
 
-  // Slot menyusut saat scroll vertikal → posisi snap-center drift.
-  // Tempel terus ke slot terdekat biar kartu tetangga ngikut geser smooth.
+  // Framer menulis width di fase render. Koreksi setelahnya, sebelum paint,
+  // supaya lebar kartu dan scrollLeft selalu berasal dari frame yang sama.
+  // Snap dinonaktifkan selama transaksi ini agar browser tidak menarik
+  // scrollLeft kembali ke posisi snap dari layout sebelumnya.
   useEffect(() => {
-    const unsub = smooth.on("change", () => {
-      const el = trackRef.current;
-      if (!el || !el.children.length) return;
-      // Jangan rebut scroll horizontal yang lagi jalan (animasi tombol / swipe)
-      if (Date.now() < animGuard.current) return;
-      if (Date.now() - lastUserH.current < 150) return;
-      const idx = nearest();
-      const { pos } = measure();
-      const target = pos(idx);
-      if (Math.abs(el.scrollLeft - target) > 1) {
-        selfAdjust.current = Date.now();
-        el.scrollTo({ left: target });
+    const el = trackRef.current;
+    if (!el) return;
+    const align = () => {
+      if (Date.now() >= animGuard.current && Date.now() - lastUserH.current >= 150) {
+        scrollToSlot(centerRef.current, false);
       }
-    });
-    return unsub;
-  }, [smooth]);
+      el.style.removeProperty("scroll-snap-type");
+    };
+    const schedule = () => {
+      el.style.scrollSnapType = "none";
+      frame.postRender(align);
+    };
+    const unsub = progress.on("change", schedule);
+    const observer = new ResizeObserver(schedule);
+    observer.observe(el);
+    schedule();
+    return () => {
+      unsub();
+      observer.disconnect();
+      cancelFrame(align);
+      el.style.removeProperty("scroll-snap-type");
+    };
+  }, [progress, reduce, endPad, endMax, vw, scrollToSlot]);
 
   const go = (dir: 1 | -1) => {
     const el = trackRef.current;
@@ -171,6 +186,7 @@ export default function ProjectCarousel() {
     const target = Math.max(0, Math.min(kids.length - 1, nearest() + dir));
     // Transisi teks langsung mulai saat diklik, jalan bareng animasi slide
     setActiveCard((target + 1) % 2);
+    centerRef.current = target;
     setCenterSlot(target);
     animGuard.current = Date.now() + 600;
     el.scrollTo({ left: pos(target), behavior: "smooth" });
@@ -182,25 +198,43 @@ export default function ProjectCarousel() {
       let n = target;
       while (n > MAX) n -= 2;
       while (n < MIN) n += 2;
-      if (n !== target) scrollToSlot(n, false);
+      centerRef.current = n;
       setCenterSlot(n);
+      // Selalu tempel ulang: pendaratan smooth bisa meleset kalau lebar
+      // berubah di tengah animasi (ikut scroll vertikal / layout shift).
+      scrollToSlot(n, false);
     }, 550);
   };
 
   // Sinkronkan status aktif saat user swipe manual
   const onScroll = () => {
-    if (Date.now() - selfAdjust.current > 50) lastUserH.current = Date.now();
+    const el = trackRef.current;
+    if (!el || Date.now() < animGuard.current) return;
+    // Scroll programatik juga mengirim event scroll, kadang terlambat.
+    // Bedakan lewat posisi aktual, bukan batas waktu 50 ms yang mudah meleset.
+    if (selfAdjust.current !== null && Math.abs(el.scrollLeft - selfAdjust.current) < 1) return;
+    selfAdjust.current = null;
+    lastUserH.current = Date.now();
     if (syncTimer.current) clearTimeout(syncTimer.current);
     syncTimer.current = setTimeout(() => {
       if (Date.now() < animGuard.current) return;
       const n = nearest();
       setActiveCard((n + 1) % 2);
+      centerRef.current = n;
       setCenterSlot(n);
     }, 120);
   };
 
+  useEffect(() => () => {
+    if (timer.current) clearTimeout(timer.current);
+    if (syncTimer.current) clearTimeout(syncTimer.current);
+  }, []);
+
   return (
-    <div ref={wrapRef} className="relative">
+    // overflow-x-clip: tombol yg di-slide keluar tidak boleh bikin halaman
+    // ikut ke-scroll horizontal (clip, bukan hidden: hidden malah bikin
+    // wrap-nya sendiri jadi scroll container).
+    <div ref={wrapRef} className="relative overflow-x-clip">
       <div
         ref={trackRef}
         onScroll={onScroll}
@@ -213,14 +247,13 @@ export default function ProjectCarousel() {
             <motion.div
               key={i}
               data-slot={i}
-              style={
-                on || reduce
-                  ? innerStyle
-                  : { ...innerStyle, x: i < centerSlot ? sideXL : sideXR }
-              }
+              style={innerStyle}
               className="flex w-full shrink-0 snap-center"
             >
-              <div className="relative w-full shrink-0 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-14 sm:p-18">
+              <motion.div
+                style={{ x: on || reduce ? 0 : i < centerSlot ? sideXL : sideXR }}
+                className="relative w-full shrink-0 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-14 sm:p-18"
+              >
                 <img
                   src={c.img}
                   alt={c.alt}
@@ -248,7 +281,7 @@ export default function ProjectCarousel() {
                     Lihat detail
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           );
         })}
