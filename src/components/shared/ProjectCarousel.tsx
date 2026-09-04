@@ -3,6 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  useMotionTemplate,
+  useReducedMotion,
+} from "framer-motion";
 
 // 9 slot selang-seling [2,1,2,1,2,1,2,1,2] supaya tengah selalu punya tetangga kiri-kanan.
 // Tengah mulai di slot 3 → tampil "2 1 2". Lompat normalisasi kelipatan 2 tidak terlihat
@@ -30,6 +38,7 @@ const data = [
 ];
 
 export default function ProjectCarousel() {
+  const wrapRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -38,6 +47,59 @@ export default function ProjectCarousel() {
   // Kartu yang lagi di tengah (0/1) — cuma kartu ini teks + button-nya tampil (fade).
   // Dikunci ke kartu (bukan slot) supaya lompat normalisasi loop tak memicu fade ulang.
   const [activeCard, setActiveCard] = useState(0);
+  // Swipe manual terakhir (di luar adjust sistem) — recenter mengalah.
+  const lastUserH = useRef(0);
+  const selfAdjust = useRef(0);
+
+  // ── Lebar dinamis saat scroll: full-bleed → sejajar container ──
+  // Mulai saat top carousel di 95% viewport, selesai saat di 50% (tengah layar).
+  // Slot luar yang dianimasikan (width/maxWidth) supaya tetangga ketarik
+  // masuk saat card menyusut; scroll ditempel ulang ke slot terdekat.
+  const { scrollYProgress } = useScroll({
+    target: wrapRef,
+    offset: ["start 0.95", "start 0.5"],
+  });
+  const smooth = useSpring(scrollYProgress, { stiffness: 90, damping: 28, mass: 0.6 });
+  const reduce = useReducedMotion();
+
+  // Inset & cap akhir mengikuti container (px-2/px-4/px-6 + max-w 1310).
+  const [bp, setBp] = useState(0);
+  const [vw, setVw] = useState(1920);
+  useEffect(() => {
+    const mqSm = window.matchMedia("(min-width: 640px)");
+    const mqLg = window.matchMedia("(min-width: 1024px)");
+    const update = () => {
+      setBp(mqLg.matches ? 2 : mqSm.matches ? 1 : 0);
+      setVw(window.innerWidth);
+    };
+    update();
+    mqSm.addEventListener("change", update);
+    mqLg.addEventListener("change", update);
+    window.addEventListener("resize", update);
+    return () => {
+      mqSm.removeEventListener("change", update);
+      mqLg.removeEventListener("change", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+  const endPad = bp === 2 ? 48 : bp === 1 ? 32 : 16;
+  const endMax = bp === 2 ? 1262 : bp === 1 ? 1278 : 1294;
+
+  const pad = useTransform(smooth, [0, 1], [0, endPad]);
+  const width = useMotionTemplate`calc(100% - ${pad}px)`;
+  const maxWidth = useTransform(smooth, [0, 1], [vw, endMax]);
+  // ponytail: reduced-motion langsung state akhir, tambah animasi saat ada kebutuhan
+  const innerStyle = reduce
+    ? { width: `calc(100% - ${endPad}px)`, maxWidth: endMax }
+    : { width, maxWidth };
+
+  // Inset kartu akhir = margin kiri/kanan saat card menyusut.
+  // Slot ikut menyusut (bukan cuma inner) supaya kartu tetangga ketarik
+  // masuk dan arrow bisa nempel di tepi kartu.
+  const cardEnd = Math.min(vw - endPad, endMax);
+  const endInset = Math.max(0, (vw - cardEnd) / 2);
+  const arrowL = useTransform(smooth, [0, 1], [40, 40 + endInset]);
+  const arrowR = useTransform(smooth, [0, 1], [40, 40 + endInset]);
 
   const measure = () => {
     const el = trackRef.current!;
@@ -63,6 +125,26 @@ export default function ProjectCarousel() {
     scrollToSlot(START, false);
   }, []);
 
+  // Slot menyusut saat scroll vertikal → posisi snap-center drift.
+  // Tempel terus ke slot terdekat biar kartu tetangga ngikut geser smooth.
+  useEffect(() => {
+    const unsub = smooth.on("change", () => {
+      const el = trackRef.current;
+      if (!el || !el.children.length) return;
+      // Jangan rebut scroll horizontal yang lagi jalan (animasi tombol / swipe)
+      if (Date.now() < animGuard.current) return;
+      if (Date.now() - lastUserH.current < 150) return;
+      const idx = nearest();
+      const { pos } = measure();
+      const target = pos(idx);
+      if (Math.abs(el.scrollLeft - target) > 1) {
+        selfAdjust.current = Date.now();
+        el.scrollTo({ left: target });
+      }
+    });
+    return unsub;
+  }, [smooth]);
+
   const go = (dir: 1 | -1) => {
     const el = trackRef.current;
     if (!el) return;
@@ -86,6 +168,7 @@ export default function ProjectCarousel() {
 
   // Sinkronkan status aktif saat user swipe manual
   const onScroll = () => {
+    if (Date.now() - selfAdjust.current > 50) lastUserH.current = Date.now();
     if (syncTimer.current) clearTimeout(syncTimer.current);
     syncTimer.current = setTimeout(() => {
       if (Date.now() < animGuard.current) return;
@@ -94,7 +177,7 @@ export default function ProjectCarousel() {
   };
 
   return (
-    <div className="relative">
+    <div ref={wrapRef} className="relative">
       <div
         ref={trackRef}
         onScroll={onScroll}
@@ -104,12 +187,13 @@ export default function ProjectCarousel() {
           const c = data[(i + 1) % 2];
           const on = (i + 1) % 2 === activeCard;
           return (
-            <div
+            <motion.div
               key={i}
               data-slot={i}
-              className="flex w-[calc(100%-1rem)] max-w-[1294px] sm:w-[calc(100%-2rem)] sm:max-w-[1278px] lg:w-[calc(100%-3rem)] lg:max-w-[1262px] shrink-0 snap-center"
+              style={innerStyle}
+              className="flex w-full shrink-0 snap-center"
             >
-              <div className="relative flex-1 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-14 sm:p-18">
+              <div className="relative w-full shrink-0 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-14 sm:p-18">
                 <img
                   src={c.img}
                   alt={c.alt}
@@ -138,26 +222,28 @@ export default function ProjectCarousel() {
                   </Link>
                 </div>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
-      <button
+      <motion.button
         type="button"
         onClick={() => go(-1)}
         aria-label="Geser ke kiri"
-        className="absolute left-10 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-zinc-900 flex items-center justify-center hover:bg-black hover:text-white transition-colors"
+        style={reduce ? { left: 40 + endInset } : { left: arrowL }}
+        className="absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-zinc-900 flex items-center justify-center hover:bg-black hover:text-white transition-colors"
       >
         <ChevronLeft className="w-5 h-5" />
-      </button>
-      <button
+      </motion.button>
+      <motion.button
         type="button"
         onClick={() => go(1)}
         aria-label="Geser ke kanan"
-        className="absolute right-10 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-zinc-900 flex items-center justify-center hover:bg-black hover:text-white transition-colors"
+        style={reduce ? { right: 40 + endInset } : { right: arrowR }}
+        className="absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-zinc-900 flex items-center justify-center hover:bg-black hover:text-white transition-colors"
       >
         <ChevronRight className="w-5 h-5" />
-      </button>
+      </motion.button>
     </div>
   );
 }
