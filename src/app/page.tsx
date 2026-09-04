@@ -15,6 +15,7 @@ import { FaChevronRight } from "react-icons/fa6";
 import { companyInfo, servicesData, testimonialsData } from "@/data/companyData";
 import ProjectCarousel from "@/components/shared/ProjectCarousel";
 import FeaturedServicesRow from "@/components/shared/FeaturedServicesRow";
+import ParallaxHero from "@/components/shared/ParallaxHero";
 
 /* ═══════════════════════════════════════════════════════════════
    Homepage JDS — layout & styling mengikuti halaman /adobe-demo
@@ -114,7 +115,7 @@ export default function HomePage() {
   return (
     <div className="w-full min-h-screen bg-white text-slate-900 font-sans antialiased">
       {/* 1. HERO SECTION */}
-      <section className="relative bg-[#070b12] text-white overflow-hidden -mt-[72px] flex items-center min-h-[104vh]">
+      <ParallaxHero>
         <img
           src="/bggggg.png"
           alt=""
@@ -152,10 +153,10 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </ParallaxHero>
 
       {/* 2. LAYANAN UNGGULAN */}
-      <section className="featured-sec relative overflow-x-clip -mt-12 sm:-mt-16 rounded-t-4xl bg-white text-zinc-900 py-20">
+      <section className="featured-sec relative z-10 overflow-x-clip -mt-12 sm:-mt-16 rounded-t-4xl bg-white text-zinc-900 py-20">
         <div className="row-wrap px-3 sm:px-4 lg:px-6 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
             Satu mitra untuk setiap kebutuhan digital.
