@@ -8,12 +8,12 @@ import {
   Server,
   Users,
   Film,
-  MapPin,
   ArrowRight,
   ArrowUpRight,
 } from "lucide-react";
 import { FaChevronRight } from "react-icons/fa6";
 import { companyInfo, servicesData } from "@/data/companyData";
+import ProjectCarousel from "@/components/shared/ProjectCarousel";
 
 /* ═══════════════════════════════════════════════════════════════
    Homepage JDS — layout & styling mengikuti halaman /adobe-demo
@@ -120,7 +120,7 @@ export default function HomePage() {
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28">
+        <div className="relative w-full max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-20 sm:py-24 lg:py-28">
           <div className="max-w-2xl">
             <span className="text-xs font-semibold tracking-widest text-zinc-300">
               {companyInfo.officialName}
@@ -213,7 +213,7 @@ export default function HomePage() {
 
       {/* 3. PROYEK & KEUNGGULAN */}
       <section className="relative z-10 -mb-12 sm:-mb-16 rounded-b-4xl py-20 bg-zinc-50 text-zinc-900 border-t border-zinc-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
           <div className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
               PROYEK &amp; KEUNGGULAN
@@ -226,8 +226,8 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Featured Large Card */}
-          <div className="bg-gradient-to-r from-sky-600 via-blue-600 to-amber-200 rounded-2xl p-8 sm:p-12 text-white mb-8 shadow-xl relative overflow-hidden">
+          {/* Baris 1: Featured Large Card (statis) */}
+          <div className="bg-gradient-to-r from-sky-600 via-blue-600 to-amber-200 rounded-2xl p-8 sm:p-12 text-white mb-4 shadow-xl relative overflow-hidden">
             <div className="max-w-xl z-10 relative">
               <div className="bg-black/30 backdrop-blur-md inline-block px-4 py-2 rounded-full text-xs mb-6 font-medium border border-white/20">
                 ✨ Platform digital UMKM Kutai Kartanegara
@@ -254,76 +254,14 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* 3 Grid Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-all">
-              <img
-                src={homeImages.umkm}
-                alt="Pendampingan tenaga ahli UMKM"
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
-              <h4 className="font-bold text-sm mb-1">Pendampingan &amp; Tenaga Ahli UMKM.</h4>
-              <p className="text-xs text-zinc-600 mb-3">
-                Penyediaan tenaga ahli IT yang mendampingi digitalisasi pelaku UMKM di Kutai
-                Kartanegara.
-              </p>
-              <Link
-                href="/projects"
-                className="text-xs font-semibold text-blue-600 hover:underline inline-flex items-center gap-0.5"
-              >
-                Lihat proyek
-                <ArrowUpRight className="w-3 h-3" />
-              </Link>
-            </div>
-
-            <div className="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-all">
-              <img
-                src={homeImages.integrated}
-                alt="Layanan teknologi terintegrasi"
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
-              <h4 className="font-bold text-sm mb-1">Layanan terintegrasi, satu pintu.</h4>
-              <p className="text-xs text-zinc-600 mb-3">
-                Software, web, UI/UX, konsultasi IT, hingga tenaga ahli, semuanya dikelola dalam satu
-                ekosistem layanan.
-              </p>
-              <Link
-                href="/services"
-                className="text-xs font-semibold text-blue-600 hover:underline inline-flex items-center gap-0.5"
-              >
-                Lihat layanan
-                <ArrowUpRight className="w-3 h-3" />
-              </Link>
-            </div>
-
-            <div className="bg-zinc-900 text-white p-4 rounded-xl border border-zinc-800 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-              <div>
-                <div className="bg-zinc-800 p-4 rounded-lg mb-4 border border-zinc-700 flex items-center gap-3">
-                  <MapPin className="w-8 h-8 text-cyan-300 shrink-0" />
-                  <span className="text-xs text-zinc-400 leading-relaxed">
-                    Berpusat di Kutai Kartanegara dan memahami kebutuhan transformasi digital daerah.
-                  </span>
-                </div>
-                <h4 className="font-bold text-sm mb-1">Keahlian lokal, standar nasional.</h4>
-                <p className="text-xs text-zinc-400 mb-3">
-                  Pendekatan komunikatif dan adaptif untuk instansi pemerintah maupun swasta.
-                </p>
-              </div>
-              <Link
-                href="/about"
-                className="text-xs font-semibold text-blue-400 hover:underline inline-flex items-center gap-0.5"
-              >
-                Tentang JDS
-                <ArrowUpRight className="w-3 h-3" />
-              </Link>
-            </div>
-          </div>
+          {/* Baris 2: Carousel looping 2 kartu (full-bleed, tanpa container) */}
         </div>
+        <ProjectCarousel />
       </section>
 
       {/* 5. KATALOG LAYANAN LENGKAP */}
       <section className="bg-black text-white py-20 pt-32 sm:pt-36">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
           <div className="text-center mb-0 relative z-10">
             <h2 className="text-3xl font-extrabold mb-2">Satu mitra, semua solusi digital.</h2>
             <p className="text-xs text-zinc-400 mb-6">
@@ -347,7 +285,7 @@ export default function HomePage() {
           className="w-full h-auto block -mt-28 -mb-16 opacity-80 [mask-image:linear-gradient(to_bottom,black_70%,transparent_85%)] [-webkit-mask-image:linear-gradient(to_bottom,black_70%,transparent_85%)]"
         />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
           {/* 3x3 Grid Layanan */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
             {servicesData.map((service) => (
