@@ -79,6 +79,12 @@ const homeImages = {
   digital: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
   staffing: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80",
   umkm: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80",
+  consulting:
+    "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80",
+  outsourcing:
+    "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=600&q=80",
+  multimedia:
+    "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80",
   integrated:
     "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80",
   showcase:
@@ -92,6 +98,18 @@ const featuredCardImages = [
   { id: "digitalization-solutions", src: homeImages.digital },
   { id: "professional-staffing", src: homeImages.staffing },
 ];
+
+// Gambar hover katalog layanan (sementara dari internet)
+const catalogImages: Record<string, string> = {
+  "web-development": homeImages.web,
+  "software-development": homeImages.software,
+  "ui-ux-design": homeImages.uiux,
+  "digitalization-solutions": homeImages.digital,
+  "it-consulting": homeImages.consulting,
+  "it-outsourcing": homeImages.outsourcing,
+  "professional-staffing": homeImages.staffing,
+  "multimedia-digital-content": homeImages.multimedia,
+};
 
 export default function HomePage() {
   return (
@@ -356,22 +374,34 @@ export default function HomePage() {
             {servicesData.map((service) => (
               <div
                 key={service.id}
-                className="bg-zinc-900/90 border border-zinc-800 p-6 rounded-xl hover:border-zinc-700 transition-all"
+                className="group relative overflow-hidden bg-zinc-900 p-6 rounded-xl transition-all min-h-[260px] flex flex-col"
               >
+                <img
+                  src={catalogImages[service.id]}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div
-                  className={`w-8 h-8 ${darkChip[service.category]} rounded font-black flex items-center justify-center mb-4`}
+                  className={`relative z-10 w-8 h-8 ${darkChip[service.category]} rounded font-black flex items-center justify-center mb-12`}
                 >
                   {iconMapLg[service.iconName]}
                 </div>
-                <h3 className="font-bold text-base mb-1">{service.title}</h3>
-                <p className="text-xs text-zinc-400 leading-relaxed">{service.shortDesc}</p>
+                <div className="relative z-10 mt-auto">
+                  <h3 className="font-bold text-base mb-1">{service.title}</h3>
+                  <p className="text-xs text-zinc-400 group-hover:text-zinc-200 leading-relaxed transition-colors duration-500">
+                    {service.shortDesc}
+                  </p>
+                </div>
               </div>
             ))}
 
             {/* Kartu CTA */}
             <Link
               href="/contact"
-              className="bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 border border-zinc-700 p-6 rounded-xl hover:border-white/40 transition-all flex flex-col justify-between group"
+              className="bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 p-6 rounded-xl transition-all flex flex-col justify-between group"
             >
               <div>
                 <div className="w-8 h-8 bg-white text-black rounded font-black flex items-center justify-center mb-4">
