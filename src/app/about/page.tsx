@@ -1,22 +1,34 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  ArrowRight,
+  ArrowUpRight,
+  Award,
+  Building,
+  CheckCircle2,
+  Compass,
+  Handshake,
+  Layers,
+  MapPin,
   ShieldCheck,
   Sparkles,
-  Handshake,
-  UserCheck,
-  MapPin,
-  CheckCircle2,
-  ArrowRight,
   Target,
-  Compass,
-  Building,
+  UserCheck,
+  Zap,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { SectionHeading } from "@/components/shared/SectionHeading";
+import { FaChevronRight } from "react-icons/fa6";
 import { companyInfo, coreValuesData, companyStrengthsData } from "@/data/companyData";
+import ParallaxHero from "@/components/shared/ParallaxHero";
+import FeaturedServicesRow from "@/components/shared/FeaturedServicesRow";
+import RevealServices from "@/components/shared/RevealServices";
+import ServiceCardsReveal from "@/components/shared/ServiceCardsReveal";
+
+/* ═══════════════════════════════════════════════════════════════
+   Tentang Kami — bahasa visual sama persis seperti homepage (/):
+   ParallaxHero, section putih overlap, kartu zinc-100 rounded-2xl,
+   kartu katalog gelap, RevealServices + entrance berbasis scroll.
+   Isi tetap profil perusahaan, bukan salinan homepage.
+   ═══════════════════════════════════════════════════════════════ */
 
 export const metadata: Metadata = {
   title: "Tentang Kami",
@@ -24,195 +36,298 @@ export const metadata: Metadata = {
 };
 
 const valueIconMap: Record<string, React.ReactNode> = {
-  ShieldCheck: <ShieldCheck className="w-6 h-6" />,
-  Sparkles: <Sparkles className="w-6 h-6" />,
-  Handshake: <Handshake className="w-6 h-6" />,
-  UserCheck: <UserCheck className="w-6 h-6" />,
+  ShieldCheck: <ShieldCheck className="w-3 h-3" />,
+  Sparkles: <Sparkles className="w-3 h-3" />,
+  Handshake: <Handshake className="w-3 h-3" />,
+  UserCheck: <UserCheck className="w-3 h-3" />,
 };
+
+const strengthIconMap: Record<string, React.ReactNode> = {
+  MapPin: <MapPin className="w-4 h-4" />,
+  Layers: <Layers className="w-4 h-4" />,
+  Award: <Award className="w-4 h-4" />,
+  Zap: <Zap className="w-4 h-4" />,
+};
+
+// Warna chip mengikuti pola homepage (terang untuk kartu terang, redup untuk kartu gelap)
+const solidChip = ["bg-cyan-600", "bg-teal-600", "bg-violet-600", "bg-amber-500"];
+const darkChip = [
+  "bg-cyan-500/15 text-cyan-300",
+  "bg-teal-500/15 text-teal-300",
+  "bg-violet-500/15 text-violet-300",
+  "bg-amber-500/15 text-amber-300",
+];
 
 export default function AboutPage() {
   return (
-    <div className="flex flex-col gap-16 sm:gap-24 pb-20">
-      {/* HEADER HERO */}
-      <section className="pt-12 pb-8 bg-grid-pattern border-b border-slate-200">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
-          <Badge variant="cyan" className="mb-4">Profil Perusahaan</Badge>
-          <h1 className="text-3xl sm:text-5xl font-black text-slate-950 tracking-tight">
-            Mengenal {companyInfo.officialName}
-          </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-500 leading-relaxed">
-            Penyedia Solusi Teknologi Informasi, Digitalisasi Terintegrasi, serta Penyediaan Tenaga Ahli Profesional yang berpusat di Kabupaten Kutai Kartanegara, Kalimantan Timur.
+    <div className="w-full min-h-screen bg-white text-slate-900 font-sans antialiased">
+      {/* 1. HERO SECTION */}
+      <ParallaxHero>
+        <img
+          src="/bggggg.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="relative w-full max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-20 sm:py-24 lg:py-28">
+          <div className="max-w-2xl">
+            <span className="text-xs font-semibold tracking-widest text-zinc-300">
+              PROFIL PERUSAHAAN
+            </span>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mt-3 mb-5 leading-tight">
+              Mengenal {companyInfo.officialName}.
+            </h1>
+            <p className="text-zinc-200 text-sm leading-relaxed mb-6">
+              {companyInfo.positioning}: berpusat di {companyInfo.regency},{" "}
+              {companyInfo.province}, melayani instansi pemerintah dan mitra bisnis.
+            </p>
+            <div className="flex flex-wrap items-center gap-4">
+              <Link
+                href="/contact"
+                className="bg-white text-black hover:bg-zinc-200 font-semibold px-6 py-2.5 rounded-full text-sm transition-all shadow-md"
+              >
+                Hubungi Kami
+              </Link>
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-1.5 text-zinc-300 hover:text-white font-semibold text-sm transition-colors"
+              >
+                Lihat Layanan
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </ParallaxHero>
+
+      {/* 2. PROFIL RINGKAS */}
+      <section className="featured-sec relative z-10 overflow-x-clip -mt-12 sm:-mt-16 rounded-t-4xl bg-white text-zinc-900 py-20">
+        <div className="row-wrap px-3 sm:px-4 lg:px-6 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
+            Mitra profesional solusi digital &amp; SDM.
+          </h2>
+          <p className="text-black text-sm max-w-2xl mx-auto mb-12">
+            {companyInfo.tagline}: kombinasi pengembangan perangkat lunak, digitalisasi
+            sistem, dan penyiapan tenaga ahli dalam satu tim.
           </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-left max-w-[1310px] mx-auto">
+            <div className="bg-zinc-100 rounded-2xl p-6 sm:p-8 flex flex-col">
+              <h3 className="text-base font-bold mb-3">Profil ringkas</h3>
+              <p className="text-xs text-zinc-600 leading-relaxed mb-4">{companyInfo.overview}</p>
+              <p className="text-xs text-zinc-600 leading-relaxed mb-6">
+                Kami menghadirkan kombinasi keahlian pengembangan perangkat lunak, perancangan
+                web, konsultasi strategi teknologi, hingga penyediaan tenaga pendamping teknis
+                untuk mendukung keberhasilan program instansi pemerintah maupun entitas swasta.
+              </p>
+              <div className="mt-auto bg-white rounded-xl p-4 flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-zinc-900 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-xs font-bold text-zinc-900">Alamat resmi perusahaan</p>
+                  <p className="text-xs text-zinc-600 leading-relaxed mt-1">{companyInfo.address}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-zinc-100 rounded-2xl p-6 sm:p-8 flex flex-col">
+              <h3 className="text-base font-bold mb-3 flex items-center gap-2">
+                <Building className="w-4 h-4" />
+                Informasi bisnis
+              </h3>
+              <dl className="space-y-4 text-left">
+                <div>
+                  <dt className="text-xs text-zinc-500 font-semibold">Nama resmi perusahaan</dt>
+                  <dd className="text-sm font-bold text-zinc-900">{companyInfo.officialName}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs text-zinc-500 font-semibold">Nama singkat / brand</dt>
+                  <dd className="text-sm font-bold text-zinc-900">{companyInfo.shortName}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs text-zinc-500 font-semibold">Posisi bisnis</dt>
+                  <dd className="text-xs font-semibold text-zinc-700 mt-0.5">{companyInfo.positioning}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs text-zinc-500 font-semibold">Wilayah kabupaten / provinsi</dt>
+                  <dd className="text-xs font-medium text-zinc-600">
+                    {companyInfo.regency}, {companyInfo.province}
+                  </dd>
+                </div>
+              </dl>
+              <Link
+                href="/contact"
+                className="mt-auto pt-6 inline-flex items-center gap-2 border border-zinc-300 hover:border-zinc-900 text-zinc-700 hover:text-zinc-950 font-semibold text-sm px-6 py-2.5 rounded-full transition-all self-start"
+              >
+                Hubungi tim JDS
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* OVERVIEW & FOCUS */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <div className="lg:col-span-7 space-y-6">
-            <Badge variant="cyan">Profil Ringkas</Badge>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 leading-tight">
-              Mitra Kerja Sama Profesional dalam Penyiapan Solusi Digital & SDM
-            </h2>
-            <p className="text-base text-slate-600 leading-relaxed">
-              {companyInfo.overview}
+      {/* 3. VISI & MISI */}
+      <section className="relative z-10 bg-white text-zinc-900 py-20">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
+          <div className="text-center mb-12">
+            <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
+              ARAH STRATEGIS
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold mt-1 mb-2">Visi &amp; misi perusahaan.</h2>
+            <p className="text-zinc-600 text-sm">
+              Landasan dan tujuan operasional {companyInfo.shortName} dalam melayani mitra kerja sama.
             </p>
-            <p className="text-sm text-slate-500 leading-relaxed">
-              Kami menghadirkan kombinasi keahlian pengembangan perangkat lunak, perancangan web, konsultasi strategi teknologi, hingga penyediaan tenaga pendamping teknis secara komprehensif untuk mendukung keberhasilan program instansi pemerintah maupun entitas swasta.
-            </p>
+          </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-              <div className="flex items-center gap-2 text-sm font-extrabold text-slate-950">
-                <MapPin className="w-4 h-4 text-[#eb1000]" />
-                <span>Alamat Resmi Perusahaan</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div className="bg-zinc-100 rounded-2xl p-6 sm:p-8">
+              <div className="w-8 h-8 bg-cyan-600 rounded font-black flex items-center justify-center text-white mb-12">
+                <Compass className="w-4 h-4" />
               </div>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed pl-6">
-                {companyInfo.address}
+              <h3 className="font-bold text-base mb-1">Visi perusahaan</h3>
+              <p className="text-xs text-zinc-600 leading-relaxed italic border-l-2 border-zinc-900 pl-4 py-1 mt-3">
+                &quot;Menjadi penyedia solusi IT, digitalisasi, dan penyiapan tenaga ahli
+                profesional terdepan yang terpercaya dalam mempercepat modernisasi pelayanan
+                dan bisnis daerah.&quot;
               </p>
             </div>
-          </div>
-
-          <div className="lg:col-span-5">
-            <div className="p-6 sm:p-8 rounded-[2rem] bg-white border border-slate-200 space-y-6 shadow-sm">
-              <h3 className="text-lg font-extrabold text-slate-950 pb-3 border-b border-slate-200 flex items-center gap-2">
-                <Building className="w-5 h-5 text-[#eb1000]" />
-                Informasi Posisi Bisnis
-              </h3>
-
-              <div className="space-y-4">
-                <div>
-                  <span className="text-xs text-slate-400 font-semibold">Nama Resmi Perusahaan</span>
-                  <p className="text-base font-extrabold text-slate-950">{companyInfo.officialName}</p>
-                </div>
-                <div>
-                  <span className="text-xs text-slate-400 font-semibold">Nama Singkat / Brand</span>
-                  <p className="text-base font-extrabold text-[#eb1000]">{companyInfo.shortName}</p>
-                </div>
-                <div>
-                  <span className="text-xs text-slate-400 font-semibold">Posisi Bisnis</span>
-                  <p className="text-sm font-bold text-slate-700 mt-1">{companyInfo.positioning}</p>
-                </div>
-                <div>
-                  <span className="text-xs text-slate-400 font-semibold">Wilayah Kabupaten / Provinsi</span>
-                  <p className="text-sm font-medium text-slate-600">{companyInfo.regency}, {companyInfo.province}</p>
-                </div>
+            <div className="bg-zinc-100 rounded-2xl p-6 sm:p-8">
+              <div className="w-8 h-8 bg-violet-600 rounded font-black flex items-center justify-center text-white mb-12">
+                <Target className="w-4 h-4" />
               </div>
+              <h3 className="font-bold text-base mb-1">Misi utama</h3>
+              <ul className="space-y-3 text-xs text-zinc-600 mt-3">
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-zinc-900 shrink-0 mt-0.5" />
+                  <span>Menghadirkan produk perangkat lunak dan web yang aman, inovatif, dan responsif.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-zinc-900 shrink-0 mt-0.5" />
+                  <span>Menyiapkan tenaga ahli IT dan pendamping profesional berdedikasi tinggi.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-zinc-900 shrink-0 mt-0.5" />
+                  <span>Memperkuat efisiensi operasional organisasi melalui digitalisasi sistem.</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* VISION & MISSION (Editable Content Placeholder) */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          badgeText="Arah Strategis Perusahaan"
-          title="Visi & Misi"
-          subtitle="Landasan dan tujuan operasional Jaya Dinara Sukses dalam melayani mitra kerja sama."
-        />
+      {/* 4. NILAI PERUSAHAAN */}
+      <section className="featured-sec relative z-10 overflow-x-clip bg-white text-zinc-900 py-20">
+        <div className="row-wrap px-3 sm:px-4 lg:px-6 text-center">
+          <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
+            NILAI PERUSAHAAN
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mt-1 mb-2">
+            Nilai-nilai kerja {companyInfo.shortName}.
+          </h2>
+          <p className="text-black text-sm max-w-2xl mx-auto mb-12">
+            Prinsip dasar yang menjadi pegangan kami dalam membangun kepercayaan dan hasil karya.
+          </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {/* VISI */}
-          <Card className="p-6 sm:p-8 relative">
-            <div className="w-12 h-12 rounded-2xl bg-cyan-100 border border-cyan-200 flex items-center justify-center mb-6 text-cyan-700">
-              <Compass className="w-6 h-6" />
-            </div>
-            <h3 className="text-xl font-extrabold text-slate-950 mb-3">Visi Perusahaan</h3>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed italic border-l-2 border-[#eb1000] pl-4 py-1">
-              &quot;Menjadi penyedia solusi IT, digitalisasi, dan penyiapan tenaga ahli profesional terdepan yang terpercaya dalam mempercepat modernisasi pelayanan dan bisnis daerah.&quot;
-            </p>
-            <div className="mt-4 pt-3 border-t border-slate-200">
-              <span className="text-[11px] text-slate-400 font-mono">
-                [Konten Visi Perusahaan - Dapat disesuaikan]
-              </span>
-            </div>
-          </Card>
-
-          {/* MISI */}
-          <Card className="p-6 sm:p-8 relative">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-100 border border-emerald-200 flex items-center justify-center mb-6 text-emerald-700">
-              <Target className="w-6 h-6" />
-            </div>
-            <h3 className="text-xl font-extrabold text-slate-950 mb-3">Misi Utama</h3>
-            <ul className="space-y-3 text-xs sm:text-sm text-slate-600">
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-[#eb1000] shrink-0 mt-0.5" />
-                <span>Menghadirkan produk perangkat lunak dan web yang aman, inovatif, dan responsif.</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-[#eb1000] shrink-0 mt-0.5" />
-                <span>Menyiapkan tenaga ahli IT dan pendamping profesional berdedikasi tinggi.</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-[#eb1000] shrink-0 mt-0.5" />
-                <span>Memperkuat efisiensi operasional organisasi melalui digitalisasi sistem.</span>
-              </li>
-            </ul>
-            <div className="mt-4 pt-3 border-t border-slate-200">
-              <span className="text-[11px] text-slate-400 font-mono">
-                [Konten Misi Utama - Dapat disesuaikan]
-              </span>
-            </div>
-          </Card>
-        </div>
-      </section>
-
-      {/* CORE VALUES */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          badgeText="Nilai Utama Perusahaan"
-          title="Nilai-Nilai Kerja JDS"
-          subtitle="Prinsip dasar yang menjadi pegangan kami dalam membangun kepercayaan dan hasil karya."
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {coreValuesData.map((val) => (
-            <Card key={val.id} className="hover:border-slate-300 hover:shadow-md">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center mb-4 text-slate-700">
-                  {valueIconMap[val.iconName] || <ShieldCheck className="w-6 h-6" />}
+          <FeaturedServicesRow>
+            {coreValuesData.map((val, i) => (
+              <div
+                key={val.id}
+                className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group relative flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
+              >
+                <div className="px-4 py-5 flex items-center space-x-2 text-xs font-semibold">
+                  <span
+                    className={`w-5 h-5 ${solidChip[i % solidChip.length]} rounded flex items-center justify-center text-white`}
+                  >
+                    {valueIconMap[val.iconName]}
+                  </span>
+                  <span className="group-hover:text-white transition-colors duration-300">{val.title}</span>
                 </div>
-                <CardTitle className="text-lg font-extrabold text-slate-950">{val.title}</CardTitle>
-                <CardDescription className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+                <div className="w-full px-4 pb-5 text-xs text-zinc-600 leading-relaxed group-hover:text-white transition-colors duration-300">
                   {val.desc}
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          ))}
+                </div>
+                <span className="pointer-events-none absolute bottom-3 right-3 w-6 h-6 rounded-full border border-zinc-200 bg-white text-zinc-900 group-hover:border-white group-hover:bg-white flex items-center justify-center opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out shadow-sm">
+                  <FaChevronRight className="w-3 h-3" />
+                </span>
+              </div>
+            ))}
+          </FeaturedServicesRow>
+
+          <div className="mt-10">
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 border border-zinc-300 hover:border-zinc-900 text-zinc-700 hover:text-zinc-950 font-semibold text-sm px-6 py-2.5 rounded-full transition-all"
+            >
+              Lihat semua layanan
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* COMPANY STRENGTHS */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-12 rounded-[2.5rem] bg-slate-50 border border-slate-200">
-          <SectionHeading
-            badgeText="Faktor Pembeda"
-            title="Kapasitas & Kekuatan Utama Jaya Dinara Sukses"
-          />
+      {/* 5. KEKUATAN PERUSAHAAN */}
+      <RevealServices heading={
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
+          <div className="text-center mb-0 relative z-10">
+            <h2 className="text-3xl font-extrabold mb-2">Kekuatan utama {companyInfo.shortName}.</h2>
+            <p className="text-xs text-zinc-400 mb-6">
+              Faktor pembeda yang membuat kami siap mendampingi program instansi dan bisnis Anda.
+            </p>
+            <div className="inline-flex border border-white rounded-full p-1 bg-transparent">
+              <Link
+                href="/services"
+                className="text-white text-xs px-4 py-1.5 rounded-full font-medium hover:bg-white/10 transition-colors"
+              >
+                Lihat semua layanan
+              </Link>
+            </div>
+          </div>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-            {companyStrengthsData.map((strength) => (
-              <div key={strength.id} className="p-5 rounded-3xl bg-white border border-slate-200 flex items-start gap-4 hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 mt-1 text-[#eb1000]">
-                  <CheckCircle2 className="w-5 h-5" />
+      }>
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
+          <ServiceCardsReveal>
+            {companyStrengthsData.map((strength, i) => (
+              <div
+                key={strength.id}
+                className="group relative overflow-hidden bg-[#141414] p-6 rounded-xl transition-all min-h-[260px] flex flex-col"
+              >
+                <div
+                  className={`relative z-10 w-8 h-8 ${darkChip[i % darkChip.length]} rounded font-black flex items-center justify-center mb-12`}
+                >
+                  {strengthIconMap[strength.iconName]}
                 </div>
-                <div>
-                  <h4 className="text-base font-extrabold text-slate-950">{strength.title}</h4>
-                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed mt-1">{strength.desc}</p>
+                <div className="relative z-10 mt-auto">
+                  <h3 className="font-bold text-base mb-1">{strength.title}</h3>
+                  <p className="text-xs text-zinc-400 group-hover:text-zinc-200 leading-relaxed transition-colors duration-500">
+                    {strength.desc}
+                  </p>
                 </div>
               </div>
             ))}
-          </div>
 
-          <div className="mt-10 text-center">
-            <Button asChild variant="default" size="lg">
-              <Link href="/contact" className="flex items-center gap-2">
-                <span>Hubungi Tim JDS</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </Button>
-          </div>
+            {/* Kartu CTA */}
+            <Link
+              href="/contact"
+              className="bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 p-6 rounded-xl transition-all flex flex-col justify-between group"
+            >
+              <div>
+                <div className="w-8 h-8 bg-white text-black rounded font-black flex items-center justify-center mb-4">
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                </div>
+                <h3 className="font-bold text-base mb-1">Diskusikan kebutuhan Anda.</h3>
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  Ceritakan rencana digitalisasi Anda. Tim kami siap membantu dari konsultasi hingga
+                  implementasi.
+                </p>
+              </div>
+              <span className="mt-4 text-xs font-semibold text-white inline-flex items-center gap-1">
+                Konsultasi Gratis
+                <ArrowUpRight className="w-3 h-3" />
+              </span>
+            </Link>
+          </ServiceCardsReveal>
         </div>
-      </section>
+      </RevealServices>
     </div>
   );
 }
