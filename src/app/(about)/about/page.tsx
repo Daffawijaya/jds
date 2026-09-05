@@ -99,8 +99,6 @@ export default function AboutPage() {
       <FeatureSection
         image="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80"
         imageAlt="Visi Perusahaan"
-        badge="Visi Perusahaan"
-        badgeColor="bg-red-500 text-white"
         title="Menjadi penyedia solusi IT dan digitalisasi terdepan yang terpercaya."
         description="Mempercepat modernisasi pelayanan dan bisnis daerah, mulai dari pengembangan perangkat lunak, digitalisasi sistem, hingga penyiapan tenaga ahli profesional dalam satu tim."
         button={{ label: "Tentang Kami", href: "/about" }}
@@ -111,8 +109,6 @@ export default function AboutPage() {
       <FeatureSection
         image="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
         imageAlt="Misi Utama"
-        badge="Misi Utama"
-        badgeColor="bg-indigo-900 text-purple-300"
         title="Misi utama JDS dalam melayani mitra kerja sama."
         description="Menghadirkan produk perangkat lunak dan web yang aman, inovatif, dan responsif; menyiapkan tenaga ahli berdedikasi; serta memperkuat efisiensi operasional organisasi melalui digitalisasi sistem."
         button={{ label: "Lihat Layanan", href: "/services" }}

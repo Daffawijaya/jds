@@ -3,7 +3,7 @@ import Link from "next/link";
 interface FeatureSectionProps {
   image: string;
   imageAlt: string;
-  badge: string;
+  badge?: string;
   badgeColor?: string;
   title: string;
   description: string;
@@ -32,16 +32,18 @@ export function FeatureSection({
         </div>
         {/* Text */}
         <div className={`w-full md:w-1/2 flex flex-col items-start ${isReversed ? "md:order-1" : "md:order-2"}`}>
-          <div className="flex items-center space-x-2 text-sm font-bold text-gray-600 mb-4">
-            <span
-              className={`w-5 h-5 rounded-sm flex items-center justify-center text-[10px] ${badgeColor}`}
-            >
-              {badge.slice(0, 2).toUpperCase()}
-            </span>
-            <span>{badge}</span>
-          </div>
-          <h2 className="text-3xl font-bold mb-4 leading-tight">{title}</h2>
-          <p className="text-gray-600 mb-6 text-base">{description}</p>
+          {badge && (
+            <div className="flex items-center space-x-2 text-sm font-bold text-gray-600 mb-4">
+              <span
+                className={`w-5 h-5 rounded-sm flex items-center justify-center text-[10px] ${badgeColor}`}
+              >
+                {badge.slice(0, 2).toUpperCase()}
+              </span>
+              <span>{badge}</span>
+            </div>
+          )}
+          <h2 className="text-4xl font-semibold mb-4 leading-tight">{title}</h2>
+          <p className="text-gray-600 mb-6 text-lg">{description}</p>
           {button && (
             <Link
               href={button.href}
