@@ -11,38 +11,18 @@ export default function AboutPage() {
   return (
     <div className="w-full min-h-screen bg-white font-sans text-gray-900 antialiased">
       {/* 1. HERO SECTION & FEATURES GRID */}
-      <section className="bg-black text-white relative mt-1.5 overflow-hidden">
-        {/* Decorative banner at the top edge */}
-        <div className="relative w-full h-[120px] md:h-[160px] overflow-hidden flex flex-col items-center justify-center">
-          {/* Left Shape — Gradient Red to Green */}
-          <div
-            className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-[#ea0a0a] to-[#20c787] z-0"
-            style={{ clipPath: 'polygon(0 0, 20% 0, 0 100%)' }}
-          />
-          {/* Right Top Shape — Gradient Yellow to Orange */}
-          <div
-            className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-[#ffcc00] to-[#ff4800] z-0"
-            style={{ clipPath: 'polygon(78% 0, 100% 0, 100% 45%, 91% 85%)' }}
-          />
-          {/* Right Bottom Shape — Gradient Purple */}
-          <div
-            className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-[#b061ff] to-[#8d36df] z-0"
-            style={{ clipPath: 'polygon(91% 85%, 100% 45%, 100% 100%, 88% 100%)' }}
-          />
-          {/* Text Content */}
-          <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 w-full">
-            <h3 className="text-white text-[10px] md:text-[12px] font-[600] tracking-[0.18em] mb-1.5 md:mb-2 uppercase">
-              Solusi IT & Digitalisasi Terintegrasi
-            </h3>
-            <h1 className="text-white text-2xl md:text-[40px] font-bold tracking-tight leading-none">
-              Mengenal Jaya Dinara Sukses,
-            </h1>
-          </div>
-        </div>
-
-        {/* Hero content below the banner */}
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 pt-4 pb-32 flex flex-col items-center text-center">
-          
+      <section className="bg-black text-white relative overflow-hidden">
+        <img
+          src="/image/bgg.jpg"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 w-screen left-1/2 -translate-x-1/2 object-cover object-top h-full scale-[1.1] origin-top"
+        />
+        {/* Hero content */}
+        <div className="relative max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 pt-20 pb-32 flex flex-col items-center text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Tentang Kami.
+          </h1>
           <p className="text-gray-300 max-w-3xl mb-8 text-sm md:text-base">
             IT, Digital Solutions, Outsourcing &amp; Professional Services — berpusat
             di Kutai Kartanegara, Kalimantan Timur, melayani instansi pemerintah dan
