@@ -212,7 +212,7 @@ export default function HomePage() {
             badgeText="Proyek & Keunggulan"
             title="Dampak nyata untuk daerah & bisnis."
             subtitle="Bekerja sama dengan instansi pemerintah dan mitra bisnis di Kalimantan Timur."
-            className="mb-20"
+            className="mb-12"
           />
 
           {/* Baris 1: Carousel looping 2 kartu (full-bleed, tanpa container) */}
