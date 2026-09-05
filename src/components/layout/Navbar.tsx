@@ -44,13 +44,18 @@ export function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-colors duration-300 ${
-        isScrolled ? "mt-2 py-2 px-2 my-2" : "py-2 px-2"
-      } ${useF8 ? "bg-[#f8f8f8]" : ""}`}
+      className={`sticky top-0 z-50 h-16 transition-colors duration-300 ${
+        useF8 ? "bg-[#f8f8f8]" : ""
+      }`}
     >
+      {" "}
       <div
-        className={`relative h-16 px-3.5 flex items-center justify-between transition-all duration-300 ${
-          useF8 ? "rounded-none" : "rounded-2xl"
+        className={`absolute inset-0 flex items-center justify-between transition-all duration-300 ${
+          useF8
+            ? "rounded-none px-5.5"
+            : isScrolled
+              ? "mx-2 rounded-2xl mt-2 px-3.5"
+              : "px-5.5"
         } ${
           useF8
             ? "bg-[#f8f8f8]"
