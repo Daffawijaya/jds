@@ -161,10 +161,10 @@ export default function HomePage() {
       {/* 2. LAYANAN UNGGULAN */}
       <section className="featured-sec relative z-10 overflow-x-clip -mt-12 sm:-mt-16 rounded-t-4xl bg-white text-zinc-900 py-20">
         <div className="row-wrap px-3 sm:px-4 lg:px-6 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
+          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-2">
             Satu mitra untuk setiap kebutuhan digital.
           </h2>
-          <p className="text-black text-sm max-w-2xl mx-auto mb-12">
+          <p className="text-black text-lg max-w-2xl mx-auto mb-12">
             Dari membangun sistem hingga menyiapkan orang-orang yang menjalankannya. Semua tersedia dalam
             satu tim.
           </p>
@@ -203,21 +203,11 @@ export default function HomePage() {
               );
             })}
           </FeaturedServicesRow>
-
-          <div className="mt-10">
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-2 border border-zinc-300 hover:border-zinc-900 text-zinc-700 hover:text-zinc-950 font-semibold text-sm px-6 py-2.5 rounded-full transition-all"
-            >
-              Lihat semua layanan
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
         </div>
       </section>
 
       {/* 3. PROYEK & KEUNGGULAN */}
-      <section className="relative z-10 py-20 bg-white text-zinc-900">
+      <section className="relative z-10 py-12 bg-white text-zinc-900">
         <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
           <div className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
@@ -276,14 +266,6 @@ export default function HomePage() {
             <p className="text-xs text-zinc-400 mb-6">
               Layanan lengkap untuk instansi pemerintah, korporasi, dan pelaku usaha di Kalimantan Timur.
             </p>
-            <div className="inline-flex border border-white rounded-full p-1 bg-transparent">
-              <Link
-                href="/services"
-                className="text-white text-xs px-4 py-1.5 rounded-full font-medium hover:bg-white/10 transition-colors"
-              >
-                Lihat semua layanan
-              </Link>
-            </div>
           </div>
         </div>
 

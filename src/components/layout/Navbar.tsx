@@ -52,10 +52,10 @@ export function Navbar() {
       <div
         className={`absolute inset-0 flex items-center justify-between transition-all duration-300 ${
           useF8
-            ? "rounded-none px-5.5"
+            ? "rounded-none px-5.5 border-b border-gray-200"
             : isScrolled
-              ? "mx-2 rounded-2xl mt-2 px-3.5"
-              : "px-5.5"
+              ? "mx-2 rounded-2xl mt-2 px-3.5 border-b border-transparent"
+              : "px-5.5 border-b border-transparent"
         } ${
           useF8
             ? "bg-[#f8f8f8]"
@@ -63,7 +63,7 @@ export function Navbar() {
               ? "bg-white/60 backdrop-blur-xl"
               : "bg-transparent"
         } ${isScrolled ? "shadow-lg shadow-black/10" : ""} ${
-          useF8 || isDark ? "border-b border-gray-200" : ""
+          useF8 || isDark ? "" : ""
         }`}
       >
         {/* Logo + Desktop Navigation */}
