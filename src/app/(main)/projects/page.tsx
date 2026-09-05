@@ -13,6 +13,7 @@ import { Footer } from "@/components/layout/Footer";
 import { ProjectDetailModal } from "@/components/modals/ProjectDetailModal";
 import { companyInfo, projectsData } from "@/data/companyData";
 import { Project } from "@/types";
+import PageHeroWithTabs from "@/components/shared/PageHeroWithTabs";
 
 const categories = [
   { key: "all", label: "Semua Proyek" },
@@ -40,45 +41,15 @@ export default function ProjectsPage() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
-      {/* Hero mengikuti ritme, tipografi, dan category navigation halaman Services. */}
-      <section className="text-center py-16">
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Proyek {companyInfo.shortName}.
-          </h1>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            Rekam jejak pekerjaan terverifikasi yang dipercayakan kepada {companyInfo.officialName} untuk mendukung digitalisasi dan penguatan tenaga ahli di Kutai Kartanegara.
-          </p>
-          <a
-            href="#projects"
-            className="bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg mb-14 inline-block transition-colors"
-          >
-            Lihat Semua Proyek
-          </a>
-
-          <nav
-            aria-label="Filter kategori proyek"
-            className="flex flex-wrap justify-center gap-6 text-sm font-bold text-gray-500"
-          >
-            {categories.map((category) => (
-              <button
-                key={category.key}
-                type="button"
-                onClick={() => setActiveCategory(category.key)}
-                aria-pressed={activeCategory === category.key}
-                className={`border-b-[4px] pb-2 transition-colors ${
-                  activeCategory === category.key
-                    ? "text-black border-[#1473E6]"
-                    : "text-gray-500 border-transparent hover:text-black"
-                }`}
-              >
-                {category.label}
-              </button>
-            ))}
-          </nav>
-        </div>
-        <div className="-mt-px border-t border-gray-400" />
-      </section>
+      {/* Hero + Tabs — same layout as Services */}
+      <PageHeroWithTabs
+        title={<>Proyek {companyInfo.shortName}.</>}
+        description={`Rekam jejak pekerjaan terverifikasi yang dipercayakan kepada ${companyInfo.officialName} untuk mendukung digitalisasi dan penguatan tenaga ahli di Kutai Kartanegara.`}
+        bgImage="/image/bgpur.png"
+        tabs={categories}
+        activeTab={activeCategory}
+        onTabChange={setActiveCategory}
+      />
 
       {/* Project grid dibuat ringan seperti service grid: visual, judul, uraian, lalu scope. */}
       <section id="projects" className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-12 scroll-mt-24">

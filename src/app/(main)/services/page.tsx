@@ -6,6 +6,7 @@ import { ServiceDetailModal } from "@/components/modals/ServiceDetailModal";
 import { companyInfo, servicesData } from "@/data/companyData";
 import { Service } from "@/types";
 import { Footer } from "@/components/layout/Footer";
+import PageHeroWithTabs from "@/components/shared/PageHeroWithTabs";
 
 const iconMap: Record<string, React.ReactNode> = {
   Globe: <Globe className="w-6 h-6" />,
@@ -67,45 +68,15 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
 
-      {/* 1. HERO SECTION */}
-      <section className="relative text-center py-20 md:py-28 min-h-[280px] md:min-h-[380px] text-zinc-900 bg-white overflow-hidden">
-        <img
-          src="/image/bgpur.png"
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 w-screen left-1/2 -translate-x-1/2 object-cover h-full"
-        />
-        <div className="relative max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Layanan {companyInfo.shortName}.
-          </h1>
-          <p className="text-zinc-600 mb-8 max-w-2xl mx-auto">
-            Solusi pengembangan software, perancangan web, digitalisasi sistem, konsultasi teknologi, serta penyediaan tenaga ahli profesional.
-          </p>
-        </div>
-      </section>
-
-      {/* Tab kategori — di luar hero, di atas konten */}
-      <div className="bg-white">
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 pt-8">
-          <nav className="flex flex-wrap justify-center gap-6 text-sm font-bold text-gray-500">
-            {categories.map((cat) => (
-              <button
-                key={cat.key}
-                onClick={() => setActiveCategory(cat.key)}
-                className={`transition-colors border-b-[4px] ${
-                  activeCategory === cat.key
-                    ? "text-black border-[#1473E6] pb-2"
-                    : "text-gray-500 border-transparent hover:text-black pb-2"
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </nav>
-        </div>
-        <div className="-mt-px border-t border-gray-400"></div>
-      </div>
+      {/* 1. HERO + TABS */}
+      <PageHeroWithTabs
+        title={<>Layanan {companyInfo.shortName}.</>}
+        description="Solusi pengembangan software, perancangan web, digitalisasi sistem, konsultasi teknologi, serta penyediaan tenaga ahli profesional."
+        bgImage="/image/bgpur.png"
+        tabs={categories}
+        activeTab={activeCategory}
+        onTabChange={setActiveCategory}
+      />
 
       {/* 2. SERVICES GRID */}
       <section id="services" className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-12">

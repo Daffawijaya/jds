@@ -62,7 +62,9 @@ export function Navbar() {
             : isDark
               ? "bg-white/60 backdrop-blur-xl"
               : "bg-transparent"
-        } ${isScrolled ? "shadow-lg shadow-black/10" : ""}`}
+        } ${isScrolled ? "shadow-lg shadow-black/10" : ""} ${
+          useF8 || isDark ? "border-b border-gray-200" : ""
+        }`}
       >
         {/* Logo + Desktop Navigation */}
         <div className="flex items-center gap-8">
