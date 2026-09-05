@@ -2,174 +2,213 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Building2, FolderGit2, CheckCircle2, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import {
+  ArrowRight,
+  Building2,
+  CheckCircle2,
+  Globe,
+  Users,
+} from "lucide-react";
+import { Footer } from "@/components/layout/Footer";
 import { ProjectDetailModal } from "@/components/modals/ProjectDetailModal";
-import { projectsData } from "@/data/companyData";
+import { companyInfo, projectsData } from "@/data/companyData";
 import { Project } from "@/types";
+
+const categories = [
+  { key: "all", label: "Semua Proyek" },
+  { key: "staffing", label: "Professional Staffing" },
+  { key: "platform", label: "Digital Platform & Web" },
+];
 
 export default function ProjectsPage() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [activeCategory, setActiveCategory] = useState("all");
 
-  const categories = [
-    { key: "all", label: "Semua Proyek" },
-    { key: "staffing", label: "Professional Staffing" },
-    { key: "platform", label: "Digital Platform & Web" },
-  ];
+  const filteredProjects =
+    activeCategory === "all"
+      ? projectsData
+      : projectsData.filter((project) => {
+          const category = project.category.toLowerCase();
 
-  const filteredProjects = activeCategory === "all"
-    ? projectsData
-    : projectsData.filter((p) => {
-        if (activeCategory === "staffing") return p.category.toLowerCase().includes("staffing");
-        if (activeCategory === "platform") return p.category.toLowerCase().includes("platform") || p.category.toLowerCase().includes("web");
-        return true;
-      });
+          if (activeCategory === "staffing") return category.includes("staffing");
+          if (activeCategory === "platform") {
+            return category.includes("platform") || category.includes("web");
+          }
+
+          return true;
+        });
 
   return (
-    <div className="flex flex-col gap-16 sm:gap-24 pb-20">
-      {/* HEADER HERO */}
-      <section className="pt-12 pb-8 bg-gray-50 border-b border-gray-200">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
-          <Badge variant="cyan" className="mb-4">Portofolio Pekerjaan</Badge>
-          <h1 className="text-3xl sm:text-5xl font-black text-gray-950 tracking-tight">
-            Proyek & Rekam Pengalaman JDS
+    <div className="min-h-screen bg-white text-gray-900 font-sans">
+      {/* Hero mengikuti ritme, tipografi, dan category navigation halaman Services. */}
+      <section className="text-center py-16">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Proyek {companyInfo.shortName}.
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-gray-500 leading-relaxed">
-            Kaji rekam jejak pelaksanaan pekerjaan terverifikasi yang dipercayakan kepada Jaya Dinara Sukses di Kabupaten Kutai Kartanegara.
+          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+            Rekam jejak pekerjaan terverifikasi yang dipercayakan kepada {companyInfo.officialName} untuk mendukung digitalisasi dan penguatan tenaga ahli di Kutai Kartanegara.
           </p>
+          <a
+            href="#projects"
+            className="bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg mb-14 inline-block transition-colors"
+          >
+            Lihat Semua Proyek
+          </a>
+
+          <nav
+            aria-label="Filter kategori proyek"
+            className="flex flex-wrap justify-center gap-6 text-sm font-bold text-gray-500"
+          >
+            {categories.map((category) => (
+              <button
+                key={category.key}
+                type="button"
+                onClick={() => setActiveCategory(category.key)}
+                aria-pressed={activeCategory === category.key}
+                className={`border-b-[4px] pb-2 transition-colors ${
+                  activeCategory === category.key
+                    ? "text-black border-[#1473E6]"
+                    : "text-gray-500 border-transparent hover:text-black"
+                }`}
+              >
+                {category.label}
+              </button>
+            ))}
+          </nav>
         </div>
+        <div className="-mt-px border-t border-gray-400" />
       </section>
 
-      {/* PROJECTS LISTING */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Category Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
-          {categories.map((cat) => (
-            <button
-              key={cat.key}
-              onClick={() => setActiveCategory(cat.key)}
-              className={`px-4 py-2 text-xs sm:text-sm font-bold rounded-full transition-all ${
-                activeCategory === cat.key
-                  ? "bg-gray-900 text-white shadow-md"
-                  : "bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-950 border border-gray-200"
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
+      {/* Project grid dibuat ringan seperti service grid: visual, judul, uraian, lalu scope. */}
+      <section id="projects" className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-12 scroll-mt-24">
+        <h2 className="text-center text-xl font-semibold mb-2">
+          Karya terpilih yang menghubungkan teknologi, instansi, dan masyarakat.
+        </h2>
+        <p className="text-center text-gray-500 mb-12">
+          Setiap proyek dikelola dengan ruang lingkup jelas, pelaksanaan terukur, dan fokus pada dampak.
+        </p>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-            >
-              <Card className="h-full flex flex-col justify-between overflow-hidden hover:border-gray-300 hover:shadow-lg transition-all group">
-                {/* Visual Placeholder Header */}
-                <div className="h-48 sm:h-56 bg-gradient-to-br from-gray-100 via-white to-gray-50 border-b border-gray-200 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-                  <div className="relative flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-2xl bg-white border border-gray-200 shadow-md flex items-center justify-center text-gray-700 mb-3 group-hover:scale-105 transition-transform">
-                      <FolderGit2 className="w-7 h-7" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {filteredProjects.map((project) => {
+            const isStaffing = project.category.toLowerCase().includes("staffing");
+            const ProjectIcon = isStaffing ? Users : Globe;
+
+            return (
+              <article key={project.id}>
+                <div className="relative rounded-xl mb-4 w-full bg-gray-100 flex items-center justify-center aspect-video overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-transparent to-[#1473E6]/10" />
+                  <span className="absolute top-4 right-4 rounded-full bg-white px-3 py-1 text-xs font-bold text-gray-700 shadow-sm">
+                    {project.year}
+                  </span>
+                  <div className="relative flex max-w-sm flex-col items-center px-6 text-center">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-gray-500 shadow-sm transition-transform duration-300 group-hover:scale-105">
+                      <ProjectIcon className="h-6 w-6" />
                     </div>
-                    <Badge variant="cyan" className="mb-1 text-[11px]">
+                    <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#1473E6]">
                       {project.category}
-                    </Badge>
-                    <p className="text-base font-extrabold text-gray-950 max-w-sm">
+                    </p>
+                    <p className="font-semibold text-gray-700">
                       {project.imagePlaceholderText}
                     </p>
                   </div>
-
-                  <div className="absolute top-3 right-3">
-                    <Badge variant="teal">{project.year}</Badge>
-                  </div>
                 </div>
 
-                <CardHeader>
-                  <CardTitle className="text-xl font-extrabold group-hover:text-[#eb1000] transition-colors">
-                    {project.title}
-                  </CardTitle>
-
-                  <div className="flex items-center gap-2 text-xs font-bold text-gray-600 mt-1">
-                    <Building2 className="w-4 h-4 shrink-0 text-gray-400" />
-                    <span>{project.client}</span>
-                  </div>
-
-                  <CardDescription className="text-sm text-gray-500 leading-relaxed mt-3">
-                    {project.shortDesc}
-                  </CardDescription>
-                </CardHeader>
-
-                <CardContent className="pt-0 space-y-4 mt-auto">
-                  <div className="border-t border-gray-200 pt-4 space-y-2">
-                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Ruang Lingkup Pelaksanaan:</p>
-                    <ul className="space-y-1.5">
-                      {project.scope.slice(0, 3).map((item, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-xs text-gray-600">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-[#eb1000] shrink-0 mt-0.5" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tags.map((tag, idx) => (
-                      <span key={idx} className="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 border border-gray-200 font-medium">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <Button
-                    variant="default"
-                    className="w-full"
+                <h3 className="font-bold mb-2">{project.title}</h3>
+                <div className="mb-3 flex items-start gap-2 text-xs font-semibold text-gray-500">
+                  <Building2 className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                  <span>{project.client}</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-4">
+                  {project.shortDesc}{" "}
+                  <button
+                    type="button"
                     onClick={() => setSelectedProject(project)}
+                    className="text-blue-600 underline underline-offset-2 hover:text-blue-800"
                   >
-                    <span>Kaji Detail Proyek</span>
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+                    Kaji detail proyek
+                  </button>
+                </p>
+                <ul className="space-y-1.5">
+                  {project.scope.slice(0, 3).map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-xs text-gray-500">
+                      <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#1473E6]" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            );
+          })}
         </div>
+
+        <p className="mt-12 text-center text-sm text-gray-500">
+          {filteredProjects.length} proyek tersedia
+        </p>
       </section>
 
-      {/* CTA SECTION */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-12 rounded-[2.5rem] bg-gray-950 text-center max-w-4xl mx-auto space-y-6 relative overflow-hidden">
-          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-96 h-40 bg-[#eb1000]/20 blur-[100px] rounded-full pointer-events-none"></div>
-          <Badge variant="cyan" className="relative">Kerja Sama Terpercaya</Badge>
-          <h3 className="text-2xl sm:text-4xl font-extrabold text-white relative">
-            Ingin Mengembangkan Proyek / Aplikasi Serupa?
-          </h3>
-          <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto leading-relaxed relative">
-            Jaya Dinara Sukses berpengalaman mengelola proyek perangkat lunak dan penyiapan tenaga ahli pendamping secara terukur dan tepat sasaran.
+      {/* Dark CTA mengambil treatment yang sama dengan dark sections pada Services. */}
+      <section className="bg-[#191919] text-white py-20 mt-8">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 text-center">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-gray-400">
+            Kerja Sama Terpercaya
           </p>
-          <div className="pt-2 relative">
-            <Button asChild size="lg" variant="accent">
-              <Link href="/contact" className="flex items-center gap-2">
-                <span>Diskusi Proyek Bersama JDS</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </Button>
+          <h2 className="text-3xl font-bold mb-2">
+            Ingin Mengembangkan Proyek atau Aplikasi Serupa?
+          </h2>
+          <p className="text-gray-400 mb-12 max-w-2xl mx-auto">
+            Tim {companyInfo.shortName} siap membantu merancang solusi perangkat lunak dan menyiapkan tenaga ahli pendamping secara terukur dan tepat sasaran.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg transition-colors"
+            >
+              <span>Diskusi Proyek Bersama {companyInfo.shortName}</span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a
+              href={companyInfo.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-gray-500 text-white px-8 py-3 rounded-full font-semibold text-lg hover:bg-gray-800 transition-colors"
+            >
+              Hubungi via WhatsApp
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Project Detail Modal */}
+      {/* Promo strip menyamakan akhir halaman Projects dengan Services. */}
+      <section className="bg-gradient-to-r from-[#FFF0E6] via-[#F4E6FF] to-[#E6F0FF] py-6">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#1473E6] text-sm font-bold text-white shadow-sm">
+              {companyInfo.shortName}
+            </div>
+            <p className="font-semibold text-gray-900">
+              Mulai proyek berikutnya bersama {companyInfo.shortName}.{" "}
+              <span className="font-normal text-gray-600">
+                Konsultasikan kebutuhan dan ruang lingkupnya sekarang.
+              </span>
+            </p>
+          </div>
+          <Link
+            href="/contact"
+            className="shrink-0 bg-[#1473E6] hover:bg-blue-700 text-white px-6 py-2 rounded-full font-semibold text-sm transition-colors"
+          >
+            Mulai Konsultasi
+          </Link>
+        </div>
+      </section>
+
       <ProjectDetailModal
         project={selectedProject}
         isOpen={!!selectedProject}
         onClose={() => setSelectedProject(null)}
       />
+
+      <Footer variant="light" />
     </div>
   );
 }

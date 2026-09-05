@@ -28,8 +28,14 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Di halaman /about & /services, navbar selalu tampil versi gelap (seperti sudah di-scroll)
-  const isDark = isScrolled || pathname === "/about" || pathname === "/services";
+  // Halaman berlatar terang selalu memakai logo dan navigasi versi gelap.
+  const isDark =
+    isScrolled ||
+    pathname === "/about" ||
+    pathname === "/services" ||
+    pathname === "/projects" ||
+    pathname === "/contact" ||
+    pathname === "/career";
 
   return (
     <header className="sticky top-0 z-50 px-2 pt-2 transition-colors duration-300">

@@ -231,35 +231,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Baris 1: Featured Large Card (statis) */}
-          <div className="bg-gradient-to-r from-sky-600 via-blue-600 to-amber-200 rounded-2xl p-8 sm:p-12 text-white mb-4 shadow-xl relative overflow-hidden">
-            <div className="max-w-xl z-10 relative">
-              <div className="bg-black/30 backdrop-blur-md inline-block px-4 py-2 rounded-full text-xs mb-6 font-medium border border-white/20">
-                ✨ Platform digital UMKM Kutai Kartanegara
-              </div>
-              <div className="flex flex-wrap gap-3 mb-6">
-                <div className="bg-slate-900/80 px-4 py-2 rounded-lg text-xs border border-white/10">
-                  <span className="text-zinc-400 block">Mitra Instansi</span>
-                  <span className="text-base font-bold">Dinas KUKM Kukar</span>
-                </div>
-                <div className="bg-slate-900/80 px-4 py-2 rounded-lg text-xs border border-white/10">
-                  <span className="text-zinc-400 block">Fokus</span>
-                  <span className="text-base font-bold">Digitalisasi UMKM</span>
-                </div>
-              </div>
-              <h3 className="text-3xl font-extrabold italic tracking-tight mb-4">
-                UMKM Kukar, siap go digital.
-              </h3>
-              <Link
-                href="/projects"
-                className="inline-block bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold px-5 py-2 rounded-full transition-all"
-              >
-                Lihat studi kasus →
-              </Link>
-            </div>
-          </div>
-
-          {/* Baris 2: Carousel looping 2 kartu (full-bleed, tanpa container) */}
+          {/* Baris 1: Carousel looping 2 kartu (full-bleed, tanpa container) */}
         </div>
         <ProjectCarousel />
 

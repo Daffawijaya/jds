@@ -68,36 +68,38 @@ export default function ServicesPage() {
     <div className="min-h-screen bg-white text-gray-900 font-sans">
 
       {/* 1. HERO SECTION */}
-      <section className="text-center py-16 px-4">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Layanan {companyInfo.shortName}.
-        </h1>
-        <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-          Solusi pengembangan software, perancangan web, digitalisasi sistem, konsultasi teknologi, serta penyediaan tenaga ahli profesional.
-        </p>
-        <a href="#services" className="bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg mb-14 inline-block">
-          Lihat Semua Layanan
-        </a>
-        <nav className="flex flex-wrap justify-center gap-6 text-sm font-bold text-gray-500">
-          {categories.map((cat) => (
-            <button
-              key={cat.key}
-              onClick={() => setActiveCategory(cat.key)}
-              className={`transition-colors border-b-[3px] ${
-                activeCategory === cat.key
-                  ? "text-black border-[#1473E6] pb-2"
-                  : "text-gray-500 border-transparent hover:text-black pb-2"
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </nav>
-        <div className="w-screen relative left-1/2 -translate-x-1/2 -mt-px border-t border-gray-200"></div>
+      <section className="text-center py-16">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Layanan {companyInfo.shortName}.
+          </h1>
+          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+            Solusi pengembangan software, perancangan web, digitalisasi sistem, konsultasi teknologi, serta penyediaan tenaga ahli profesional.
+          </p>
+          <a href="#services" className="bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg mb-14 inline-block">
+            Lihat Semua Layanan
+          </a>
+          <nav className="flex flex-wrap justify-center gap-6 text-sm font-bold text-gray-500">
+            {categories.map((cat) => (
+              <button
+                key={cat.key}
+                onClick={() => setActiveCategory(cat.key)}
+                className={`transition-colors border-b-[4px] ${
+                  activeCategory === cat.key
+                    ? "text-black border-[#1473E6] pb-2"
+                    : "text-gray-500 border-transparent hover:text-black pb-2"
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </nav>
+        </div>
+        <div className="-mt-px border-t border-gray-400"></div>
       </section>
 
       {/* 2. SERVICES GRID */}
-      <section id="services" className="max-w-6xl mx-auto px-4 py-12">
+      <section id="services" className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-12">
         <h2 className="text-center text-xl font-semibold mb-2">
           Temukan layanan teknologi yang tepat untuk kebutuhan instansi atau bisnis Anda.
         </h2>
@@ -145,7 +147,7 @@ export default function ServicesPage() {
 
       {/* 3. METHODOLOGY SECTION (Dark) */}
       <section className="bg-[#191919] text-white py-16 mt-8">
-        <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 flex flex-col md:flex-row items-center gap-12">
           <div className="flex-1 w-full">
             <div className="bg-[#2A2A2A] rounded-lg w-full aspect-video flex items-center justify-center">
               <span className="text-gray-500 text-sm">Metodologi Kerja</span>
@@ -257,8 +259,8 @@ export default function ServicesPage() {
       </section>
 
       {/* 5. CTA SECTION (Dark) */}
-      <section className="bg-[#191919] text-white py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center">
+      <section className="bg-[#191919] text-white py-20">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 text-center">
           <h2 className="text-3xl font-bold mb-2">Butuh Solusi Khusus?</h2>
           <p className="text-gray-400 mb-12">
             Tim {companyInfo.shortName} siap memberikan rekomendasi perencanaan teknis dan estimasi penyiapan SDM sesuai kebutuhan instansi Anda.
@@ -276,8 +278,8 @@ export default function ServicesPage() {
       </section>
 
       {/* 6. PROMO BANNER */}
-      <section className="bg-gradient-to-r from-[#FFF0E6] via-[#F4E6FF] to-[#E6F0FF] py-6 px-4">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
+      <section className="bg-gradient-to-r from-[#FFF0E6] via-[#F4E6FF] to-[#E6F0FF] py-6">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 flex flex-col md:flex-row items-center justify-between">
           <div className="flex items-center gap-4 mb-4 md:mb-0">
             <div className="w-10 h-10 rounded-lg bg-[#1473E6] flex items-center justify-center text-white font-bold text-sm shadow-sm">
               {companyInfo.shortName}
