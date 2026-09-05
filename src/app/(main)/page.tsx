@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Footer } from "@/components/layout/Footer";
 import {
   Globe,
   Code2,
@@ -375,6 +376,9 @@ export default function HomePage() {
           </ServiceCardsReveal>
         </div>
       </RevealServices>
+
+      {/* Footer */}
+      <Footer variant="dark" />
     </div>
   );
 }

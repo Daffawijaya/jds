@@ -1,27 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import {
-  Globe,
-  Code2,
-  Layout,
-  Cpu,
-  Lightbulb,
-  Server,
-  Users,
-  Film,
-  CheckCircle2,
-  PhoneCall,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { SectionHeading } from "@/components/shared/SectionHeading";
+import { Globe, Code2, Layout, Cpu, Lightbulb, Server, Users, Film, CheckCircle2 } from "lucide-react";
 import { ServiceDetailModal } from "@/components/modals/ServiceDetailModal";
 import { companyInfo, servicesData } from "@/data/companyData";
 import { Service } from "@/types";
+import { Footer } from "@/components/layout/Footer";
 
 const iconMap: Record<string, React.ReactNode> = {
   Globe: <Globe className="w-6 h-6" />,
@@ -80,140 +64,174 @@ export default function ServicesPage() {
     : servicesData.filter((s) => s.category === activeCategory);
 
   return (
-    <div className="flex flex-col gap-16 sm:gap-24 pb-20">
-      {/* HEADER HERO */}
-      <section className="pt-12 pb-8 bg-gray-50 border-b border-gray-200">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
-          <Badge variant="cyan" className="mb-4">Katalog Layanan {companyInfo.shortName}</Badge>
-          <h1 className="text-3xl sm:text-5xl font-black text-gray-950 tracking-tight">
-            Layanan Teknologi & Tenaga Ahli Profesional
-          </h1>
-          <p className="mt-4 text-base sm:text-lg text-gray-500 leading-relaxed">
-            Solusi pengembangan software, perancangan web, digitalisasi sistem, konsultasi teknologi, serta penyediaan tenaga ahli profesional di Kutai Kartanegara.
-          </p>
-        </div>
-      </section>
+    <div className="min-h-screen bg-white text-gray-900 font-sans">
 
-      {/* SERVICES CATALOG WITH CATEGORY FILTER */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Category Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+      {/* 1. HERO SECTION */}
+      <section className="text-center py-16 px-4">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          Layanan {companyInfo.shortName}.
+        </h1>
+        <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+          Solusi pengembangan software, perancangan web, digitalisasi sistem, konsultasi teknologi, serta penyediaan tenaga ahli profesional.
+        </p>
+        <a href="#services" className="bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg mb-8 inline-block">
+          Lihat Semua Layanan
+        </a>
+        <nav className="flex flex-wrap justify-center gap-6 text-sm font-medium text-gray-500">
           {categories.map((cat) => (
             <button
               key={cat.key}
               onClick={() => setActiveCategory(cat.key)}
-              className={`px-4 py-2 text-xs sm:text-sm font-bold rounded-full transition-all ${
+              className={`transition-colors ${
                 activeCategory === cat.key
-                  ? "bg-gray-900 text-white shadow-md"
-                  : "bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-950 border border-gray-200"
+                  ? "text-black border-b-2 border-black pb-1"
+                  : "hover:text-black"
               }`}
             >
               {cat.label}
             </button>
           ))}
-        </div>
-
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredServices.map((service, index) => (
-            <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-            >
-              <Card className="h-full flex flex-col justify-between hover:border-gray-300 hover:shadow-lg transition-all group overflow-hidden">
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="w-12 h-12 rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-700 group-hover:bg-red-50 group-hover:text-[#eb1000] group-hover:border-red-200 transition-all">
-                      {iconMap[service.iconName] || <Globe className="w-6 h-6" />}
-                    </div>
-                    <Badge variant="cyan" className="capitalize text-[11px]">
-                      {service.category}
-                    </Badge>
-                  </div>
-
-                  <CardTitle className="text-xl font-extrabold group-hover:text-[#eb1000] transition-colors">
-                    {service.title}
-                  </CardTitle>
-                  <CardDescription className="text-sm text-gray-500 leading-relaxed mt-2">
-                    {service.shortDesc}
-                  </CardDescription>
-                </CardHeader>
-
-                <CardContent className="pt-0 space-y-4 mt-auto">
-                  <div className="border-t border-gray-200 pt-4 space-y-2">
-                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Cakupan Keahlian:</p>
-                    <ul className="space-y-1.5">
-                      {service.features.slice(0, 3).map((feat, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-xs text-gray-600">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-[#eb1000] shrink-0 mt-0.5" />
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="pt-2 flex items-center gap-2">
-                    <Button
-                      variant="default"
-                      size="sm"
-                      className="w-full"
-                      onClick={() => setSelectedService(service)}
-                    >
-                      <span>Detail & Lingkup Layanan</span>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+        </nav>
       </section>
 
-      {/* METHODOLOGY / WORKFLOW */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          badgeText="Metodologi Kerja"
-          title="Alur Pelaksanaan Pekerjaan JDS"
-          subtitle="Tahapan kerja sistematis dan transparan untuk memastikan setiap penugasan dapat diselesaikan tepat waktu dan terukur."
-        />
+      {/* 2. SERVICES GRID */}
+      <section id="services" className="max-w-6xl mx-auto px-4 py-12">
+        <h2 className="text-center text-xl font-semibold mb-2">
+          Temukan layanan teknologi yang tepat untuk kebutuhan instansi atau bisnis Anda.
+        </h2>
+        <p className="text-center text-gray-500 mb-12">
+          Setiap layanan dirancang untuk membantu transformasi digital secara efisien dan terukur.
+        </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
-          {processSteps.map((p, idx) => (
-            <div key={idx} className="p-5 rounded-3xl bg-white border border-gray-200 space-y-3 relative hover:shadow-md transition-shadow">
-              <span className="text-3xl font-black text-red-200 group-hover:text-[#eb1000]">{p.step}</span>
-              <h4 className="text-base font-extrabold text-gray-950 leading-snug">{p.title}</h4>
-              <p className="text-xs text-gray-500 leading-relaxed">{p.desc}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredServices.map((service) => (
+            <div key={service.id}>
+              <div className="rounded-xl mb-4 w-full bg-gray-100 flex items-center justify-center aspect-video">
+                <div className="text-gray-400">
+                  {iconMap[service.iconName] || <Globe className="w-10 h-10" />}
+                </div>
+              </div>
+              <h3 className="font-bold mb-2">
+                {service.title}
+              </h3>
+              <p className="text-sm text-gray-600 mb-4">
+                {service.shortDesc}{" "}
+                <button
+                  onClick={() => setSelectedService(service)}
+                  className="text-blue-600 underline"
+                >
+                  Pelajari lebih lanjut
+                </button>
+              </p>
+              <ul className="space-y-1.5">
+                {service.features.slice(0, 3).map((feat, idx) => (
+                  <li key={idx} className="flex items-start gap-2 text-xs text-gray-500">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#1473E6] shrink-0 mt-0.5" />
+                    <span>{feat}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
+        <div className="text-center mt-12">
+          <span className="text-gray-500 text-sm">
+            {filteredServices.length} layanan tersedia
+          </span>
+        </div>
       </section>
 
-      {/* CTA SECTION */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-12 rounded-[2.5rem] bg-gray-950 text-center max-w-4xl mx-auto space-y-6 relative overflow-hidden">
-          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-96 h-40 bg-[#eb1000]/20 blur-[100px] rounded-full pointer-events-none"></div>
-          <Badge variant="cyan" className="relative">Butuh Solusi Khusus?</Badge>
-          <h3 className="text-2xl sm:text-4xl font-extrabold text-white relative">
-            Konsultasikan Spesifikasi Proyek Anda
-          </h3>
-          <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto leading-relaxed relative">
+      {/* 3. METHODOLOGY SECTION (Dark) */}
+      <section className="bg-[#191919] text-white py-16 mt-8">
+        <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+          <div className="flex-1 w-full">
+            <div className="bg-[#2A2A2A] rounded-lg w-full aspect-video flex items-center justify-center">
+              <span className="text-gray-500 text-sm">Metodologi Kerja</span>
+            </div>
+          </div>
+          <div className="flex-1">
+            <h2 className="text-3xl font-bold mb-4 leading-tight">
+              Alur Pelaksanaan Pekerjaan {companyInfo.shortName}
+            </h2>
+            <p className="text-gray-400 mb-4">
+              Tahapan kerja sistematis dan transparan untuk memastikan setiap penugasan dapat diselesaikan tepat waktu dan terukur.
+            </p>
+            <a href="#methodology" className="text-white underline font-medium hover:text-gray-300">
+              Pelajari alur kerja
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. PROCESS STEPS GRID */}
+      <section id="methodology" className="bg-gray-50 py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-2">
+            Tahapan Kerja {companyInfo.shortName}
+          </h2>
+          <p className="text-center text-gray-600 mb-12">
+            Setiap proyek melewati 5 tahapan terstruktur untuk memastikan kualitas dan ketepatan waktu.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {processSteps.map((step, i) => (
+              <div
+                key={i}
+                className="bg-white p-4 rounded-xl flex items-center gap-4 shadow-sm border border-gray-100 hover:shadow-md transition"
+              >
+                <div className="w-20 h-20 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                  <span className="text-2xl font-bold text-[#1473E6]">{step.step}</span>
+                </div>
+                <div>
+                  <div className="text-[10px] text-gray-500 font-bold tracking-wider mb-1 uppercase">
+                    LANGKAH {step.step}
+                  </div>
+                  <h3 className="font-semibold text-sm leading-snug">
+                    {step.title}
+                  </h3>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. CTA SECTION (Dark) */}
+      <section className="bg-[#191919] text-white py-20 px-4">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-2">Butuh Solusi Khusus?</h2>
+          <p className="text-gray-400 mb-12">
             Tim {companyInfo.shortName} siap memberikan rekomendasi perencanaan teknis dan estimasi penyiapan SDM sesuai kebutuhan instansi Anda.
           </p>
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4 relative">
-            <Button asChild size="lg" variant="accent">
-              <Link href="/contact" className="flex items-center gap-2">
-                <PhoneCall className="w-4 h-4" />
-                <span>Minta Penawaran / Konsultasi</span>
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-gray-700 bg-transparent text-white hover:bg-gray-800 hover:border-gray-600">
-              <a href={companyInfo.whatsappUrl} target="_blank" rel="noopener noreferrer">
-                Hubungi via WhatsApp
-              </a>
-            </Button>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="/contact" className="bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg">
+              Minta Penawaran / Konsultasi
+            </a>
+            <a href={companyInfo.whatsappUrl} target="_blank" rel="noopener noreferrer" className="border border-gray-500 text-white px-8 py-3 rounded-full font-semibold text-lg hover:bg-gray-800">
+              Hubungi via WhatsApp
+            </a>
           </div>
+        </div>
+      </section>
+
+      {/* 6. PROMO BANNER */}
+      <section className="bg-gradient-to-r from-[#FFF0E6] via-[#F4E6FF] to-[#E6F0FF] py-6 px-4">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
+          <div className="flex items-center gap-4 mb-4 md:mb-0">
+            <div className="w-10 h-10 rounded-lg bg-[#1473E6] flex items-center justify-center text-white font-bold text-sm shadow-sm">
+              {companyInfo.shortName}
+            </div>
+            <p className="font-semibold text-gray-900">
+              {companyInfo.shortName} menyediakan layanan terintegrasi.{" "}
+              <span className="font-normal text-gray-600">
+                Konsultasikan kebutuhan Anda sekarang.
+              </span>
+            </p>
+          </div>
+          <a href="/contact" className="bg-[#1473E6] hover:bg-blue-700 text-white px-6 py-2 rounded-full font-semibold text-sm">
+            Mulai Konsultasi
+          </a>
         </div>
       </section>
 
@@ -223,6 +241,9 @@ export default function ServicesPage() {
         isOpen={!!selectedService}
         onClose={() => setSelectedService(null)}
       />
+
+      {/* Footer */}
+      <Footer variant="light" />
     </div>
   );
 }

@@ -1,590 +1,497 @@
-export default function AdobeLandingPage() {
+import React from "react";
+import Head from "next/head";
+
+export default function AdobePremiereClone() {
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
-      {/* 1. NAVBAR */}
-      <nav className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-100 text-sm">
-        <div className="flex items-center space-x-6">
-          {/* Adobe Logo Placeholder */}
-          <div className="flex items-center text-red-600 font-bold text-xl tracking-tighter">
-            <svg className="w-6 h-6 mr-1 fill-current" viewBox="0 0 24 24">
-              <path d="M14.5 3L22 19H17.5L14.5 12.5L11.5 19H7L14.5 3Z" />
-              <path d="M2.5 19L10 3H14.5L7 19H2.5Z" />
-            </svg>
-            JDS
+    <div className="min-h-screen bg-white text-gray-900 font-sans">
+      <Head>
+        <title>Explore Adobe Premiere features</title>
+      </Head>
+
+      {/* 1. HERO SECTION */}
+      <section className="text-center py-16 px-4">
+        <div className="flex justify-center mb-4">
+          <img
+            src="https://placehold.co/50x50/4B0082/FFFFFF?text=Pr"
+            alt="Premiere Pro Logo"
+            className="rounded-md"
+          />
+        </div>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          Explore Adobe Premiere features.
+        </h1>
+        <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+          Learn all about the tools and techniques you can use to edit videos,
+          add effects, sync audio, and more.
+        </p>
+        <button className="bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg mb-8">
+          Try Premiere free
+        </button>
+        <nav className="flex flex-wrap justify-center gap-6 text-sm font-medium text-gray-500">
+          <a href="#" className="text-black border-b-2 border-black pb-1">
+            What's new
+          </a>
+          <a href="#" className="hover:text-black">
+            Edit video
+          </a>
+          <a href="#" className="hover:text-black">
+            Effects
+          </a>
+          <a href="#" className="hover:text-black">
+            Titles
+          </a>
+          <a href="#" className="hover:text-black">
+            Audio
+          </a>
+          <a href="#" className="hover:text-black">
+            Exporting
+          </a>
+        </nav>
+      </section>
+
+      {/* 3. FEATURES GRID */}
+      <section className="max-w-6xl mx-auto px-4 py-12">
+        <h2 className="text-center text-xl font-semibold mb-2">
+          Improve your workflow and bring your videos to life faster with
+          powerful,
+        </h2>
+        <a href="#" className="block text-center text-blue-600 underline mb-12">
+          time-saving tools and features.
+        </a>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Card 1 */}
+          <div>
+            <img
+              src="https://placehold.co/400x225"
+              alt="Color Match"
+              className="rounded-xl mb-4 w-full object-cover aspect-video"
+            />
+            <h3 className="font-bold mb-2">
+              Color Match — a new wonder in color.
+            </h3>
+            <p className="text-sm text-gray-600">
+              Easily match colors across clips using AI. Instantly match
+              lighting, skin tones, and adjust contrast.{" "}
+              <a href="#" className="text-blue-600 underline">
+                Learn more
+              </a>
+            </p>
           </div>
-          <div className="hidden lg:flex space-x-6 font-semibold text-gray-700">
-            <a href="#" className="hover:text-black">
-              Layanan <span className="text-[10px]">▼</span>
-            </a>
-            <a href="#" className="hover:text-black">
-              Tentang Kami <span className="text-[10px]">▼</span>
-            </a>
-            <a href="#" className="hover:text-black">
-              Proyek <span className="text-[10px]">▼</span>
-            </a>
-            <a href="#" className="hover:text-black">
-              Kontak <span className="text-[10px]">▼</span>
-            </a>
+          {/* Card 2 */}
+          <div>
+            <img
+              src="https://placehold.co/400x225"
+              alt="Auto Ducking"
+              className="rounded-xl mb-4 w-full object-cover aspect-video"
+            />
+            <h3 className="font-bold mb-2">
+              The music loves your voice with AI.
+            </h3>
+            <p className="text-sm text-gray-600">
+              Auto Ducking automatically lowers the volume of your music track
+              when someone speaks, so dialog is always heard clearly.
+            </p>
+          </div>
+          {/* Card 3 */}
+          <div>
+            <img
+              src="https://placehold.co/400x225"
+              alt="Speech to Text"
+              className="rounded-xl mb-4 w-full object-cover aspect-video"
+            />
+            <h3 className="font-bold mb-2">Any language. All the control.</h3>
+            <p className="text-sm text-gray-600">
+              Automatically generate transcripts in over 18 languages, add
+              captions to your sequence, and easily format them.
+            </p>
+          </div>
+          {/* Card 4 */}
+          <div>
+            <img
+              src="https://placehold.co/400x225"
+              alt="Text-based editing"
+              className="rounded-xl mb-4 w-full object-cover aspect-video"
+            />
+            <h3 className="font-bold mb-2">
+              Text-Based Editing sets the standard.
+            </h3>
+            <p className="text-sm text-gray-600">
+              Edit video by editing text. Skim the transcript, search for
+              keywords, and cut clips by simply deleting words.
+            </p>
+          </div>
+          {/* Card 5 */}
+          <div>
+            <img
+              src="https://placehold.co/400x225"
+              alt="Essential Graphics"
+              className="rounded-xl mb-4 w-full object-cover aspect-video"
+            />
+            <h3 className="font-bold mb-2">
+              Build title layouts instinctively in Premiere.
+            </h3>
+            <p className="text-sm text-gray-600">
+              Use intuitive, responsive tools to create titles and graphics.
+              Save your designs as templates to reuse them easily.
+            </p>
+          </div>
+          {/* Card 6 */}
+          <div>
+            <img
+              src="https://placehold.co/400x225"
+              alt="Export"
+              className="rounded-xl mb-4 w-full object-cover aspect-video"
+            />
+            <h3 className="font-bold mb-2">Export your video to anywhere.</h3>
+            <p className="text-sm text-gray-600">
+              Easily export your project with presets optimized for YouTube,
+              TikTok, Instagram, and more directly from Premiere.
+            </p>
           </div>
         </div>
-        <div className="flex items-center space-x-4 font-semibold text-gray-700">
-          <button className="hover:text-black">
-            {/* Search Icon */}
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+        <div className="text-center mt-12">
+          <a href="#" className="text-blue-600 underline font-medium">
+            Go to Adobe Premiere user guide
+          </a>
+        </div>
+      </section>
+
+      {/* 4. YOUTUBE SECTION (Dark) */}
+      <section className="bg-[#191919] text-white py-16 mt-8">
+        <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+          <div className="flex-1 w-full">
+            <img
+              src="https://placehold.co/600x400/333/FFF?text=YouTube+Creators+Collage"
+              alt="YouTube Creators"
+              className="w-full rounded-lg"
+            />
+          </div>
+          <div className="flex-1">
+            <h2 className="text-3xl font-bold mb-4 leading-tight">
+              Now available: From Adobe and YouTube, a dedicated space and
+              exclusive content to create YouTube Shorts — right inside Premiere
+              on iPhone.
+            </h2>
+            <a
+              href="#"
+              className="text-white underline font-medium hover:text-gray-300"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </button>
-          <a href="#" className="hover:text-black">
-            Hubungi Kami
-          </a>
-          <a href="#" className="hover:text-black">
-            Kontak
-          </a>
-        </div>
-      </nav>
-
-      {/* 2. HERO SECTION & FEATURES GRID */}
-      <section className="bg-black text-white relative">
-        {/* Top Gradient Bar */}
-        <div className="h-2 w-full bg-gradient-to-r from-red-600 via-orange-500 to-purple-600"></div>
-
-        <div className="max-w-7xl mx-auto px-6 pt-20 pb-32 flex flex-col items-center text-center">
-          <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-4">
-            Profil Perusahaan JDS
-          </p>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
-            Mengenal Jaya Dinara Sukses,
-            <br />
-            mitra solusi digital terpercaya.
-          </h1>
-          <p className="text-gray-300 max-w-3xl mb-8 text-sm md:text-base">
-            IT, Digital Solutions, Outsourcing &amp; Professional Services — berpusat
-            di Kutai Kartanegara, Kalimantan Timur, melayani instansi pemerintah dan
-            mitra bisnis.{" "}
-            <span className="underline cursor-pointer hover:text-white">
-              Lihat layanan kami.
-            </span>
-          </p>
-
-          <div className="flex space-x-4 mb-20">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full transition-colors">
-              Hubungi Kami
-            </button>
-            <button className="border border-white hover:bg-white hover:text-black text-white font-semibold py-2 px-6 rounded-full transition-colors">
-              Lihat Layanan
-            </button>
+              Learn more
+            </a>
           </div>
+        </div>
+      </section>
 
-          {/* Grid Cards (Overlapping slightly) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full text-left">
-            {/* Card 1 */}
-            <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
-              <img
-                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop"
-                alt="Web Development"
-                className="h-48 object-cover"
-              />
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex items-center space-x-2 text-xs font-bold text-gray-600 mb-2">
-                  <span className="w-4 h-4 bg-red-500 rounded-sm text-white flex items-center justify-center text-[8px]">
-                    WD
-                  </span>
-                  <span>Web Development</span>
-                </div>
-                <h3 className="text-xl font-bold mb-6 flex-grow">
-                  Pengembangan situs web modern, responsif, dan teroptimasi.
-                </h3>
-                <div className="flex items-center space-x-3">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full">
-                    Selengkapnya
-                  </button>
-                  <button className="text-black text-sm font-semibold hover:underline">
-                    Lihat layanan ›
-                  </button>
+      {/* 5. USE CASES GRID */}
+      <section className="bg-gray-50 py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-2">
+            What can you create in Premiere?
+          </h2>
+          <p className="text-center text-gray-600 mb-12">
+            Find out how tools and features inside Premiere have the power to
+            transform ordinary videos into extraordinary creations.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Loop for 9 cards */}
+            {[
+              {
+                title: "Give a filmic look to raw footage",
+                tag: "COLOR GRADING",
+              },
+              {
+                title: "Add stunning visual effects to your video",
+                tag: "VISUAL EFFECTS",
+              },
+              { title: "Create a promotional video", tag: "PROMO VIDEO" },
+              {
+                title: "Create drop-dead title sequences",
+                tag: "TITLE SEQUENCES",
+              },
+              {
+                title: "Compose your video in the proper resolution",
+                tag: "RESOLUTION",
+              },
+              { title: "Edit a music video", tag: "MUSIC VIDEO" },
+              {
+                title: "Make a multi-camera video presentation pop",
+                tag: "MULTI-CAM EDITING",
+              },
+              { title: "Create an atmospheric video", tag: "ATMOSPHERE" },
+              { title: "Mix an immersive soundtrack", tag: "AUDIO MIXING" },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="bg-white p-4 rounded-xl flex items-center gap-4 shadow-sm border border-gray-100 hover:shadow-md transition"
+              >
+                <img
+                  src={`https://placehold.co/80x80?text=${i + 1}`}
+                  alt={item.title}
+                  className="w-20 h-20 rounded-lg object-cover"
+                />
+                <div>
+                  <div className="text-[10px] text-gray-500 font-bold tracking-wider mb-1 uppercase">
+                    {item.tag}
+                  </div>
+                  <h3 className="font-semibold text-sm leading-snug">
+                    {item.title}
+                  </h3>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. PRICING SECTION (Gradient) */}
+      <section className="bg-gradient-to-b from-white via-[#E8D9FF] to-[#A855F7] py-20 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-sm font-semibold uppercase tracking-widest text-gray-600 mb-2">
+            MEMBERSHIPS
+          </p>
+          <h2 className="text-4xl font-bold mb-4">Get Adobe Premiere.</h2>
+          <p className="text-gray-700 mb-8">
+            Start with a 7-day free trial. Or pick a plan that includes Premiere
+            and the rest of Creative Cloud.
+          </p>
+
+          {/* Toggle */}
+          <div className="inline-flex bg-white rounded-full p-1 shadow-sm mb-12 border">
+            <button className="bg-gray-900 text-white px-6 py-2 rounded-full text-sm font-semibold">
+              Individuals
+            </button>
+            <button className="text-gray-600 px-6 py-2 rounded-full text-sm font-semibold hover:bg-gray-50">
+              Students & teachers
+            </button>
+            <button className="text-gray-600 px-6 py-2 rounded-full text-sm font-semibold hover:bg-gray-50">
+              Teams
+            </button>
+          </div>
+
+          {/* Pricing Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-5xl mx-auto">
+            {/* Card 1 */}
+            <div className="bg-white p-8 rounded-2xl shadow-xl flex flex-col">
+              <div className="flex items-center gap-2 mb-4">
+                <img
+                  src="https://placehold.co/30x30/4B0082/FFFFFF?text=Pr"
+                  alt="PR"
+                  className="rounded"
+                />
+                <span className="font-bold">Premiere</span>
+              </div>
+              <h3 className="text-3xl font-bold mb-2">
+                Rp326.700/mo{" "}
+                <span className="text-sm font-normal text-gray-500">
+                  incl. VAT
+                </span>
+              </h3>
+              <p className="text-gray-600 text-sm mb-6 flex-grow">
+                Premiere on desktop and iPad. Also includes Premiere Rush.
+              </p>
+              <div className="flex gap-4 mb-8">
+                <button className="bg-[#1473E6] text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 flex-1">
+                  Free trial
+                </button>
+                <button className="border border-gray-300 text-gray-700 px-6 py-2 rounded-full font-semibold hover:bg-gray-50 flex-1">
+                  Buy now
+                </button>
+              </div>
+              <h4 className="font-semibold text-sm mb-4">What's included:</h4>
+              <ul className="space-y-3 text-sm text-gray-700">
+                <li className="flex items-start gap-2">
+                  ✓{" "}
+                  <span>
+                    Premiere on desktop and iPad, plus Premiere Rush for mobile
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  ✓{" "}
+                  <span>
+                    100GB of cloud storage, Adobe Fonts, and Adobe Portfolio
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  ✓ <span>Tutorials, free assets, and templates</span>
+                </li>
+              </ul>
             </div>
 
             {/* Card 2 */}
-            <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
-              <img
-                src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600&auto=format&fit=crop"
-                alt="Software Development"
-                className="h-48 object-cover"
-              />
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex items-center space-x-2 text-xs font-bold text-gray-600 mb-2">
-                  <span className="w-4 h-4 bg-blue-500 rounded-sm text-white flex items-center justify-center text-[8px]">
-                    SD
+            <div className="bg-white p-8 rounded-2xl shadow-xl flex flex-col relative border-2 border-yellow-400">
+              <div className="absolute top-0 right-8 bg-yellow-400 text-xs font-bold px-3 py-1 rounded-b-lg">
+                Best value
+              </div>
+              <div className="flex items-center gap-2 mb-4">
+                <img
+                  src="https://placehold.co/30x30/FF0000/FFFFFF?text=CC"
+                  alt="CC"
+                  className="rounded"
+                />
+                <span className="font-bold">Creative Cloud All Apps</span>
+              </div>
+              <h3 className="text-3xl font-bold mb-2">
+                Rp851.400/mo{" "}
+                <span className="text-sm font-normal text-gray-500">
+                  incl. VAT
+                </span>
+              </h3>
+              <p className="text-gray-600 text-sm mb-6 flex-grow">
+                Get Premiere Pro, Photoshop, Illustrator, After Effects, and 20+
+                more apps. (Substance 3D apps are not included.)
+              </p>
+              <div className="flex gap-4 mb-8">
+                <button className="bg-[#1473E6] text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-700 flex-1">
+                  Free trial
+                </button>
+                <button className="border border-gray-300 text-gray-700 px-6 py-2 rounded-full font-semibold hover:bg-gray-50 flex-1">
+                  Buy now
+                </button>
+              </div>
+              <h4 className="font-semibold text-sm mb-4">What's included:</h4>
+              <ul className="space-y-3 text-sm text-gray-700">
+                <li className="flex items-start gap-2">
+                  ✓{" "}
+                  <span>
+                    20+ apps including Premiere Pro, After Effects, Photoshop,
+                    and Illustrator
                   </span>
-                  <span>Software Development</span>
-                </div>
-                <h3 className="text-xl font-bold mb-6 flex-grow">
-                  Rancang bangun perangkat lunak custom untuk otomatisasi proses bisnis.
+                </li>
+                <li className="flex items-start gap-2">
+                  ✓ <span>Generative AI tools and features</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  ✓{" "}
+                  <span>
+                    100GB of cloud storage, Adobe Fonts, and Adobe Portfolio
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-8 text-center">
+            <button className="border border-gray-800 text-gray-900 px-6 py-2 rounded-full font-semibold hover:bg-gray-100 bg-white">
+              Compare all plans
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. YOU ASKED, WE ANSWERED (FAQ/Tutorials) */}
+      <section className="bg-[#191919] text-white py-20 px-4">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-2">You asked. We answered.</h2>
+          <p className="text-gray-400 mb-12">
+            Your questions, answered by the Adobe Premiere Pro community.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            {/* Answer 1 */}
+            <div className="bg-[#2A2A2A] rounded-xl overflow-hidden hover:opacity-90 cursor-pointer">
+              <img
+                src="https://placehold.co/400x200"
+                alt="Photoshop Cover"
+                className="w-full object-cover"
+              />
+              <div className="p-6">
+                <h3 className="font-bold text-lg mb-2">
+                  Remove text in Photoshop
                 </h3>
-                <div className="flex items-center space-x-3">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full">
-                    Selengkapnya
-                  </button>
-                  <button className="text-black text-sm font-semibold hover:underline">
-                    Lihat layanan ›
-                  </button>
-                </div>
+                <p className="text-sm text-gray-400 mb-6 line-clamp-3">
+                  Easily disguise and seamlessly replace objects without complex
+                  selections with Generative Fill. Learn multiple ways to remove
+                  text in your photos in just a few clicks.
+                </p>
+                <button className="text-sm border border-gray-500 px-4 py-1.5 rounded-full hover:bg-gray-700">
+                  Learn more
+                </button>
               </div>
             </div>
-
-            {/* Card 3 */}
-            <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
+            {/* Answer 2 */}
+            <div className="bg-[#2A2A2A] rounded-xl overflow-hidden hover:opacity-90 cursor-pointer">
               <img
-                src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=600&auto=format&fit=crop"
-                alt="UI/UX Design"
-                className="h-48 object-cover"
+                src="https://placehold.co/400x200"
+                alt="Illustrator Cover"
+                className="w-full object-cover"
               />
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex items-center space-x-2 text-xs font-bold text-gray-600 mb-2">
-                  <span className="w-4 h-4 bg-blue-300 rounded-sm text-blue-900 flex items-center justify-center text-[8px]">
-                    UX
-                  </span>
-                  <span>UI/UX Design</span>
-                </div>
-                <h3 className="text-xl font-bold mb-6 flex-grow">
-                  Perancangan antarmuka intuitif untuk aplikasi web dan mobile.
+              <div className="p-6">
+                <h3 className="font-bold text-lg mb-2">
+                  Vector EPS in Illustrator
                 </h3>
-                <div className="flex items-center space-x-3">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full">
-                    Selengkapnya
-                  </button>
-                  <button className="text-black text-sm font-semibold hover:underline">
-                    Lihat layanan ›
-                  </button>
-                </div>
+                <p className="text-sm text-gray-400 mb-6 line-clamp-3">
+                  Did you know you can easily edit vectors using Adobe
+                  Illustrator? Discover how to quickly open your image to
+                  transform it into a stunning vector artwork.
+                </p>
+                <button className="text-sm border border-gray-500 px-4 py-1.5 rounded-full hover:bg-gray-700">
+                  Learn more
+                </button>
               </div>
             </div>
-
-            {/* Card 4 */}
-            <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
+            {/* Answer 3 */}
+            <div className="bg-[#2A2A2A] rounded-xl overflow-hidden hover:opacity-90 cursor-pointer">
               <img
-                src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=600&auto=format&fit=crop"
-                alt="Digitalisasi Sistem"
-                className="h-48 object-cover"
+                src="https://placehold.co/400x200"
+                alt="InDesign Cover"
+                className="w-full object-cover"
               />
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex items-center space-x-2 text-xs font-bold text-gray-600 mb-2">
-                  <span className="w-4 h-4 bg-purple-500 rounded-sm text-white flex items-center justify-center text-[8px]">
-                    DS
-                  </span>
-                  <span>Digitalisasi Sistem</span>
-                </div>
-                <h3 className="text-xl font-bold mb-6 flex-grow">
-                  Modernisasi alur kerja menjadi ekosistem digital terintegrasi.
+              <div className="p-6">
+                <h3 className="font-bold text-lg mb-2">
+                  PDF documents in InDesign
                 </h3>
-                <div className="flex items-center space-x-3">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full">
-                    Selengkapnya
-                  </button>
-                  <button className="text-black text-sm font-semibold hover:underline">
-                    Lihat layanan ›
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 5 */}
-            <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
-              <img
-                src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=600&auto=format&fit=crop"
-                alt="IT Consulting"
-                className="h-48 object-cover"
-              />
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex items-center space-x-2 text-xs font-bold text-gray-600 mb-2">
-                  <span className="w-4 h-4 bg-orange-500 rounded-sm text-white flex items-center justify-center text-[8px]">
-                    IC
-                  </span>
-                  <span>IT Consulting</span>
-                </div>
-                <h3 className="text-xl font-bold mb-6 flex-grow">
-                  Konsultasi strategis perencanaan teknologi dan peta jalan digitalisasi.
-                </h3>
-                <div className="flex items-center space-x-3">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full">
-                    Selengkapnya
-                  </button>
-                  <button className="text-black text-sm font-semibold hover:underline">
-                    Lihat layanan ›
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 6 */}
-            <div className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
-              <img
-                src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?q=80&w=600&auto=format&fit=crop"
-                alt="IT Outsourcing"
-                className="h-48 object-cover"
-              />
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex items-center space-x-2 text-xs font-bold text-gray-600 mb-2">
-                  <span className="w-4 h-4 bg-gray-800 rounded-sm text-white flex items-center justify-center text-[8px]">
-                    IO
-                  </span>
-                  <span>IT Outsourcing</span>
-                </div>
-                <h3 className="text-xl font-bold mb-6 flex-grow">
-                  Pengelolaan operasional IT secara terstruktur dan terukur.
-                </h3>
-                <div className="flex items-center space-x-3">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full">
-                    Selengkapnya
-                  </button>
-                  <button className="text-black text-sm font-semibold hover:underline">
-                    Lihat layanan ›
-                  </button>
-                </div>
+                <p className="text-sm text-gray-400 mb-6 line-clamp-3">
+                  Learn the steps to link a PDF page into an InDesign document
+                  and how to edit and manage multiple pages quickly and easily
+                  for your layouts.
+                </p>
+                <button className="text-sm border border-gray-500 px-4 py-1.5 rounded-full hover:bg-gray-700">
+                  Learn more
+                </button>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. HIGHLIGHT 1: FIREFLY */}
-      <section className="max-w-6xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center gap-16">
-        <div className="w-full md:w-1/2">
-          <img
-            src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop"
-            alt="Visi Perusahaan"
-            className="rounded-xl shadow-xl w-full"
-          />
-        </div>
-        <div className="w-full md:w-1/2 flex flex-col items-start">
-          <div className="flex items-center space-x-2 text-sm font-bold text-gray-600 mb-4">
-            <span className="w-5 h-5 bg-red-500 rounded-sm text-white flex items-center justify-center text-[10px]">
-              VI
-            </span>
-            <span>Visi Perusahaan</span>
+      {/* 8. PROMO BANNER (Creative Cloud) */}
+      <section className="bg-gradient-to-r from-[#FFF0E6] via-[#F4E6FF] to-[#E6F0FF] py-6 px-4">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
+          <div className="flex items-center gap-4 mb-4 md:mb-0">
+            <img
+              src="https://placehold.co/40x40/FF0000/FFFFFF?text=CC"
+              alt="CC"
+              className="rounded-lg shadow-sm"
+            />
+            <p className="font-semibold text-gray-900">
+              Premiere is included in Creative Cloud All Apps.{" "}
+              <span className="font-normal text-gray-600">
+                Get 20+ creative apps for a great price.
+              </span>
+            </p>
           </div>
-          <h2 className="text-3xl font-bold mb-4 leading-tight">
-            Menjadi penyedia solusi IT dan digitalisasi terdepan yang terpercaya.
-          </h2>
-          <p className="text-gray-600 mb-6 text-sm">
-            Mempercepat modernisasi pelayanan dan bisnis daerah — mulai dari
-            pengembangan perangkat lunak, digitalisasi sistem, hingga penyiapan
-            tenaga ahli profesional dalam satu tim.
-          </p>
-          <button className="border border-gray-300 hover:border-gray-800 text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors">
-            Tentang Kami
+          <button className="bg-[#1473E6] hover:bg-blue-700 text-white px-6 py-2 rounded-full font-semibold text-sm">
+            See all plans
           </button>
         </div>
       </section>
 
-      {/* 4. HIGHLIGHT 2: PREMIERE PRO */}
-      <section className="max-w-6xl mx-auto px-6 py-20 flex flex-col md:flex-row-reverse items-center gap-16">
-        <div className="w-full md:w-1/2">
-          <img
-            src="https://images.unsplash.com/photo-1516280440502-861f6966699b?q=80&w=800&auto=format&fit=crop"
-            alt="Misi Utama"
-            className="rounded-xl shadow-xl w-full"
-          />
+      {/* 9. BETA DESKTOP APP SECTION */}
+      <section className="py-20 text-center px-4">
+        <h2 className="text-3xl font-bold mb-8">
+          Try the Adobe Premiere (Beta) desktop app.
+        </h2>
+        <div className="max-w-md mx-auto text-left space-y-4 font-medium">
+          <p>1. Start a free trial of Premiere.</p>
+          <p>2. Open the Creative Cloud app.</p>
+          <p>3. Install the Premiere (Beta).</p>
         </div>
-        <div className="w-full md:w-1/2 flex flex-col items-start">
-          <div className="flex items-center space-x-2 text-sm font-bold text-gray-600 mb-4">
-            <span className="w-5 h-5 bg-indigo-900 rounded-sm text-purple-300 flex items-center justify-center text-[10px]">
-              MS
-            </span>
-            <span>Misi Utama</span>
-          </div>
-          <h2 className="text-3xl font-bold mb-4 leading-tight">
-            Misi utama JDS dalam melayani mitra kerja sama.
-          </h2>
-          <p className="text-gray-600 mb-6 text-sm">
-            Menghadirkan produk perangkat lunak dan web yang aman, inovatif, dan
-            responsif; menyiapkan tenaga ahli berdedikasi; serta memperkuat
-            efisiensi operasional organisasi melalui digitalisasi sistem.
-          </p>
-          <button className="border border-gray-300 hover:border-gray-800 text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors">
-            Lihat Layanan
-          </button>
-        </div>
-      </section>
-
-      {/* 5. INSPIRATION SECTION */}
-      <section className="bg-[#f8f8f8] py-20 px-6">
-        <div className="max-w-5xl mx-auto text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Nilai-nilai kerja JDS.</h2>
-          <p className="text-gray-600 text-sm">
-            Prinsip dasar yang menjadi pegangan kami dalam membangun kepercayaan
-            dan hasil karya.
-          </p>
-        </div>
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Inspiration Card 1 */}
-          <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <img
-              src="https://images.unsplash.com/photo-1565578762-b91c1404c07d?q=80&w=800&auto=format&fit=crop"
-              alt="Frog"
-              className="w-full h-64 object-cover"
-            />
-            <div className="p-6">
-              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-                Nilai | Profesionalisme
-              </p>
-              <h3 className="text-lg font-bold hover:underline cursor-pointer">
-                Menjalankan setiap penugasan dengan standar kualitas tinggi, integritas, dan tanggung jawab penuh.
-              </h3>
-            </div>
-          </div>
-          {/* Inspiration Card 2 */}
-          <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <img
-              src="https://images.unsplash.com/photo-1555580168-9deea6873132?q=80&w=800&auto=format&fit=crop"
-              alt="Butterfly"
-              className="w-full h-64 object-cover"
-            />
-            <div className="p-6">
-              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-                Nilai | Inovasi Tepat Guna
-              </p>
-              <h3 className="text-lg font-bold hover:underline cursor-pointer">
-                Menghadirkan solusi digitalisasi yang praktis, efektif, dan memberi manfaat nyata.
-              </h3>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. WHICH APP IS BEST */}
-      <section className="bg-[#f8f8f8] py-12 px-6 text-center border-b border-gray-200">
-        <h3 className="text-xl font-bold mb-2">
-          Belum yakin layanan mana yang sesuai?
-        </h3>
-        <p className="text-sm text-gray-600 mb-6">
-          Ceritakan kebutuhan Anda. Tim kami siap membantu dari konsultasi hingga implementasi.
-        </p>
-        <button className="border border-gray-300 hover:border-gray-800 text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors">
-          Konsultasi Gratis
+        <button className="mt-8 text-blue-600 underline font-medium">
+          Get the Beta
         </button>
       </section>
 
-      {/* 7. CREATIVITY FOR ALL */}
-      <section className="bg-white py-20 px-6 text-center">
-        {/* Abstract Logo Placeholder */}
-        <div className="w-12 h-12 mx-auto mb-6 bg-gradient-to-tr from-yellow-400 via-red-500 to-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
-          JDS
-        </div>
-        <h2 className="text-2xl font-bold mb-4">Solusi IT untuk semua</h2>
-        <p className="text-gray-600 text-sm max-w-2xl mx-auto mb-6">
-          Web, software, desain, digitalisasi, konsultasi IT, hingga tenaga ahli —
-          semuanya dalam satu tim. Berpusat di Kutai Kartanegara, Kalimantan Timur.
-        </p>
-        <a href="#" className="text-blue-600 font-semibold hover:underline">
-          Lihat semua layanan
-        </a>
-      </section>
-
-      {/* 8. FOOTER */}
-      <footer className="bg-[#fafafa] border-t border-gray-200 pt-1 text-sm text-gray-600">
-        {/* Footer Top Gradient Line */}
-        <div className="h-1 w-full bg-gradient-to-r from-yellow-400 via-red-500 to-blue-600 mb-12"></div>
-
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 mb-12">
-          {/* Col 1 */}
-          <div>
-            <h4 className="font-bold text-black mb-4">Layanan</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Web Development
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Software Development
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  UI/UX Design
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Digitalisasi Sistem
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Konsultasi IT
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Tenaga Ahli
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Multimedia Konten
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* Col 2 */}
-          <div>
-            <h4 className="font-bold text-black mb-4">Perusahaan</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Tentang Kami
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Profil Perusahaan
-                </a>
-              </li>
-              <h4 className="font-bold text-black mt-6 mb-4">Navigasi</h4>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Beranda
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Kontak
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* Col 3 */}
-          <div>
-            <h4 className="font-bold text-black mb-4">Solusi</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Digitalisasi Sistem
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Konsultasi IT
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Tenaga Ahli
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* Col 4 */}
-          <div>
-            <h4 className="font-bold text-black mb-4">Dukungan</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Bantuan
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Komunitas
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Konsultasi Gratis
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* Col 5 */}
-          <div>
-            <h4 className="font-bold text-black mb-4">Sumber Daya</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Blog JDS
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Dokumentasi
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* Col 6 */}
-          <div>
-            <h4 className="font-bold text-black mb-4">Akun &amp; Kontak</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Hubungi Kami
-                </a>
-              </li>
-            </ul>
-            <h4 className="font-bold text-black mt-6 mb-4">JDS</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="hover:text-black">
-                  Tentang Kami
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Karir
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black">
-                  Proyek
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Footer Bottom Line */}
-        <div className="border-t border-gray-200 py-6 px-6 flex flex-col md:flex-row justify-between items-center text-xs">
-          <div className="flex items-center space-x-4 mb-4 md:mb-0">
-            <span className="font-semibold text-black cursor-pointer">
-              Bahasa Indonesia
-            </span>
-            <div className="flex space-x-3">
-              {/* Social Icons Placeholders */}
-              <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
-              <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
-              <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-4 text-gray-500">
-            <a href="#" className="hover:text-black">
-              © 2026 Jaya Dinara Sukses. Seluruh hak cipta dilindungi.
-            </a>
-            <a href="#" className="hover:text-black">
-              Kebijakan Privasi
-            </a>
-            <a href="#" className="hover:text-black">
-              Syarat &amp; Ketentuan
-            </a>
-            <a href="#" className="hover:text-black">
-              Preferensi Cookie
-            </a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
