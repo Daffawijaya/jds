@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { companyInfo } from "@/data/companyData";
 import { Footer } from "@/components/layout/Footer";
 import { FeatureSection } from "@/components/shared/FeatureSection";
-import { SectionHeading } from "@/components/shared/SectionHeading";
+import { SectionTitle } from "@/components/shared/SectionTitle";
 
 export const metadata: Metadata = {
   title: "Tentang Kami",
@@ -122,14 +122,10 @@ export default function AboutPage() {
       {/* 5. INSPIRATION SECTION */}
       <section className="bg-[#f8f8f8] pt-20 pb-16">
         <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-semibold text-zinc-900 mb-2">
-              Nilai-nilai kerja JDS.
-            </h2>
-            <p className="text-black text-lg max-w-2xl mx-auto">
-              Prinsip dasar yang menjadi pegangan kami dalam membangun kepercayaan dan hasil karya.
-            </p>
-          </div>
+          <SectionTitle
+            title="Nilai-nilai kerja JDS."
+            subtitle="Prinsip dasar yang menjadi pegangan kami dalam membangun kepercayaan dan hasil karya."
+          />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Inspiration Card 1 */}
           <div className="bg-white rounded-xl overflow-hidden">
@@ -168,16 +164,13 @@ export default function AboutPage() {
       </section>
 
       {/* 6. WHICH APP IS BEST */}
-      <section className="bg-[#f8f8f8] pt-4 pb-16 px-2 sm:px-4 lg:px-6 text-center">
-        <h3 className="text-xl font-bold mb-2">
-          Belum yakin layanan mana yang sesuai?
-        </h3>
-        <p className="text-sm text-gray-600 mb-6">
-          Ceritakan kebutuhan Anda. Tim kami siap membantu dari konsultasi hingga implementasi.
-        </p>
-        <button className="border border-gray-300 hover:border-gray-800 text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors">
-          Konsultasi Gratis
-        </button>
+      <section className="bg-[#f8f8f8] pt-4 pb-8 px-2 sm:px-4 lg:px-6">
+        <SectionTitle
+          title="Belum yakin layanan mana yang sesuai?"
+          subtitle="Ceritakan kebutuhan Anda. Tim kami siap membantu dari konsultasi hingga implementasi."
+          button={{ label: "Konsultasi Gratis", href: "/contact" }}
+          className="mb-0"
+        />
       </section>
 
       {/* 7. CREATIVITY FOR ALL */}
