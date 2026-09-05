@@ -19,6 +19,7 @@ import FeaturedServicesRow from "@/components/shared/FeaturedServicesRow";
 import ParallaxHero from "@/components/shared/ParallaxHero";
 import RevealServices from "@/components/shared/RevealServices";
 import ServiceCardsReveal from "@/components/shared/ServiceCardsReveal";
+import { SectionHeading } from "@/components/shared/SectionHeading";
 
 /* ═══════════════════════════════════════════════════════════════
    Homepage JDS — layout & styling mengikuti halaman /adobe-demo
@@ -161,13 +162,11 @@ export default function HomePage() {
       {/* 2. LAYANAN UNGGULAN */}
       <section className="featured-sec relative z-10 overflow-x-clip -mt-12 sm:-mt-16 rounded-t-4xl bg-white text-zinc-900 py-20">
         <div className="row-wrap px-3 sm:px-4 lg:px-6 text-center">
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-2">
-            Satu mitra untuk setiap kebutuhan digital.
-          </h2>
-          <p className="text-black text-lg max-w-2xl mx-auto mb-12">
-            Dari membangun sistem hingga menyiapkan orang-orang yang menjalankannya. Semua tersedia dalam
-            satu tim.
-          </p>
+          <SectionHeading
+            title="Satu mitra untuk setiap kebutuhan digital."
+            subtitle="Dari membangun sistem hingga menyiapkan orang-orang yang menjalankannya. Semua tersedia dalam satu tim."
+            className="mb-12"
+          />
 
           <FeaturedServicesRow>
             {featuredServices.map((service) => {

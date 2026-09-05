@@ -1,13 +1,9 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { Badge } from "@/components/ui/badge";
-
 interface SectionHeadingProps {
   badgeText?: string;
   title: string;
   subtitle?: string;
   align?: "left" | "center";
+  className?: string;
 }
 
 export function SectionHeading({
@@ -15,30 +11,25 @@ export function SectionHeading({
   title,
   subtitle,
   align = "center",
+  className = "",
 }: SectionHeadingProps) {
   const alignClass = align === "center" ? "text-center mx-auto" : "text-left";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className={`max-w-3xl mb-12 sm:mb-16 ${alignClass}`}
-    >
+    <div className={`max-w-3xl mb-12 ${alignClass} ${className}`}>
       {badgeText && (
-        <Badge variant="cyan" className="mb-4 text-xs font-semibold uppercase tracking-wider">
+        <span className="text-xs font-bold uppercase tracking-widest text-zinc-500 block mb-2">
           {badgeText}
-        </Badge>
+        </span>
       )}
-      <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+      <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-zinc-900 mb-2">
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-4 text-base sm:text-lg text-slate-500 leading-relaxed">
+        <p className="text-black text-xl max-w-2xl mx-auto">
           {subtitle}
         </p>
       )}
-    </motion.div>
+    </div>
   );
 }
