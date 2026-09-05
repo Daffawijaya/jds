@@ -37,16 +37,35 @@ export function Navbar() {
     pathname === "/contact" ||
     pathname === "/career";
 
+  const isHome = pathname === "/" || pathname === "";
+
+  // Di luar beranda, sebelum scroll: bg #f8f8f8
+  const useF8 = !isHome && !isScrolled;
+
   return (
-    <header className="sticky top-0 z-50 px-2 pt-2 transition-colors duration-300">
+    <header
+      className={`sticky top-0 z-50 transition-colors duration-300 ${
+        isScrolled ? "mt-2 py-2 px-2 my-2" : "py-2 px-2"
+      } ${useF8 ? "bg-[#f8f8f8]" : ""}`}
+    >
       <div
-        className={`relative h-16 rounded-2xl px-3.5 flex items-center justify-between transition-all duration-300 ${
-          isDark ? "bg-white/60 backdrop-blur-xl" : "bg-transparent"
+        className={`relative h-16 px-3.5 flex items-center justify-between transition-all duration-300 ${
+          useF8 ? "rounded-none" : "rounded-2xl"
+        } ${
+          useF8
+            ? "bg-[#f8f8f8]"
+            : isDark
+              ? "bg-white/60 backdrop-blur-xl"
+              : "bg-transparent"
         } ${isScrolled ? "shadow-lg shadow-black/10" : ""}`}
       >
         {/* Logo + Desktop Navigation */}
         <div className="flex items-center gap-8">
-          <Link href="/" aria-label={logoAlt} className="flex items-center shrink-0">
+          <Link
+            href="/"
+            aria-label={logoAlt}
+            className="flex items-center shrink-0"
+          >
             <Image
               src={isDark ? "/jds.png" : "/jdsw.png"}
               alt={logoAlt}
@@ -154,7 +173,9 @@ export function Navbar() {
 
                 <div className="pt-6 border-t border-zinc-800 space-y-4">
                   <div className="text-xs text-zinc-400 space-y-1">
-                    <p className="font-semibold text-white">{companyInfo.officialName}</p>
+                    <p className="font-semibold text-white">
+                      {companyInfo.officialName}
+                    </p>
                     <p>
                       {companyInfo.district}, {companyInfo.regency}
                     </p>
