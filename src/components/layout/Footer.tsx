@@ -18,7 +18,7 @@ export function Footer({
 
   return (
     <footer
-      className={`relative z-0 isolate text-[11px] overflow-hidden ${
+      className={`relative z-0 isolate text-sm overflow-hidden ${
         dark ? "bg-black text-zinc-400" : "bg-[#f8f8f8] text-gray-600"
       }`}
     >
@@ -42,7 +42,7 @@ export function Footer({
 
             {/* Navigasi */}
             <div>
-              <h4 className={`font-semibold mb-3 ${dark ? "text-white" : "text-gray-900"}`}>Navigasi</h4>
+              <h4 className={`font-semibold text-base mb-3 ${dark ? "text-white" : "text-gray-900"}`}>Navigasi</h4>
               <ul className="space-y-2">
                 {siteNavLinks.map((link) => (
                   <li key={link.href}>
@@ -56,7 +56,7 @@ export function Footer({
 
             {/* Layanan Utama */}
             <div>
-              <h4 className={`font-semibold mb-3 ${dark ? "text-white" : "text-gray-900"}`}>Layanan {companyInfo.shortName}</h4>
+              <h4 className={`font-semibold text-base mb-3 ${dark ? "text-white" : "text-gray-900"}`}>Layanan {companyInfo.shortName}</h4>
               <ul className="space-y-2">
                 {servicesData.slice(0, 6).map((service) => (
                   <li key={service.id}>
@@ -70,7 +70,7 @@ export function Footer({
 
             {/* Kontak */}
             <div>
-              <h4 className={`font-semibold mb-3 ${dark ? "text-white" : "text-gray-900"}`}>Hubungi Kami</h4>
+              <h4 className={`font-semibold text-base mb-3 ${dark ? "text-white" : "text-gray-900"}`}>Hubungi Kami</h4>
               <ul className="space-y-2">
                 <li className="leading-relaxed">{companyInfo.address}</li>
                 <li>

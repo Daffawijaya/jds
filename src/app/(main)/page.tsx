@@ -176,7 +176,7 @@ export default function HomePage() {
                   key={service!.id}
                   className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group relative flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
                 >
-                  <div className="px-4 py-5 flex items-center space-x-2 text-xs font-semibold">
+                  <div className="px-4 py-5 flex items-center space-x-2 text-sm font-semibold">
                     <span
                       className={`w-5 h-5 ${solidChip[service!.category]} rounded flex items-center justify-center text-white`}
                     >
@@ -191,7 +191,7 @@ export default function HomePage() {
                       className="card-img w-full h-full object-cover"
                     />
                   </div>
-                  <div className="desc-lock w-full px-4 py-5 text-xs text-zinc-600 leading-relaxed group-hover:text-white transition-colors duration-300">
+                  <div className="desc-lock w-full px-4 py-5 text-sm text-zinc-600 leading-relaxed group-hover:text-white transition-colors duration-300">
                     <div className="desc-clip">{service!.shortDesc}</div>
                   </div>
                   {/* chevron tebal di ujung kanan bawah, muncul saat hover */}
@@ -208,17 +208,11 @@ export default function HomePage() {
       {/* 3. PROYEK & KEUNGGULAN */}
       <section className="relative z-10 py-12 bg-white text-zinc-900">
         <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
-          <div className="text-center mb-12">
-            <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">
-              PROYEK &amp; KEUNGGULAN
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold mt-1 mb-2">
-              Dampak nyata untuk daerah &amp; bisnis.
-            </h2>
-            <p className="text-zinc-600 text-sm">
-              Bekerja sama dengan instansi pemerintah dan mitra bisnis di Kalimantan Timur.
-            </p>
-          </div>
+          <SectionHeading
+            badgeText="Proyek & Keunggulan"
+            title="Dampak nyata untuk daerah & bisnis."
+            subtitle="Bekerja sama dengan instansi pemerintah dan mitra bisnis di Kalimantan Timur."
+          />
 
           {/* Baris 1: Carousel looping 2 kartu (full-bleed, tanpa container) */}
         </div>
@@ -260,12 +254,12 @@ export default function HomePage() {
       {/* 5. KATALOG LAYANAN LENGKAP */}
       <RevealServices heading={
         <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
-          <div className="text-center mb-0 relative z-10">
-            <h2 className="text-3xl font-extrabold mb-2">Satu mitra, semua solusi digital.</h2>
-            <p className="text-xs text-zinc-400 mb-6">
-              Layanan lengkap untuk instansi pemerintah, korporasi, dan pelaku usaha di Kalimantan Timur.
-            </p>
-          </div>
+          <SectionHeading
+            title="Satu mitra, semua solusi digital."
+            subtitle="Layanan lengkap untuk instansi pemerintah, korporasi, dan pelaku usaha di Kalimantan Timur."
+            button={{ label: "Lihat Semua Layanan", href: "/services" }}
+            dark
+          />
         </div>
 
       }>
@@ -298,8 +292,8 @@ export default function HomePage() {
                   {iconMapLg[service.iconName]}
                 </div>
                 <div className="relative z-10 mt-auto">
-                  <h3 className="font-bold text-base mb-1">{service.title}</h3>
-                  <p className="text-xs text-zinc-400 group-hover:text-zinc-200 leading-relaxed transition-colors duration-500">
+                  <h3 className="font-bold text-2xl mb-1">{service.title}</h3>
+                  <p className="text-sm text-zinc-400 group-hover:text-zinc-200 leading-relaxed transition-colors duration-500">
                     {service.shortDesc}
                   </p>
                 </div>
@@ -315,13 +309,13 @@ export default function HomePage() {
                 <div className="w-8 h-8 bg-white text-black rounded font-black flex items-center justify-center mb-4">
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
                 </div>
-                <h3 className="font-bold text-base mb-1">Diskusikan kebutuhan Anda.</h3>
-                <p className="text-xs text-zinc-400 leading-relaxed">
+                <h3 className="font-bold text-2xl mb-1">Diskusikan kebutuhan Anda.</h3>
+                <p className="text-sm text-zinc-400 leading-relaxed">
                   Ceritakan rencana digitalisasi Anda. Tim kami siap membantu dari konsultasi hingga
                   implementasi.
                 </p>
               </div>
-              <span className="mt-4 text-xs font-semibold text-white inline-flex items-center gap-1">
+              <span className="mt-4 text-sm font-semibold text-white inline-flex items-center gap-1">
                 Konsultasi Gratis
                 <ArrowUpRight className="w-3 h-3" />
               </span>

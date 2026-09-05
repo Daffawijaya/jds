@@ -57,7 +57,7 @@ export default function AboutPage() {
                   </span>
                   <span>Web Development</span>
                 </div>
-                <h3 className="text-xl font-bold mb-6 flex-grow">
+                <h3 className="text-2xl font-bold mb-6 flex-grow">
                   Pengembangan situs web modern, responsif, dan teroptimasi.
                 </h3>
                 <div className="flex items-center space-x-3">
@@ -85,7 +85,7 @@ export default function AboutPage() {
                   </span>
                   <span>Software Development</span>
                 </div>
-                <h3 className="text-xl font-bold mb-6 flex-grow">
+                <h3 className="text-2xl font-bold mb-6 flex-grow">
                   Rancang bangun perangkat lunak custom untuk otomatisasi proses bisnis.
                 </h3>
                 <div className="flex items-center space-x-3">
@@ -113,7 +113,7 @@ export default function AboutPage() {
                   </span>
                   <span>UI/UX Design</span>
                 </div>
-                <h3 className="text-xl font-bold mb-6 flex-grow">
+                <h3 className="text-2xl font-bold mb-6 flex-grow">
                   Perancangan antarmuka intuitif untuk aplikasi web dan mobile.
                 </h3>
                 <div className="flex items-center space-x-3">
@@ -141,7 +141,7 @@ export default function AboutPage() {
                   </span>
                   <span>Digitalisasi Sistem</span>
                 </div>
-                <h3 className="text-xl font-bold mb-6 flex-grow">
+                <h3 className="text-2xl font-bold mb-6 flex-grow">
                   Modernisasi alur kerja menjadi ekosistem digital terintegrasi.
                 </h3>
                 <div className="flex items-center space-x-3">
@@ -169,7 +169,7 @@ export default function AboutPage() {
                   </span>
                   <span>IT Consulting</span>
                 </div>
-                <h3 className="text-xl font-bold mb-6 flex-grow">
+                <h3 className="text-2xl font-bold mb-6 flex-grow">
                   Konsultasi strategis perencanaan teknologi dan peta jalan digitalisasi.
                 </h3>
                 <div className="flex items-center space-x-3">
@@ -197,7 +197,7 @@ export default function AboutPage() {
                   </span>
                   <span>IT Outsourcing</span>
                 </div>
-                <h3 className="text-xl font-bold mb-6 flex-grow">
+                <h3 className="text-2xl font-bold mb-6 flex-grow">
                   Pengelolaan operasional IT secara terstruktur dan terukur.
                 </h3>
                 <div className="flex items-center space-x-3">
