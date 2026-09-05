@@ -64,7 +64,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className={`scroll-smooth ${myriad.variable} ${myriadCondensed.variable}`}>
-      <body className="font-sans bg-white text-slate-900 antialiased selection:bg-red-600 selection:text-white">
+      <body className="font-sans bg-white text-slate-900 antialiased">
         <SmoothScroll />
         {children}
       </body>

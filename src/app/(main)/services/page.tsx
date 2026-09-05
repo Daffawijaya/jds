@@ -68,17 +68,30 @@ export default function ServicesPage() {
     <div className="min-h-screen bg-white text-gray-900 font-sans">
 
       {/* 1. HERO SECTION */}
-      <section className="text-center py-16">
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
+      <section className="relative text-center py-16 text-zinc-900 bg-white">
+        {/* Aurora pastel ala Adobe: blobs lembut + base rainbow, fade ‿ ke putih */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 overflow-hidden [mask-image:radial-gradient(ellipse_130%_90%_at_50%_0%,transparent_5%,black_98%)] [-webkit-mask-image:radial-gradient(ellipse_130%_90%_at_50%_0%,transparent_5%,black_98%)]"
+        >
+          <div className="absolute -inset-[15%] bg-[radial-gradient(40%_55%_at_20%_40%,rgba(255,150,220,0.55),transparent_70%),radial-gradient(35%_50%_at_55%_30%,rgba(170,140,255,0.5),transparent_70%),radial-gradient(40%_55%_at_80%_45%,rgba(120,190,255,0.55),transparent_70%),radial-gradient(45%_60%_at_50%_90%,rgba(120,230,190,0.5),transparent_70%),linear-gradient(to_right,#fde7f3,#efe9ff_35%,#e3f1ff_65%,#dcf7ec)]" />
+        </div>
+        <div className="relative max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Layanan {companyInfo.shortName}.
           </h1>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-zinc-600 mb-8 max-w-2xl mx-auto">
             Solusi pengembangan software, perancangan web, digitalisasi sistem, konsultasi teknologi, serta penyediaan tenaga ahli profesional.
           </p>
-          <a href="#services" className="bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg mb-14 inline-block">
+          <a href="#services" className="bg-zinc-900 hover:bg-black text-white px-8 py-3 rounded-full font-semibold text-lg inline-block">
             Lihat Semua Layanan
           </a>
+        </div>
+      </section>
+
+      {/* Tab kategori — di luar hero, di atas konten */}
+      <div className="bg-white">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 pt-8">
           <nav className="flex flex-wrap justify-center gap-6 text-sm font-bold text-gray-500">
             {categories.map((cat) => (
               <button
@@ -96,7 +109,7 @@ export default function ServicesPage() {
           </nav>
         </div>
         <div className="-mt-px border-t border-gray-400"></div>
-      </section>
+      </div>
 
       {/* 2. SERVICES GRID */}
       <section id="services" className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-12">
