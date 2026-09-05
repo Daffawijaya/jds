@@ -79,12 +79,12 @@ export function Navbar() {
               width={626}
               height={271}
               priority
-              className="h-9 w-auto object-contain"
+              className="h-7 w-auto object-contain"
             />
           </Link>
 
           <nav
-            className={`hidden md:flex items-center gap-6 text-xs font-semibold tracking-wide transition-colors ${
+            className={`hidden md:flex items-center gap-6 text-sm font-semibold tracking-wide transition-colors ${
               isDark ? "text-zinc-600" : "text-zinc-300"
             }`}
           >
@@ -115,7 +115,7 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <Link
             href="/contact"
-            className={`font-semibold px-5 py-2 rounded-full text-xs transition-all ${
+            className={`font-semibold px-5 py-2 rounded-full text-sm transition-all ${
               isDark
                 ? "bg-transparent text-zinc-900 border border-zinc-900 hover:bg-zinc-900 hover:text-white"
                 : "bg-white text-black border border-white hover:bg-zinc-200"

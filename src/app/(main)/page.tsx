@@ -127,8 +127,8 @@ export default function HomePage() {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="relative w-full max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-20 sm:py-24 lg:py-28">
-          <div className="max-w-2xl">
-            <span className="text-xs font-semibold tracking-widest text-zinc-300">
+          <div className="max-w-[50%]">
+            <span className="text-sm font-bold tracking-widest text-white">
               {companyInfo.officialName}
             </span>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mt-3 mb-5 leading-tight">
@@ -136,7 +136,7 @@ export default function HomePage() {
               <br />
               dibangun hari ini.
             </h1>
-            <p className="text-zinc-200 text-sm leading-relaxed mb-6">
+            <p className="text-zinc-200 text-xl leading-relaxed mb-6">
               Satu mitra untuk transformasi digital: membangun sistem, mendigitalkan alur kerja, dan
               menyiapkan tenaga ahli profesional bagi instansi maupun bisnis Anda.
             </p>
@@ -212,6 +212,7 @@ export default function HomePage() {
             badgeText="Proyek & Keunggulan"
             title="Dampak nyata untuk daerah & bisnis."
             subtitle="Bekerja sama dengan instansi pemerintah dan mitra bisnis di Kalimantan Timur."
+            className="mb-20"
           />
 
           {/* Baris 1: Carousel looping 2 kartu (full-bleed, tanpa container) */}
