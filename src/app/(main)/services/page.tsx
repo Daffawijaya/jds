@@ -50,6 +50,7 @@ export default function ServicesPage() {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
+
   const categories = [
     { key: "all", label: "Semua Layanan" },
     { key: "development", label: "Software & Web" },
@@ -74,24 +75,25 @@ export default function ServicesPage() {
         <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
           Solusi pengembangan software, perancangan web, digitalisasi sistem, konsultasi teknologi, serta penyediaan tenaga ahli profesional.
         </p>
-        <a href="#services" className="bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg mb-8 inline-block">
+        <a href="#services" className="bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg mb-14 inline-block">
           Lihat Semua Layanan
         </a>
-        <nav className="flex flex-wrap justify-center gap-6 text-sm font-medium text-gray-500">
+        <nav className="flex flex-wrap justify-center gap-6 text-sm font-bold text-gray-500">
           {categories.map((cat) => (
             <button
               key={cat.key}
               onClick={() => setActiveCategory(cat.key)}
-              className={`transition-colors ${
+              className={`transition-colors border-b-[3px] ${
                 activeCategory === cat.key
-                  ? "text-black border-b-2 border-black pb-1"
-                  : "hover:text-black"
+                  ? "text-black border-[#1473E6] pb-2"
+                  : "text-gray-500 border-transparent hover:text-black pb-2"
               }`}
             >
               {cat.label}
             </button>
           ))}
         </nav>
+        <div className="w-screen relative left-1/2 -translate-x-1/2 -mt-px border-t border-gray-200"></div>
       </section>
 
       {/* 2. SERVICES GRID */}
@@ -163,35 +165,93 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* 4. PROCESS STEPS GRID */}
-      <section id="methodology" className="bg-gray-50 py-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-2">
-            Tahapan Kerja {companyInfo.shortName}
-          </h2>
-          <p className="text-center text-gray-600 mb-12">
-            Setiap proyek melewati 5 tahapan terstruktur untuk memastikan kualitas dan ketepatan waktu.
+      {/* 4. PROCESS STEPS (Gradient + 2 Cards) */}
+      <section id="methodology" className="bg-gradient-to-b from-white via-[#E8D9FF] to-[#A855F7] py-20 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-sm font-semibold uppercase tracking-widest text-gray-600 mb-2">
+            TAHAPAN KERJA
+          </p>
+          <h2 className="text-4xl font-bold mb-4">Alur Pelaksanaan {companyInfo.shortName}.</h2>
+          <p className="text-gray-700 mb-8">
+            Setiap proyek melewati tahapan terstruktur untuk memastikan kualitas dan ketepatan waktu.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {processSteps.map((step, i) => (
-              <div
-                key={i}
-                className="bg-white p-4 rounded-xl flex items-center gap-4 shadow-sm border border-gray-100 hover:shadow-md transition"
-              >
-                <div className="w-20 h-20 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
-                  <span className="text-2xl font-bold text-[#1473E6]">{step.step}</span>
+          {/* Toggle */}
+          <div className="inline-flex bg-white rounded-full p-1 shadow-sm mb-12 border">
+            <button className="bg-gray-900 text-white px-6 py-2 rounded-full text-sm font-semibold">
+              Perencanaan
+            </button>
+            <button className="text-gray-600 px-6 py-2 rounded-full text-sm font-semibold hover:bg-gray-50">
+              Eksekusi
+            </button>
+          </div>
+
+          {/* Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-5xl mx-auto">
+            {/* Card 1 */}
+            <div className="bg-white p-8 rounded-2xl flex flex-col">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded bg-[#1473E6] flex items-center justify-center text-white font-bold text-sm">
+                  01
                 </div>
-                <div>
-                  <div className="text-[10px] text-gray-500 font-bold tracking-wider mb-1 uppercase">
-                    LANGKAH {step.step}
-                  </div>
-                  <h3 className="font-semibold text-sm leading-snug">
-                    {step.title}
-                  </h3>
-                </div>
+                <span className="font-bold">Perencanaan & Persiapan</span>
               </div>
-            ))}
+              <h3 className="text-3xl font-bold mb-2">
+                Tahap Awal
+              </h3>
+              <p className="text-gray-600 text-sm mb-6 flex-grow">
+                Analisis kebutuhan dan perancangan arsitektur solusi sebelum memulai pengembangan.
+              </p>
+              <h4 className="font-semibold text-sm mb-4">Tahapan:</h4>
+              <ul className="space-y-3 text-sm text-gray-700">
+                <li className="flex items-start gap-2">
+                  ✓ <span>Konsultasi & Analisis Kebutuhan proyek</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  ✓ <span>Perancangan Arsitektur & Solusi teknis</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  ✓ <span>Penyiapan skema tenaga ahli & blueprint</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Card 2 */}
+            <div className="bg-white p-8 rounded-2xl shadow-xl flex flex-col relative border-2 border-yellow-400">
+              <div className="absolute top-0 right-8 bg-yellow-400 text-xs font-bold px-3 py-1 rounded-b-lg">
+                Inti Pekerjaan
+              </div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded bg-[#A855F7] flex items-center justify-center text-white font-bold text-sm">
+                  02
+                </div>
+                <span className="font-bold">Eksekusi & Penyerahan</span>
+              </div>
+              <h3 className="text-3xl font-bold mb-2">
+                Tahap Inti
+              </h3>
+              <p className="text-gray-600 text-sm mb-6 flex-grow">
+                Pengembangan, pengujian, hingga serah terima proyek dan dukungan pasca-peluncuran.
+              </p>
+              <h4 className="font-semibold text-sm mb-4">Tahapan:</h4>
+              <ul className="space-y-3 text-sm text-gray-700">
+                <li className="flex items-start gap-2">
+                  ✓ <span>Eksekusi & Pengembangan sesuai jadual</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  ✓ <span>Pengujian & Verifikasi Kualitas</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  ✓ <span>Peluncuran, pelatihan & pengawasan</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-8 text-center">
+            <button className="border border-gray-800 text-gray-900 px-6 py-2 rounded-full font-semibold hover:bg-gray-100 bg-white">
+              Lihat Detail Alur Kerja
+            </button>
           </div>
         </div>
       </section>
