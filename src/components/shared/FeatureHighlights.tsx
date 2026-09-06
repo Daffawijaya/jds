@@ -62,9 +62,58 @@ const glassPanel =
 const glassSheen =
   "pointer-events-none absolute inset-0 bg-gradient-to-br from-white/25 via-white/5 to-transparent";
 
-// Turun: cepat lalu melambat — kurva yang sama dengan ProjectCarousel.
+/* ═══════════════════════════════════════════════════════════════
+   HighlightCardsGrid — 3 card dengan animasi scroll sama seperti
+   ServiceCardsReveal: muncul bergeser dari bawah saat scroll.
+   ═══════════════════════════════════════════════════════════════ */
+
 const easeOutScroll = (progress: number) =>
   0.25 * progress + 0.75 * (1 - (1 - progress) ** 3);
+
+function HighlightCardsGrid({ cards }: { cards: typeof highlightCards }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 1", "start 0.3"],
+  });
+  const remaining = useTransform(scrollYProgress, (p) => (1 - p) ** 3);
+  const y0 = useTransform(remaining, (v) => `${v * 80}%`);
+  const y1 = useTransform(remaining, (v) => `${v * 160}%`);
+  const y2 = useTransform(remaining, (v) => `${v * 240}%`);
+  const offsets = [y0, y1, y2];
+
+  return (
+    <div ref={ref} className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+      {cards.map((card, i) => (
+        <motion.div
+          key={card.title}
+          style={{ y: offsets[i % 3] }}
+          className="bg-white border border-zinc-200 rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow flex flex-col motion-reduce:transform-none!"
+        >
+          <div className="overflow-hidden rounded-xl mb-4 aspect-[4/3]">
+            <img
+              src={card.image}
+              alt={card.alt}
+              loading="lazy"
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+          <h4 className="font-bold text-lg tracking-tight mb-1">{card.title}</h4>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-4 flex-1">
+            {card.description}
+          </p>
+          <Link
+            href={card.href}
+            className="group inline-flex items-center gap-1 text-sm font-semibold text-[#1473E6] hover:underline"
+          >
+            {card.cta}
+            <FaChevronRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
 
 export function FeatureHighlights() {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -213,34 +262,7 @@ export function FeatureHighlights() {
 
       {/* ── 3 card di bawahnya (gaya adobe.com) — selalu sejajar container ── */}
       <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-          {highlightCards.map((card) => (
-            <div
-              key={card.title}
-              className="bg-white border border-zinc-200 rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow flex flex-col"
-            >
-              <div className="overflow-hidden rounded-xl mb-4 aspect-[4/3]">
-                <img
-                  src={card.image}
-                  alt={card.alt}
-                  loading="lazy"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <h4 className="font-bold text-lg tracking-tight mb-1">{card.title}</h4>
-              <p className="text-sm text-zinc-600 leading-relaxed mb-4 flex-1">
-                {card.description}
-              </p>
-              <Link
-                href={card.href}
-                className="group inline-flex items-center gap-1 text-sm font-semibold text-[#1473E6] hover:underline"
-              >
-                {card.cta}
-                <FaChevronRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-            </div>
-          ))}
-        </div>
+        <HighlightCardsGrid cards={highlightCards} />
       </div>
     </div>
   );
