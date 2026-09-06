@@ -136,7 +136,7 @@ export default function AboutPage() {
             />
             <div className="p-6">
               <p className="text-sm font-semibold text-gray-500 mb-2">
-                Nilai | Profesionalisme
+                Profesionalisme
               </p>
               <h3 className="text-lg font-bold hover:underline cursor-pointer">
                 Menjalankan setiap penugasan dengan standar kualitas tinggi, integritas, dan tanggung jawab penuh.
@@ -152,7 +152,7 @@ export default function AboutPage() {
             />
             <div className="p-6">
               <p className="text-sm font-semibold text-gray-500 mb-2">
-                Nilai | Inovasi Tepat Guna
+                Inovasi Tepat Guna
               </p>
               <h3 className="text-lg font-bold hover:underline cursor-pointer">
                 Menghadirkan solusi digitalisasi yang praktis, efektif, dan memberi manfaat nyata.
