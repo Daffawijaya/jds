@@ -105,7 +105,7 @@ function HighlightCardsGrid({ cards }: { cards: typeof highlightCards }) {
             </p>
             <Link
               href={card.href}
-              className="group inline-flex items-center gap-1 text-sm font-semibold text-[#1473E6] hover:underline"
+              className="group inline-flex items-center gap-1 text-sm font-semibold text-zinc-900 hover:underline"
             >
               {card.cta}
               <FaChevronRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
