@@ -266,17 +266,17 @@ export function FeatureHighlights() {
       <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 mt-6 flex items-start justify-between gap-4">
         <div className="max-w-[40%]">
           <h3 className="text-2xl font-bold text-zinc-900">
-            Wujudkan akses pasar digital untuk UMKM lokal.
+            Wujudkan akses pasar digital untuk UMKM lokal melalui etamhub.
           </h3>
           <p className="text-sm text-zinc-600 mt-1">
-            Katalog produk, profil usaha, dan promosi UMKM terhubung dalam satu platform yang mudah dijangkau masyarakat.
+            Satu platform untuk katalog, profil usaha, dan promosi produk UMKM.
           </p>
         </div>
         <Link
           href="/projects"
           className="group shrink-0 inline-flex items-center gap-1 text-sm font-semibold text-zinc-900 hover:underline mt-1"
         >
-          Learn more
+          Pelajari lebih lanjut
           <FaChevronRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
         </Link>
       </div>
