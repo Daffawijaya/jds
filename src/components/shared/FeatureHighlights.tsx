@@ -155,10 +155,11 @@ export function FeatureHighlights() {
   const pad = useTransform(progress, [0, 1], [0, endPad], { ease: easeOutScroll });
   const width = useMotionTemplate`calc(100% - ${pad}px)`;
   const maxWidth = useTransform(progress, [0, 1], [vw, endMax], { ease: easeOutScroll });
+  const borderRadius = useTransform(progress, [0, 1], ["0px", "16px"], { ease: easeOutScroll });
   // Reduced-motion: langsung state akhir, tanpa animasi.
   const cardStyle = reduce
-    ? { width: `calc(100% - ${endPad}px)`, maxWidth: endMax }
-    : { width, maxWidth };
+    ? { width: `calc(100% - ${endPad}px)`, maxWidth: endMax, borderRadius: "16px" }
+    : { width, maxWidth, borderRadius };
 
   // Framer menulis width di fase render; kunci scrollLeft setelahnya,
   // sebelum paint, supaya penyusutan lebar tidak menggeser scroll
@@ -191,7 +192,7 @@ export function FeatureHighlights() {
       {/* ── Card gambar besar + 2 panel liquid glass ── */}
       <motion.div
         style={cardStyle}
-        className="relative mx-auto rounded-2xl overflow-hidden shadow-xl min-h-[90vh] flex"
+        className="relative mx-auto overflow-hidden shadow-xl min-h-[90vh] flex"
       >
         <img
           src="/image/etamhub.png"
