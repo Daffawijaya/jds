@@ -33,14 +33,7 @@ export function FeatureSection({
         {/* Text */}
         <div className={`w-full md:w-1/2 flex flex-col items-start ${isReversed ? "md:order-1" : "md:order-2"}`}>
           {badge && (
-            <div className="flex items-center space-x-2 text-sm font-bold text-gray-600 mb-4">
-              <span
-                className={`w-5 h-5 rounded-sm flex items-center justify-center text-[10px] ${badgeColor}`}
-              >
-                {badge.slice(0, 2).toUpperCase()}
-              </span>
-              <span>{badge}</span>
-            </div>
+            <p className="text-2xl font-semibold text-black mb-4">{badge}</p>
           )}
           <h2 className="text-4xl font-semibold mb-4 leading-tight">{title}</h2>
           <p className="text-gray-600 mb-6 text-lg">{description}</p>
