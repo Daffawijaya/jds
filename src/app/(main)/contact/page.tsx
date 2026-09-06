@@ -326,8 +326,7 @@ export default function ContactPage() {
             <article className="flex flex-col border border-[#d8d8d8] bg-white">
               <div className="flex flex-1 flex-col p-6 sm:p-8">
                 <div className="flex items-center gap-3">
-                  <Image src="/icon.png" alt="" width={34} height={34} className="h-[34px] w-[34px] object-contain" />
-                  <p className="font-bold">JDS</p>
+                  <Image src="/jds.png" alt="JDS" width={60} height={26} className="h-7 w-auto object-contain" />
                 </div>
                 <h3 className="mt-7 text-2xl font-extrabold">Hubungi tim secara langsung</h3>
                 <p className="mt-3 text-[28px] font-extrabold leading-tight">Percakapan awal tanpa biaya</p>

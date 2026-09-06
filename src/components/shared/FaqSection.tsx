@@ -41,7 +41,7 @@ export function FaqSection({ title, items }: FaqSectionProps) {
                           : [...current, index],
                       )
                     }
-                    className={`flex min-h-[72px] w-full items-center justify-between gap-6 py-5 pr-5 pl-5 text-left text-base font-bold transition-colors hover:bg-[#f5f5f5] hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1473e6] sm:text-lg ${isOpen ? "bg-[#f5f5f5]" : ""}`}
+                    className={`flex min-h-[72px] w-full items-center justify-between gap-6 py-5 pr-5 pl-5 text-left text-base font-bold transition-colors hover:bg-[#f8f8f8] hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1473e6] sm:text-lg ${isOpen ? "bg-[#f8f8f8]" : ""}`}
                   >
                     {faq.question}
                     <Plus aria-hidden="true" className={`h-5 w-5 shrink-0 text-black transition-transform motion-reduce:transition-none ${isOpen ? "rotate-45" : ""}`} />
@@ -51,10 +51,14 @@ export function FaqSection({ title, items }: FaqSectionProps) {
                   id={`faq-answer-${index}`}
                   role="region"
                   aria-labelledby={`faq-trigger-${index}`}
-                  hidden={!isOpen}
-                  className="max-w-[800px] pt-6 pb-6 pl-5 pr-10 text-base leading-relaxed text-[#4f4f4f]"
+                  className="grid transition-[grid-template-rows] duration-300 ease-in-out"
+                  style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
                 >
-                  {faq.answer}
+                  <div className="overflow-hidden">
+                    <div className="max-w-[800px] pt-6 pb-6 pl-5 pr-10 text-base leading-relaxed text-[#4f4f4f]">
+                      {faq.answer}
+                    </div>
+                  </div>
                 </div>
               </div>
             );
