@@ -77,6 +77,7 @@ const homeImages = {
 const outcomeCards = [
   {
     id: "streamlined-work",
+    label: "Efisiensi operasional",
     title: "Proses kerja lebih ringkas.",
     description:
       "Kurangi pekerjaan manual dan alur berulang melalui sistem yang disusun sesuai kebutuhan operasional.",
@@ -86,6 +87,7 @@ const outcomeCards = [
   },
   {
     id: "connected-data",
+    label: "Data dan integrasi",
     title: "Data lebih rapi dan terhubung.",
     description:
       "Satukan informasi penting agar mudah ditemukan, dipantau, dan digunakan untuk mengambil keputusan.",
@@ -95,6 +97,7 @@ const outcomeCards = [
   },
   {
     id: "accessible-services",
+    label: "Pengalaman digital",
     title: "Layanan lebih mudah digunakan.",
     description:
       "Hadirkan pengalaman digital yang jelas bagi tim internal, mitra, maupun masyarakat.",
@@ -104,6 +107,7 @@ const outcomeCards = [
   },
   {
     id: "project-ready-team",
+    label: "Kesiapan tim",
     title: "Tim proyek lebih siap.",
     description:
       "Lengkapi kebutuhan proyek dengan tenaga ahli yang sesuai dan siap mendukung pelaksanaan di lapangan.",
@@ -113,6 +117,7 @@ const outcomeCards = [
   },
   {
     id: "scalable-foundation",
+    label: "Fondasi teknologi",
     title: "Solusi tumbuh bersama kebutuhan.",
     description:
       "Bangun fondasi digital yang dapat dikembangkan saat program, pengguna, dan proses organisasi bertambah.",
@@ -193,13 +198,13 @@ export default function HomePage() {
                   key={outcome.id}
                   className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group relative flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
                 >
-                  <div className="px-4 py-5 flex items-center space-x-2 text-sm font-semibold">
+                  <div className="px-4 py-5 flex items-center space-x-2 text-sm font-bold">
                     <span
                       className={`w-5 h-5 ${outcome.chipClass} rounded flex items-center justify-center text-white`}
                     >
                       {iconMap[outcome.iconName]}
                     </span>
-                    <span className="group-hover:text-white transition-colors duration-300">{outcome.title}</span>
+                    <span className="group-hover:text-white transition-colors duration-300">{outcome.label}</span>
                   </div>
                   <div className="card-img-frame h-72 sm:h-96 overflow-hidden rounded-2xl relative flex items-center justify-center">
                     <img
@@ -209,8 +214,13 @@ export default function HomePage() {
                       className="card-img w-full h-full object-cover"
                     />
                   </div>
-                  <div className="desc-lock w-full px-4 py-5 text-sm text-zinc-600 leading-relaxed group-hover:text-white transition-colors duration-300">
-                    <div className="desc-clip">{outcome.description}</div>
+                  <div className="desc-lock w-full px-4 py-5">
+                    <h3 className="line-clamp-2 text-base font-bold leading-5 text-zinc-900 transition-colors duration-300 group-hover:text-white">
+                      {outcome.title}
+                    </h3>
+                    <p className="mt-1 line-clamp-2 text-base font-normal leading-5 text-zinc-900/60 transition-colors duration-300 group-hover:text-white/60">
+                      {outcome.description}
+                    </p>
                   </div>
                 </div>
               ))}
