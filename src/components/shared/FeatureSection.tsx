@@ -7,7 +7,7 @@ interface FeatureSectionProps {
   badgeColor?: string;
   title: string;
   description: string;
-  button?: { label: string; href: string };
+  button?: { label: string; href?: string; onClick?: () => void };
   imagePosition?: "left" | "right";
 }
 
@@ -28,7 +28,7 @@ export function FeatureSection({
       <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 flex flex-col md:flex-row items-center gap-12">
         {/* Image */}
         <div className={`w-full md:w-1/2 flex ${isReversed ? "md:order-2 justify-end" : "md:order-1"}`}>
-          <img src={image} alt={imageAlt} className="block w-5/6" />
+          <img src={image} alt={imageAlt} className="block w-5/6 aspect-video object-cover" />
         </div>
         {/* Text */}
         <div className={`w-full md:w-1/2 flex flex-col items-start ${isReversed ? "md:order-1" : "md:order-2"}`}>
@@ -38,12 +38,21 @@ export function FeatureSection({
           <h2 className="text-4xl font-semibold mb-4 leading-tight">{title}</h2>
           <p className="text-gray-600 mb-6 text-lg">{description}</p>
           {button && (
-            <Link
-              href={button.href}
-              className="border-2 border-black text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors"
-            >
-              {button.label}
-            </Link>
+            button.onClick ? (
+              <button
+                onClick={button.onClick}
+                className="border-2 border-black text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors"
+              >
+                {button.label}
+              </button>
+            ) : (
+              <Link
+                href={button.href || "#"}
+                className="border-2 border-black text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors"
+              >
+                {button.label}
+              </Link>
+            )
           )}
         </div>
       </div>

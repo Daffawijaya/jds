@@ -70,6 +70,7 @@ export default function ServicesPage() {
       title: "Konsultasi & Analisis",
       subtitle: "Tahap Awal",
       desc: "Pemahaman mendalam terhadap kebutuhan, tantangan, dan tujuan bisnis client sebelum masuk ke perancangan solusi.",
+      badge: undefined,
       steps: [
         "Konsultasi & analisis kebutuhan proyek",
         "Identifikasi tantangan & peluang digitalisasi",
@@ -82,6 +83,7 @@ export default function ServicesPage() {
       title: "Perancangan Arsitektur",
       subtitle: "Tahap Perencanaan",
       desc: "Merancang arsitektur solusi teknis, blueprints, dan rencana penyiapan tenaga ahli secara terstruktur.",
+      badge: undefined,
       steps: [
         "Perancangan arsitektur & solusi teknis",
         "Penyiapan blueprint & skema tenaga ahli",

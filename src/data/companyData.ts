@@ -205,7 +205,7 @@ export const projectsData: Project[] = [
   },
   {
     id: 'etamhub',
-    title: 'EtamHub',
+    title: 'etamhub',
     client: 'Dinas Koperasi dan UKM Kabupaten Kutai Kartanegara',
     category: 'Web Development & Digital Platform',
     year: '2026',

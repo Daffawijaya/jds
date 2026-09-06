@@ -4,16 +4,18 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
-  Building2,
-  CheckCircle2,
-  Globe,
-  Users,
 } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
 import { ProjectDetailModal } from "@/components/modals/ProjectDetailModal";
 import { companyInfo, projectsData } from "@/data/companyData";
 import { Project } from "@/types";
 import PageHeroWithTabs from "@/components/shared/PageHeroWithTabs";
+import { FeatureSection } from "@/components/shared/FeatureSection";
+
+const projectImages: Record<string, string> = {
+  "tenaga-ahli-umkm-2026": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
+  "etamhub": "/image/etamhub.png",
+};
 
 const categories = [
   { key: "all", label: "Semua Proyek" },
@@ -44,7 +46,7 @@ export default function ProjectsPage() {
       {/* Hero + Tabs — same layout as Services */}
       <PageHeroWithTabs
         title={<>Proyek {companyInfo.shortName}.</>}
-        description={`Rekam jejak pekerjaan terverifikasi yang dipercayakan kepada ${companyInfo.officialName} untuk mendukung digitalisasi dan penguatan tenaga ahli di Kutai Kartanegara.`}
+        description={`Proyek terverifikasi yang dipercayakan kepada ${companyInfo.officialName} untuk digitalisasi dan penguatan tenaga ahli.`}
         bgImage="/image/bgpur.png"
         tabs={categories}
         activeTab={activeCategory}
@@ -52,66 +54,28 @@ export default function ProjectsPage() {
       />
 
       {/* Project grid dibuat ringan seperti service grid: visual, judul, uraian, lalu scope. */}
-      <section id="projects" className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-12 scroll-mt-24">
-        <h2 className="text-center text-xl font-semibold mb-2">
-          Karya terpilih yang menghubungkan teknologi, instansi, dan masyarakat.
-        </h2>
-        <p className="text-center text-gray-500 mb-12">
-          Setiap proyek dikelola dengan ruang lingkup jelas, pelaksanaan terukur, dan fokus pada dampak.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredProjects.map((project) => {
-            const isStaffing = project.category.toLowerCase().includes("staffing");
-            const ProjectIcon = isStaffing ? Users : Globe;
-
-            return (
-              <article key={project.id}>
-                <div className="relative rounded-xl mb-4 w-full bg-gray-100 flex items-center justify-center aspect-video overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-transparent to-[#1473E6]/10" />
-                  <span className="absolute top-4 right-4 rounded-full bg-white px-3 py-1 text-xs font-bold text-gray-700 shadow-sm">
-                    {project.year}
-                  </span>
-                  <div className="relative flex max-w-sm flex-col items-center px-6 text-center">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-gray-500 shadow-sm transition-transform duration-300 group-hover:scale-105">
-                      <ProjectIcon className="h-6 w-6" />
-                    </div>
-                    <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#1473E6]">
-                      {project.category}
-                    </p>
-                    <p className="font-semibold text-gray-700">
-                      {project.imagePlaceholderText}
-                    </p>
-                  </div>
-                </div>
-
-                <h3 className="font-bold mb-2">{project.title}</h3>
-                <div className="mb-3 flex items-start gap-2 text-xs font-semibold text-gray-500">
-                  <Building2 className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                  <span>{project.client}</span>
-                </div>
-                <p className="text-sm text-gray-600 mb-4">
-                  {project.shortDesc}{" "}
-                  <button
-                    type="button"
-                    onClick={() => setSelectedProject(project)}
-                    className="text-blue-600 underline underline-offset-2 hover:text-blue-800"
-                  >
-                    Kaji detail proyek
-                  </button>
-                </p>
-                <ul className="space-y-1.5">
-                  {project.scope.slice(0, 3).map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-xs text-gray-500">
-                      <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#1473E6]" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            );
-          })}
+      <section id="projects" className="scroll-mt-24">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-12">
+          <h2 className="text-center text-xl font-semibold mb-2">
+            Karya terpilih yang menghubungkan teknologi, instansi, dan masyarakat.
+          </h2>
+          <p className="text-center text-gray-500 mb-12">
+            Setiap proyek dikelola dengan ruang lingkup jelas, pelaksanaan terukur, dan fokus pada dampak.
+          </p>
         </div>
+
+        {filteredProjects.map((project, idx) => (
+          <FeatureSection
+            key={project.id}
+            image={projectImages[project.id] || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"}
+            imageAlt={project.id}
+            badge={project.category}
+            title={project.title}
+            description={project.shortDesc}
+            button={{ label: "Kaji detail proyek", onClick: () => setSelectedProject(project) }}
+            imagePosition={idx % 2 === 0 ? "left" : "right"}
+          />
+        ))}
 
         <p className="mt-12 text-center text-sm text-gray-500">
           {filteredProjects.length} proyek tersedia
