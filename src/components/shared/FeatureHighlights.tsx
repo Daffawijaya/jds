@@ -90,7 +90,7 @@ function HighlightCardsGrid({ cards }: { cards: typeof highlightCards }) {
           style={{ y: offsets[i % 3] }}
           className="p-4 flex flex-col motion-reduce:transform-none!"
         >
-          <div className="overflow-hidden rounded-xl mb-4 aspect-[4/3]">
+          <div className="overflow-hidden rounded-2xl mb-4 aspect-[4/3]">
             <img
               src={card.image}
               alt={card.alt}
