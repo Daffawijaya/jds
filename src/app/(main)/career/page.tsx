@@ -5,7 +5,6 @@ import Image from "next/image";
 import {
   ArrowRight,
   Check,
-  ChevronDown,
   Code2,
   Globe2,
   GraduationCap,
@@ -28,6 +27,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { companyInfo } from "@/data/companyData";
+import { FaqSection } from "@/components/shared/FaqSection";
 
 const careerCards = [
   {
@@ -566,22 +566,10 @@ export default function CareerPage() {
         </ol>
       </section>
 
-      <section id="faq" className="scroll-mt-28 px-7 py-20 sm:px-8 lg:py-28">
-        <div className="mx-auto max-w-[1120px]">
-          <h2 className="text-center text-3xl font-bold tracking-[-0.02em] sm:text-4xl">Pertanyaan yang sering diajukan</h2>
-          <div className="mt-12 border-b border-black/20">
-            {faqItems.map((item) => (
-              <details key={item.question} className="group border-t border-black/20">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-left text-lg font-bold marker:hidden sm:text-xl">
-                  {item.question}
-                  <ChevronDown className="h-5 w-5 shrink-0 transition-transform duration-300 group-open:rotate-180" />
-                </summary>
-                <p className="max-w-3xl pb-7 pr-10 leading-7 text-black/70">{item.answer}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FaqSection
+        title="Pertanyaan yang sering diajukan"
+        items={faqItems}
+      />
 
       <Footer variant="light" />
 
