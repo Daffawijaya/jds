@@ -10,9 +10,10 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { CheckCircle2, Building2, Calendar, FolderGit2, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface ProjectDetailModalProps {
   project: Project | null;
@@ -32,9 +33,9 @@ export function ProjectDetailModal({
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">
-            <Badge variant="cyan">{project.category}</Badge>
+            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">{project.category}</Badge>
             {project.highlightBadge && (
-              <Badge variant="teal">{project.highlightBadge}</Badge>
+              <Badge variant="outline" className="bg-teal-50 text-teal-700 border-teal-200">{project.highlightBadge}</Badge>
             )}
           </div>
           <DialogTitle className="text-xl sm:text-2xl font-extrabold text-slate-950">
@@ -108,17 +109,13 @@ export function ProjectDetailModal({
           <Button variant="outline" onClick={onClose}>
             Tutup
           </Button>
-          <Button
-            asChild
-            variant="default"
-            className="bg-[#1473E6] hover:bg-blue-700"
-            onClick={onClose}
+          <Link
+            href="/contact"
+            className={cn(buttonVariants({ variant: "default" }), "bg-[#1473E6] hover:bg-blue-700 flex items-center gap-2")}
           >
-            <Link href="/contact" className="flex items-center gap-2">
-              <span>Konsultasi Proyek Serupa</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </Button>
+            <span>Konsultasi Proyek Serupa</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </DialogFooter>
       </DialogContent>
     </Dialog>

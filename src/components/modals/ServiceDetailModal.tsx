@@ -10,9 +10,10 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { CheckCircle2, ArrowRight, Layers, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface ServiceDetailModalProps {
   service: Service | null;
@@ -32,7 +33,7 @@ export function ServiceDetailModal({
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">
-            <Badge variant="cyan" className="capitalize">
+            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 capitalize">
               {service.category}
             </Badge>
           </div>
@@ -92,12 +93,13 @@ export function ServiceDetailModal({
           <Button variant="outline" onClick={onClose}>
             Tutup
           </Button>
-          <Button asChild variant="default" onClick={onClose}>
-            <Link href={`/contact?service=${encodeURIComponent(service.title)}`} className="flex items-center gap-2">
-              <span>Minta Penawaran Layanan</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </Button>
+          <Link
+            href={`/contact?service=${encodeURIComponent(service.title)}`}
+            className={cn(buttonVariants({ variant: "default" }), "flex items-center gap-2")}
+          >
+            <span>Minta Penawaran Layanan</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </DialogFooter>
       </DialogContent>
     </Dialog>

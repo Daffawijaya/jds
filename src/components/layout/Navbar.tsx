@@ -126,18 +126,15 @@ export function Navbar() {
 
           <div className="md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <button
-                  type="button"
-                  aria-label="Buka Menu"
-                  className={`inline-flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
-                    isDark
-                      ? "text-zinc-900 hover:bg-zinc-100"
-                      : "text-white hover:bg-white/10"
-                  }`}
-                >
-                  <Menu className="w-6 h-6" />
-                </button>
+              <SheetTrigger
+                aria-label="Buka Menu"
+                className={`inline-flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
+                  isDark
+                    ? "text-zinc-900 hover:bg-zinc-100"
+                    : "text-white hover:bg-white/10"
+                }`}
+              >
+                <Menu className="w-6 h-6" />
               </SheetTrigger>
               <SheetContent
                 side="right"
