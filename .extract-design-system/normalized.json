@@ -1,0 +1,38 @@
+{
+  "source": {
+    "url": "https://jayadinarasukses.vercel.app/services",
+    "extractedAt": "2026-09-05T04:09:43.693Z",
+    "extractor": "dembrandt"
+  },
+  "colors": {
+    "palette": [],
+    "cssVariables": {}
+  },
+  "typography": {
+    "headingFont": "myriad",
+    "bodyFont": "myriad"
+  },
+  "spacing": {
+    "scale": [
+      "2px",
+      "4px",
+      "6px",
+      "8px",
+      "12px",
+      "16px",
+      "24px",
+      "32px",
+      "40px",
+      "48px",
+      "56px",
+      "64px",
+      "80px"
+    ]
+  },
+  "radius": {
+    "scale": []
+  },
+  "shadows": {
+    "scale": []
+  }
+}
