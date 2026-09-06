@@ -99,7 +99,7 @@ function HighlightCardsGrid({ cards }: { cards: typeof highlightCards }) {
             />
           </div>
           <div className="px-4 pt-2 pb-4">
-            <h4 className="font-bold text-xl tracking-tight mb-1">{card.title}</h4>
+            <h4 className="font-bold text-2xl tracking-tight mb-1">{card.title}</h4>
             <p className="text-sm text-zinc-600 leading-relaxed mb-4 flex-1">
               {card.description}
             </p>
