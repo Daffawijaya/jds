@@ -27,7 +27,7 @@ export function FaqSection({ title, items }: FaqSectionProps) {
             const isOpen = openFaqs.includes(index);
 
             return (
-              <div key={faq.question} className={`border-b border-[#b7b7b7] ${isOpen ? "bg-black/[0.02]" : ""}`}>
+              <div key={faq.question} className="border-b border-[#b7b7b7]">
                 <h3>
                   <button
                     id={`faq-trigger-${index}`}
@@ -41,10 +41,10 @@ export function FaqSection({ title, items }: FaqSectionProps) {
                           : [...current, index],
                       )
                     }
-                    className="flex min-h-[72px] w-full items-center justify-between gap-6 py-5 text-left text-base font-bold transition-colors hover:text-[#1473e6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1473e6] sm:text-lg"
+                    className={`flex min-h-[72px] w-full items-center justify-between gap-6 py-5 pr-5 pl-5 text-left text-base font-bold transition-colors hover:bg-[#f5f5f5] hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1473e6] sm:text-lg ${isOpen ? "bg-[#f5f5f5]" : ""}`}
                   >
                     {faq.question}
-                    <Plus aria-hidden="true" className={`h-5 w-5 shrink-0 transition-transform motion-reduce:transition-none ${isOpen ? "rotate-45" : ""}`} />
+                    <Plus aria-hidden="true" className={`h-5 w-5 shrink-0 text-black transition-transform motion-reduce:transition-none ${isOpen ? "rotate-45" : ""}`} />
                   </button>
                 </h3>
                 <div
@@ -52,7 +52,7 @@ export function FaqSection({ title, items }: FaqSectionProps) {
                   role="region"
                   aria-labelledby={`faq-trigger-${index}`}
                   hidden={!isOpen}
-                  className="max-w-[800px] pb-6 pr-10 text-base leading-relaxed text-[#4f4f4f]"
+                  className="max-w-[800px] pt-6 pb-6 pl-5 pr-10 text-base leading-relaxed text-[#4f4f4f]"
                 >
                   {faq.answer}
                 </div>
