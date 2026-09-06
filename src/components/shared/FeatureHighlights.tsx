@@ -98,17 +98,19 @@ function HighlightCardsGrid({ cards }: { cards: typeof highlightCards }) {
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
             />
           </div>
-          <h4 className="font-bold text-lg tracking-tight mb-1">{card.title}</h4>
-          <p className="text-sm text-zinc-600 leading-relaxed mb-4 flex-1">
-            {card.description}
-          </p>
-          <Link
-            href={card.href}
-            className="group inline-flex items-center gap-1 text-sm font-semibold text-[#1473E6] hover:underline"
-          >
-            {card.cta}
-            <FaChevronRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
+          <div className="px-4 pt-2 pb-4">
+            <h4 className="font-bold text-lg tracking-tight mb-1">{card.title}</h4>
+            <p className="text-sm text-zinc-600 leading-relaxed mb-4 flex-1">
+              {card.description}
+            </p>
+            <Link
+              href={card.href}
+              className="group inline-flex items-center gap-1 text-sm font-semibold text-[#1473E6] hover:underline"
+            >
+              {card.cta}
+              <FaChevronRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </div>
         </motion.div>
       ))}
     </div>
