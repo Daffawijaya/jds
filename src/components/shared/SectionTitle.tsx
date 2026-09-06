@@ -26,7 +26,7 @@ export function SectionTitle({
       {button && (
         <Link
           href={button.href}
-          className="inline-block mt-6 border border-gray-300 hover:border-gray-800 text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors"
+          className="inline-block mt-6 border-2 border-black text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors"
         >
           {button.label}
         </Link>

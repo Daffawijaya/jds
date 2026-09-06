@@ -40,7 +40,7 @@ export function FeatureSection({
           {button && (
             <Link
               href={button.href}
-              className="border border-gray-300 hover:border-gray-800 text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors"
+              className="border-2 border-black text-black text-sm font-semibold py-2 px-6 rounded-full transition-colors"
             >
               {button.label}
             </Link>
