@@ -42,7 +42,7 @@ export default function AboutPage() {
           src="/image/bgg.jpg"
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 w-screen left-1/2 -translate-x-1/2 object-cover object-top h-full scale-[1.1] origin-top"
+          className="pointer-events-none absolute left-0 top-0 h-auto w-full max-w-none origin-top scale-[1.2]"
         />
         {/* Hero content */}
         <div className="relative max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 pt-20 pb-32 flex flex-col items-center text-center">
