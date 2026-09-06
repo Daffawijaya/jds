@@ -112,10 +112,11 @@ export default function ProjectCarousel() {
   const pad = useTransform(progress, [0, 1], [0, endPad], { ease: easeOutScroll });
   const width = useMotionTemplate`calc(100% - ${pad}px)`;
   const maxWidth = useTransform(progress, [0, 1], [vw, endMax], { ease: easeOutScroll });
+  const borderRadius = useTransform(progress, [0, 1], ["0px", "16px"], { ease: easeOutScroll });
   // ponytail: reduced-motion langsung state akhir, tambah animasi saat ada kebutuhan
   const innerStyle = reduce
-    ? { width: `calc(100% - ${endPad}px)`, maxWidth: endMax }
-    : { width, maxWidth };
+    ? { width: `calc(100% - ${endPad}px)`, maxWidth: endMax, borderRadius: "16px" }
+    : { width, maxWidth, borderRadius };
 
   // Inset kartu akhir = margin kiri/kanan saat card menyusut.
   // Slot ikut menyusut (bukan cuma inner) supaya kartu tetangga ketarik
@@ -261,7 +262,7 @@ export default function ProjectCarousel() {
             >
               <motion.div
                 style={{ x: on || reduce ? 0 : i < centerSlot ? sideXL : sideXR }}
-                className="relative w-full shrink-0 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-14 sm:p-18"
+                className="relative w-full shrink-0 overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-14 sm:p-18"
               >
                 {/* Isi kartu dengan skala proporsional; kelebihan gambar terpotong dari tengah. */}
                 <img
