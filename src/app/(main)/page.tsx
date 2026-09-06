@@ -239,11 +239,12 @@ export default function HomePage() {
             className="mb-12"
           />
 
-          {/* Blok gaya adobe.com: 1 card gambar besar + 2 panel liquid glass + 3 card */}
-          <FeatureHighlights />
-
           {/* Baris 1: Carousel looping 2 kartu (full-bleed, tanpa container) */}
         </div>
+
+        {/* Blok gaya adobe.com: 1 card besar (full-bleed → container saat scroll) + 3 card */}
+        <FeatureHighlights />
+
         <ProjectCarousel />
 
         {/* Baris 3: Testimoni */}
