@@ -19,6 +19,17 @@ const iconMap: Record<string, React.ReactNode> = {
   Film: <Film className="w-6 h-6" />,
 };
 
+const serviceImages: Record<string, string> = {
+  "web-development": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80",
+  "software-development": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=600&q=80",
+  "ui-ux-design": "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
+  "digitalization-solutions": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
+  "it-consulting": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80",
+  "it-outsourcing": "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=600&q=80",
+  "professional-staffing": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80",
+  "multimedia-digital-content": "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80",
+};
+
 const processSteps = [
   {
     step: "01",
@@ -80,37 +91,42 @@ export default function ServicesPage() {
 
       {/* 2. SERVICES GRID */}
       <section id="services" className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-12">
-        <h2 className="text-center text-xl font-semibold mb-2">
+        <h2 className="text-center text-xl font-semibold mb-12">
           Temukan layanan teknologi yang tepat untuk kebutuhan instansi atau bisnis Anda.
         </h2>
-        <p className="text-center text-gray-500 mb-12">
-          Setiap layanan dirancang untuk membantu transformasi digital secara efisien dan terukur.
-        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredServices.map((service) => (
             <div key={service.id}>
-              <div className="rounded-xl mb-4 w-full bg-gray-100 flex items-center justify-center aspect-video">
-                <div className="text-gray-400">
-                  {iconMap[service.iconName] || <Globe className="w-10 h-10" />}
-                </div>
+              <div className="rounded-xl mb-4 w-full bg-gray-100 overflow-hidden aspect-video">
+                {serviceImages[service.id] ? (
+                  <img
+                    src={serviceImages[service.id]}
+                    alt={service.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                    {iconMap[service.iconName] || <Globe className="w-10 h-10" />}
+                  </div>
+                )}
               </div>
-              <h3 className="font-bold text-2xl mb-2">
+              <h3 className="font-semibold text-2xl mb-2">
                 {service.title}
               </h3>
               <p className="text-sm text-gray-600 mb-4">
                 {service.shortDesc}{" "}
                 <button
                   onClick={() => setSelectedService(service)}
-                  className="text-blue-600 underline"
+                  className="text-black underline"
                 >
                   Pelajari lebih lanjut
                 </button>
               </p>
               <ul className="space-y-1.5">
                 {service.features.slice(0, 3).map((feat, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-xs text-gray-500">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#1473E6] shrink-0 mt-0.5" />
+                  <li key={idx} className="flex items-start gap-2 text-xs text-black">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-black shrink-0 mt-0.5" />
                     <span>{feat}</span>
                   </li>
                 ))}
@@ -128,16 +144,15 @@ export default function ServicesPage() {
       {/* 3. METHODOLOGY SECTION (Dark) */}
       <section className="bg-[#191919] text-white py-16 mt-8">
         <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 flex flex-col md:flex-row items-center gap-12">
-          <div className="flex-1 w-full">
-            <div className="bg-[#2A2A2A] rounded-lg w-full aspect-video flex items-center justify-center">
-              <span className="text-gray-500 text-sm">Metodologi Kerja</span>
-            </div>
+          <div className="flex-shrink-0">
+            <img
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80"
+              alt="Alur Kerja JDS"
+              className="w-[32rem] h-80 object-cover"
+            />
           </div>
           <div className="flex-1">
-            <h2 className="text-3xl font-bold mb-4 leading-tight">
-              Alur Pelaksanaan Pekerjaan {companyInfo.shortName}
-            </h2>
-            <p className="text-gray-400 mb-4">
+            <p className="text-white text-2xl md:text-3xl font-semibold leading-snug mb-4">
               Tahapan kerja sistematis dan transparan untuk memastikan setiap penugasan dapat diselesaikan tepat waktu dan terukur.
             </p>
             <a href="#methodology" className="text-white underline font-medium hover:text-gray-300">
