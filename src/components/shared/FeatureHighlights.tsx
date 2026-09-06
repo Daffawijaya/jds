@@ -140,7 +140,7 @@ export function FeatureHighlights() {
       {/* ── Card gambar besar + 2 panel liquid glass ── */}
       <motion.div
         style={cardStyle}
-        className="relative mx-auto rounded-3xl overflow-hidden shadow-xl min-h-[520px] sm:min-h-[560px] flex"
+        className="relative mx-auto rounded-2xl overflow-hidden shadow-xl min-h-[90vh] flex"
       >
         <img
           src="/image/etamhub.png"
