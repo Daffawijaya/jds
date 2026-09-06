@@ -56,12 +56,9 @@ export default function ProjectsPage() {
       {/* Project grid dibuat ringan seperti service grid: visual, judul, uraian, lalu scope. */}
       <section id="projects" className="scroll-mt-24">
         <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-12">
-          <h2 className="text-center text-xl font-semibold mb-2">
+          <h2 className="text-center text-xl font-semibold mb-12">
             Karya terpilih yang menghubungkan teknologi, instansi, dan masyarakat.
           </h2>
-          <p className="text-center text-gray-500 mb-12">
-            Setiap proyek dikelola dengan ruang lingkup jelas, pelaksanaan terukur, dan fokus pada dampak.
-          </p>
         </div>
 
         {filteredProjects.map((project, idx) => (
