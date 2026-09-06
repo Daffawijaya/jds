@@ -261,7 +261,7 @@ export default function ProjectCarousel() {
             >
               <motion.div
                 style={{ x: on || reduce ? 0 : i < centerSlot ? sideXL : sideXR }}
-                className="relative w-full shrink-0 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-14 sm:p-18"
+                className="relative w-full shrink-0 overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-14 sm:p-18"
               >
                 {/* Isi kartu dengan skala proporsional; kelebihan gambar terpotong dari tengah. */}
                 <img

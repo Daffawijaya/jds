@@ -88,7 +88,7 @@ function HighlightCardsGrid({ cards }: { cards: typeof highlightCards }) {
         <motion.div
           key={card.title}
           style={{ y: offsets[i % 3] }}
-          className="bg-white border border-zinc-200 rounded-2xl p-4 shadow-sm hover:shadow-lg transition-shadow flex flex-col motion-reduce:transform-none!"
+          className="p-4 flex flex-col motion-reduce:transform-none!"
         >
           <div className="overflow-hidden rounded-xl mb-4 aspect-[4/3]">
             <img
