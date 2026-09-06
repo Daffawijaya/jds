@@ -44,8 +44,8 @@ export default function PageHeroWithTabs({
           className="pointer-events-none absolute inset-0 w-screen left-1/2 -translate-x-1/2 object-cover h-full"
         />
         <div className="relative max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{title}</h1>
-          <p className="text-zinc-600 mb-8 max-w-2xl mx-auto">
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-4">{title}</h1>
+          <p className="text-black text-xl mb-8 max-w-2xl mx-auto">
             {description}
           </p>
           {heroExtra && <div className="mb-8">{heroExtra}</div>}
