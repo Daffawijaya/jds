@@ -15,6 +15,7 @@ import {
 import { FaChevronRight } from "react-icons/fa6";
 import { companyInfo, servicesData, testimonialsData } from "@/data/companyData";
 import ProjectCarousel from "@/components/shared/ProjectCarousel";
+import { FeatureHighlights } from "@/components/shared/FeatureHighlights";
 import FeaturedServicesRow from "@/components/shared/FeaturedServicesRow";
 import ParallaxHero from "@/components/shared/ParallaxHero";
 import RevealServices from "@/components/shared/RevealServices";
@@ -237,6 +238,9 @@ export default function HomePage() {
             subtitle="Bekerja sama dengan instansi pemerintah dan mitra bisnis di Kalimantan Timur."
             className="mb-12"
           />
+
+          {/* Blok gaya adobe.com: 1 card gambar besar + 2 panel liquid glass + 3 card */}
+          <FeatureHighlights />
 
           {/* Baris 1: Carousel looping 2 kartu (full-bleed, tanpa container) */}
         </div>
