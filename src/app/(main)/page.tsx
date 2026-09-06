@@ -13,7 +13,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { FaChevronRight } from "react-icons/fa6";
-import { companyInfo, servicesData, testimonialsData } from "@/data/companyData";
+import { getCompanyInfo, getServices, getTestimonials } from "@/lib/supabase-server";
 import ProjectCarousel from "@/components/shared/ProjectCarousel";
 import { FeatureHighlights } from "@/components/shared/FeatureHighlights";
 import FeaturedServicesRow from "@/components/shared/FeaturedServicesRow";
@@ -140,7 +140,13 @@ const catalogImages: Record<string, string> = {
   "multimedia-digital-content": homeImages.multimedia,
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [companyInfo, servicesData, testimonialsData] = await Promise.all([
+    getCompanyInfo(),
+    getServices(),
+    getTestimonials(),
+  ]);
+
   return (
     <div className="w-full min-h-screen bg-white text-slate-900 font-sans antialiased">
       {/* 1. HERO SECTION */}
@@ -250,11 +256,11 @@ export default function HomePage() {
         {/* Baris 3: Testimoni */}
         <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 mt-16 mb-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {testimonialsData.map((t) => (
+            {testimonialsData.map((t: any) => (
               <div key={t.id} className="p-2 flex flex-col">
                 <div className="flex items-center gap-3 mb-8">
                   <img
-                    src={t.image}
+                    src={t.image_url ?? ""}
                     alt=""
                     aria-hidden="true"
                     loading="lazy"
@@ -302,13 +308,13 @@ export default function HomePage() {
         <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
           {/* 3x3 Grid Layanan */}
           <ServiceCardsReveal>
-            {servicesData.map((service) => (
+            {servicesData.map((service: any) => (
               <div
                 key={service.id}
                 className="group relative overflow-hidden bg-[#141414] p-6 rounded-xl transition-all min-h-[260px] flex flex-col"
               >
                 <img
-                  src={catalogImages[service.id]}
+                  src={catalogImages[service.slug]}
                   alt=""
                   aria-hidden="true"
                   loading="lazy"
@@ -318,12 +324,12 @@ export default function HomePage() {
                 <div
                   className={`relative z-10 w-8 h-8 ${darkChip[service.category]} rounded font-black flex items-center justify-center mb-12`}
                 >
-                  {iconMapLg[service.iconName]}
+                  {iconMapLg[service.icon_name ?? ""]}
                 </div>
                 <div className="relative z-10 mt-auto">
                   <h3 className="font-bold text-2xl mb-1">{service.title}</h3>
                   <p className="text-sm text-zinc-400 group-hover:text-zinc-200 leading-relaxed transition-colors duration-500">
-                    {service.shortDesc}
+                    {service.short_desc}
                   </p>
                 </div>
               </div>

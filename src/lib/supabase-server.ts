@@ -25,3 +25,85 @@ export async function createClient() {
     }
   );
 }
+
+// Public data fetching (no auth required)
+export async function getCompanyInfo() {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("company_info")
+    .select("*")
+    .eq("key", "main")
+    .single();
+  return data;
+}
+
+export async function getServices() {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("services")
+    .select("*")
+    .eq("is_active", true)
+    .order("sort_order");
+  return data ?? [];
+}
+
+export async function getProjects() {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("is_active", true)
+    .order("sort_order");
+  return data ?? [];
+}
+
+export async function getTestimonials() {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("testimonials")
+    .select("*")
+    .eq("is_active", true)
+    .order("sort_order");
+  return data ?? [];
+}
+
+export async function getCareerRoles() {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("career_roles")
+    .select("*")
+    .eq("is_active", true)
+    .order("sort_order");
+  return data ?? [];
+}
+
+export async function getCoreValues() {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("core_values")
+    .select("*")
+    .eq("is_active", true)
+    .order("sort_order");
+  return data ?? [];
+}
+
+export async function getAboutCards() {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("about_cards")
+    .select("*")
+    .eq("is_active", true)
+    .order("sort_order");
+  return data ?? [];
+}
+
+export async function getFaqs(page: string) {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("faqs")
+    .select("*")
+    .eq("is_active", true)
+    .eq("page", page)
+    .order("sort_order");
+  return data ?? [];
+}

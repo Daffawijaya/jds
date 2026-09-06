@@ -1,39 +1,20 @@
 import type { Metadata } from "next";
-import { companyInfo } from "@/data/companyData";
+import { getCompanyInfo, getAboutCards, getCoreValues } from "@/lib/supabase-server";
 import { Footer } from "@/components/layout/Footer";
 import { FeatureSection } from "@/components/shared/FeatureSection";
 import { SectionTitle } from "@/components/shared/SectionTitle";
 
-export const metadata: Metadata = {
-  title: "Tentang Kami",
-  description: `Profil perusahaan ${companyInfo.officialName} (${companyInfo.shortName}) - Penyedia Solusi IT, Digitalisasi, dan Tenaga Ahli Profesional di Kutai Kartanegara, Kalimantan Timur.`,
-};
+export default async function AboutPage() {
+  const [companyInfo, aboutCardsData, coreValuesData] = await Promise.all([
+    getCompanyInfo(),
+    getAboutCards(),
+    getCoreValues(),
+  ]);
 
-const aboutCards = [
-  {
-    label: "Pengalaman",
-    title: "Pengalaman",
-    description: "Beroperasi sejak 2026, melayani berbagai sektor industri.",
-    image: "/image/Codex Image Sep 5, 2026, 10_30_52 PM.png",
-    button: { label: "Tentang Kami", href: "/about" },
-  },
-  {
-    label: "Proyek Tercapai",
-    title: "Proyek Tercapai",
-    description: "Portofolio proyek untuk instansi pemerintah dan mitra bisnis.",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
-    button: { label: "Lihat Proyek", href: "/projects" },
-  },
-  {
-    label: "Jangkauan Lokal",
-    title: "Jangkauan Lokal",
-    description: "Berpusat di Kalimantan Timur, melayani sekitarnya.",
-    image: "https://image.idn.media/post/20200903/samarinda-abd9320964ad6c73846427ed0a6896aa.jpg",
-    button: { label: "Lihat Lokasi", href: "/contact" },
-  },
-];
-
-export default function AboutPage() {
+  const metadata: Metadata = {
+    title: "Tentang Kami",
+    description: `Profil perusahaan ${companyInfo?.official_name ?? "Jaya Dinara Sukses"} (${companyInfo?.short_name ?? "JDS"}) - Penyedia Solusi IT, Digitalisasi, dan Tenaga Ahli Profesional di Kutai Kartanegara, Kalimantan Timur.`,
+  };
   return (
     <div className="w-full min-h-screen bg-white font-sans text-gray-900 antialiased">
       {/* 1. HERO SECTION & FEATURES GRID */}
@@ -70,9 +51,9 @@ export default function AboutPage() {
 
           {/* Grid Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full text-left">
-            {aboutCards.map((card) => (
-              <div key={card.title} className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
-                <img src={card.image} alt={card.title} className="h-48 object-cover" />
+            {aboutCardsData.map((card: any) => (
+              <div key={card.id} className="bg-white text-black rounded-xl overflow-hidden flex flex-col shadow-lg">
+                <img src={card.image_url ?? ""} alt={card.title ?? ""} className="h-48 object-cover" />
                 <div className="p-4 flex flex-col flex-grow">
                   <p className="text-sm font-semibold text-black mb-1">
                     {card.label}
@@ -82,10 +63,10 @@ export default function AboutPage() {
                   </h3>
                   <div className="mt-4 flex justify-end">
                     <a
-                      href={card.button.href}
+                      href={card.button_href ?? "#"}
                       className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full transition-colors text-sm"
                     >
-                      {card.button.label}
+                      {card.button_label}
                     </a>
                   </div>
                 </div>

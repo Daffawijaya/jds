@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import { createClient } from "@/lib/supabase-server";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -22,7 +21,9 @@ export default async function AdminLayout({ children }: { children: ReactNode })
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) redirect("/admin/login");
+  if (!user) {
+    return <>{children}</>;
+  }
 
   const { data: profile } = await supabase
     .from("company_info")
@@ -32,7 +33,6 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
   return (
     <div className="flex h-screen bg-zinc-50">
-      {/* Sidebar */}
       <aside className="w-64 bg-white border-r border-zinc-200 flex flex-col">
         <div className="p-6 border-b border-zinc-200">
           <Link href="/admin" className="text-lg font-bold text-zinc-900">
@@ -62,8 +62,6 @@ export default async function AdminLayout({ children }: { children: ReactNode })
           </form>
         </div>
       </aside>
-
-      {/* Main content */}
       <main className="flex-1 overflow-y-auto">
         <div className="p-8">{children}</div>
         <Toaster />

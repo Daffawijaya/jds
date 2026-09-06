@@ -12,11 +12,26 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { companyInfo, siteNavLinks } from "@/data/companyData";
 
-const logoAlt = `${companyInfo.shortName} - ${companyInfo.officialName}`;
+const siteNavLinks = [
+  { name: "Beranda", href: "/" },
+  { name: "Tentang Kami", href: "/about" },
+  { name: "Layanan", href: "/services" },
+  { name: "Proyek", href: "/projects" },
+  { name: "Karir", href: "/career" },
+  { name: "Kontak", href: "/contact" },
+];
 
-export function Navbar() {
+interface NavbarProps {
+  companyName: string;
+  officialName: string;
+  phone: string;
+  whatsappUrl: string;
+}
+
+const logoAlt = "JDS - Jaya Dinara Sukses";
+
+export function Navbar({ companyName, officialName, phone, whatsappUrl }: NavbarProps) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -178,12 +193,12 @@ export function Navbar() {
                 <div className="pt-6 border-t border-zinc-800 space-y-4">
                   <div className="text-xs text-zinc-400 space-y-1">
                     <p className="font-semibold text-white">
-                      {companyInfo.officialName}
+                      {officialName}
                     </p>
                     <p>
-                      {companyInfo.district}, {companyInfo.regency}
+                      Tenggarong Seberang, Kutai Kartanegara
                     </p>
-                    <p>{companyInfo.province}</p>
+                    <p>Kalimantan Timur</p>
                   </div>
                   <Link
                     href="/contact"
@@ -191,7 +206,7 @@ export function Navbar() {
                     className="flex items-center justify-center gap-2 w-full bg-white text-black hover:bg-zinc-200 font-semibold px-5 py-2.5 rounded-full text-sm transition-all shadow-md"
                   >
                     <PhoneCall className="w-4 h-4" />
-                    <span>Hubungi Tim {companyInfo.shortName}</span>
+                    <span>Hubungi Tim {companyName}</span>
                   </Link>
                 </div>
               </SheetContent>

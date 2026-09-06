@@ -1,6 +1,5 @@
 "use client";
 
-import { Service } from "@/types";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +15,13 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 interface ServiceDetailModalProps {
-  service: Service | null;
+  service: {
+    title: string;
+    category: string;
+    full_desc: string | null;
+    features: string[];
+    deliverables: string[];
+  } | null;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -49,7 +54,7 @@ export function ServiceDetailModal({
           {/* Detailed Overview */}
           <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
             <p className="text-sm text-slate-600 leading-relaxed">
-              {service.fullDesc}
+              {service.full_desc}
             </p>
           </div>
 

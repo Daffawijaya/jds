@@ -1,6 +1,5 @@
 "use client";
 
-import { Project } from "@/types";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +15,16 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 interface ProjectDetailModalProps {
-  project: Project | null;
+  project: {
+    title: string;
+    client: string | null;
+    category: string | null;
+    year: string | null;
+    full_desc: string | null;
+    scope: string[];
+    tags: string[];
+    highlight_badge: string | null;
+  } | null;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -34,8 +42,8 @@ export function ProjectDetailModal({
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">
             <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">{project.category}</Badge>
-            {project.highlightBadge && (
-              <Badge variant="outline" className="bg-teal-50 text-teal-700 border-teal-200">{project.highlightBadge}</Badge>
+            {project.highlight_badge && (
+              <Badge variant="outline" className="bg-teal-50 text-teal-700 border-teal-200">{project.highlight_badge}</Badge>
             )}
           </div>
           <DialogTitle className="text-xl sm:text-2xl font-extrabold text-slate-950">
@@ -72,7 +80,7 @@ export function ProjectDetailModal({
               Deskripsi Proyek
             </h4>
             <p className="text-sm text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-200">
-              {project.fullDesc}
+              {project.full_desc}
             </p>
           </div>
 
