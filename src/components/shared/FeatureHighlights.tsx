@@ -262,6 +262,28 @@ export function FeatureHighlights() {
         </div>
       </motion.div>
 
+      {/* ── Text bar di bawah big card ── */}
+      <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 mt-6 flex items-start justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-1">
+            Platform Digital UMKM
+          </p>
+          <h3 className="text-lg font-bold text-zinc-900">
+            Wujudkan akses pasar digital untuk UMKM lokal.
+          </h3>
+          <p className="text-sm text-zinc-600 mt-1">
+            Katalog produk, profil usaha, dan promosi UMKM terhubung dalam satu platform yang mudah dijangkau masyarakat.
+          </p>
+        </div>
+        <Link
+          href="/projects"
+          className="group shrink-0 inline-flex items-center gap-1 text-sm font-semibold text-zinc-900 hover:underline mt-1"
+        >
+          Learn more
+          <FaChevronRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
+        </Link>
+      </div>
+
       {/* ── 3 card di bawahnya (gaya adobe.com) — selalu sejajar container ── */}
       <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
         <HighlightCardsGrid cards={highlightCards} />
