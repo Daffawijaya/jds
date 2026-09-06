@@ -48,15 +48,6 @@ const iconMapLg: Record<string, React.ReactNode> = {
   Film: <Film className="w-4 h-4" />,
 };
 
-// Warna solid untuk kartu terang (ikon di atas kotak berwarna)
-const solidChip: Record<string, string> = {
-  development: "bg-cyan-600",
-  solutions: "bg-teal-600",
-  consulting: "bg-violet-600",
-  outsourcing: "bg-amber-500",
-  media: "bg-fuchsia-600",
-};
-
 // Warna transparan untuk kartu gelap (katalog layanan)
 const darkChip: Record<string, string> = {
   development: "bg-cyan-500/15 text-cyan-300",
@@ -65,18 +56,6 @@ const darkChip: Record<string, string> = {
   outsourcing: "bg-amber-500/15 text-amber-300",
   media: "bg-fuchsia-500/15 text-fuchsia-300",
 };
-
-// Lima layanan unggulan di bagian 2
-const featuredIds = [
-  "web-development",
-  "software-development",
-  "ui-ux-design",
-  "digitalization-solutions",
-  "professional-staffing",
-];
-const featuredServices = featuredIds
-  .map((id) => servicesData.find((s) => s.id === id))
-  .filter(Boolean);
 
 const homeImages = {
   web: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80",
@@ -95,12 +74,52 @@ const homeImages = {
     "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80",
 };
 
-const featuredCardImages = [
-  { id: "web-development", src: homeImages.web },
-  { id: "software-development", src: homeImages.software },
-  { id: "ui-ux-design", src: homeImages.uiux },
-  { id: "digitalization-solutions", src: homeImages.digital },
-  { id: "professional-staffing", src: homeImages.staffing },
+const outcomeCards = [
+  {
+    id: "streamlined-work",
+    title: "Proses kerja lebih ringkas.",
+    description:
+      "Kurangi pekerjaan manual dan alur berulang melalui sistem yang disusun sesuai kebutuhan operasional.",
+    image: homeImages.digital,
+    iconName: "Cpu",
+    chipClass: "bg-teal-600",
+  },
+  {
+    id: "connected-data",
+    title: "Data lebih rapi dan terhubung.",
+    description:
+      "Satukan informasi penting agar mudah ditemukan, dipantau, dan digunakan untuk mengambil keputusan.",
+    image: homeImages.software,
+    iconName: "Server",
+    chipClass: "bg-cyan-600",
+  },
+  {
+    id: "accessible-services",
+    title: "Layanan lebih mudah digunakan.",
+    description:
+      "Hadirkan pengalaman digital yang jelas bagi tim internal, mitra, maupun masyarakat.",
+    image: homeImages.uiux,
+    iconName: "Layout",
+    chipClass: "bg-violet-600",
+  },
+  {
+    id: "project-ready-team",
+    title: "Tim proyek lebih siap.",
+    description:
+      "Lengkapi kebutuhan proyek dengan tenaga ahli yang sesuai dan siap mendukung pelaksanaan di lapangan.",
+    image: homeImages.staffing,
+    iconName: "Users",
+    chipClass: "bg-amber-500",
+  },
+  {
+    id: "scalable-foundation",
+    title: "Solusi tumbuh bersama kebutuhan.",
+    description:
+      "Bangun fondasi digital yang dapat dikembangkan saat program, pengguna, dan proses organisasi bertambah.",
+    image: homeImages.web,
+    iconName: "Lightbulb",
+    chipClass: "bg-fuchsia-600",
+  },
 ];
 
 // Gambar hover katalog layanan (sementara dari internet)
@@ -159,48 +178,42 @@ export default function HomePage() {
         </div>
       </ParallaxHero>
 
-      {/* 2. LAYANAN UNGGULAN */}
+      {/* 2. HASIL UNTUK MITRA */}
       <section className="featured-sec relative z-10 overflow-x-clip -mt-12 sm:-mt-16 rounded-t-4xl bg-white text-zinc-900 py-20">
         <div className="row-wrap px-3 sm:px-4 lg:px-6 text-center">
           <SectionHeading
-            title="Satu mitra untuk setiap kebutuhan digital."
-            subtitle="Dari membangun sistem hingga menyiapkan orang-orang yang menjalankannya. Semua tersedia dalam satu tim."
+            title="Yang berubah ketika teknologi bekerja dengan tepat."
+            subtitle="Pekerjaan lebih ringkas, data lebih tertata, layanan lebih mudah digunakan, dan tim lebih siap menjalankan program."
             className="mb-12"
           />
 
           <FeaturedServicesRow>
-            {featuredServices.map((service) => {
-              const image = featuredCardImages.find((i) => i.id === service!.id);
-              return (
+            {outcomeCards.map((outcome) => (
                 <div
-                  key={service!.id}
+                  key={outcome.id}
                   className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group relative flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
                 >
                   <div className="px-4 py-5 flex items-center space-x-2 text-sm font-semibold">
                     <span
-                      className={`w-5 h-5 ${solidChip[service!.category]} rounded flex items-center justify-center text-white`}
+                      className={`w-5 h-5 ${outcome.chipClass} rounded flex items-center justify-center text-white`}
                     >
-                      {iconMap[service!.iconName]}
+                      {iconMap[outcome.iconName]}
                     </span>
-                    <span className="group-hover:text-white transition-colors duration-300">{service!.title}</span>
+                    <span className="group-hover:text-white transition-colors duration-300">{outcome.title}</span>
                   </div>
                   <div className="card-img-frame h-72 sm:h-96 overflow-hidden rounded-2xl relative flex items-center justify-center">
                     <img
-                      src={image!.src}
-                      alt={service!.title}
+                      src={outcome.image}
+                      alt=""
+                      aria-hidden="true"
                       className="card-img w-full h-full object-cover"
                     />
                   </div>
                   <div className="desc-lock w-full px-4 py-5 text-sm text-zinc-600 leading-relaxed group-hover:text-white transition-colors duration-300">
-                    <div className="desc-clip">{service!.shortDesc}</div>
+                    <div className="desc-clip">{outcome.description}</div>
                   </div>
-                  {/* chevron tebal di ujung kanan bawah, muncul saat hover */}
-                  <span className="pointer-events-none absolute bottom-3 right-3 w-6 h-6 rounded-full border border-zinc-200 bg-white text-zinc-900 group-hover:border-white group-hover:bg-white flex items-center justify-center opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out shadow-sm">
-                    <FaChevronRight className="w-3 h-3" />
-                  </span>
                 </div>
-              );
-            })}
+              ))}
           </FeaturedServicesRow>
         </div>
       </section>

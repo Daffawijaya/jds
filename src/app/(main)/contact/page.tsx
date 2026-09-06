@@ -207,33 +207,39 @@ export default function ContactPage() {
             </p>
           </div>
 
-          <div className="mt-12 hidden sm:block">
-            <div className="grid grid-cols-3 gap-10">
-              {timeline.map((step) => (
-                <div key={step.label}>
-                  <p className="text-sm font-bold">{step.label}</p>
-                  <p className="mt-1 max-w-[220px] text-sm leading-snug">{step.title}</p>
+          <div className="mx-[12px] mt-10 sm:mx-0 sm:mt-12" aria-label="Tahapan percakapan awal">
+            <ol className="grid min-h-[92px] grid-cols-[5fr_7fr] sm:min-h-[72px] min-[1200px]:grid-cols-[1fr_2fr]">
+              <li>
+                <p className="text-xs font-bold leading-tight sm:text-sm">{timeline[0].label}</p>
+                <p className="mt-1 max-w-[96px] text-[11px] leading-[1.35] sm:max-w-[220px] sm:text-sm sm:leading-snug">
+                  {timeline[0].title}
+                </p>
+              </li>
+              <li className="flex justify-between">
+                <div className="max-w-[96px] sm:max-w-[220px]">
+                  <p className="text-xs font-bold leading-tight sm:text-sm">{timeline[1].label}</p>
+                  <p className="mt-1 text-[11px] leading-[1.35] sm:text-sm sm:leading-snug">{timeline[1].title}</p>
                 </div>
-              ))}
-            </div>
-            <div className="mt-8 grid grid-cols-[1fr_2fr] gap-[3px]">
-              <div className="h-8 rounded-l-sm bg-gradient-to-r from-[#fb6cae] to-[#ffcd32] text-center text-xs font-bold leading-8">Tahap awal</div>
-              <div className="h-8 rounded-r-sm bg-gradient-to-r from-[#ffcd32] to-[#ffd941] text-center text-xs font-bold leading-8">Pendalaman dan tindak lanjut</div>
-            </div>
-          </div>
-
-          <div className="mt-10 sm:hidden">
-            <ol className="grid grid-cols-3 gap-3">
-              {timeline.map((step) => (
-                <li key={step.label}>
-                  <p className="text-[11px] font-bold leading-tight">{step.label}</p>
-                  <p className="mt-1 text-[11px] leading-tight">{step.title}</p>
-                </li>
-              ))}
+                <div className="max-w-[96px] text-right sm:max-w-[220px]">
+                  <p className="text-xs font-bold leading-tight sm:text-sm">{timeline[2].label}</p>
+                  <p className="mt-1 text-[11px] leading-[1.35] sm:text-sm sm:leading-snug">{timeline[2].title}</p>
+                </div>
+              </li>
             </ol>
-            <div className="mt-5 grid grid-cols-[1fr_2fr] gap-0.5">
-              <div className="h-7 rounded-l-sm bg-gradient-to-r from-[#fb6cae] to-[#ffcd32] text-center text-[9px] font-bold leading-7">Tahap awal</div>
-              <div className="h-7 rounded-r-sm bg-gradient-to-r from-[#ffcd32] to-[#ffd941] text-center text-[9px] font-bold leading-7">Pendalaman & tindak lanjut</div>
+
+            <div className="relative mt-3 h-4 sm:h-5" aria-hidden="true">
+              <span className="absolute inset-y-0 left-0 w-[2px] -translate-x-px rounded-[1px] bg-[#f47ab2]" />
+              <span className="absolute inset-y-0 left-[41.6667%] w-[2px] -translate-x-px rounded-[1px] bg-[#ffce2e] min-[1200px]:left-1/3" />
+              <span className="absolute inset-y-0 left-full w-[2px] -translate-x-px rounded-[1px] bg-[#ffce2e]" />
+            </div>
+
+            <div className="mt-2 grid grid-cols-[5fr_7fr] gap-1 min-[1200px]:grid-cols-[1fr_2fr]">
+              <div className="flex h-8 items-center justify-center rounded-l-[4px] bg-gradient-to-r from-[#f47ab2] to-[#ffce2e] px-2 text-center text-[10px] font-bold sm:text-sm">
+                Tahap awal
+              </div>
+              <div className="flex h-8 items-center justify-center rounded-r-[4px] bg-[#ffce2e] px-2 text-center text-[10px] font-bold sm:text-sm">
+                Pendalaman dan tindak lanjut
+              </div>
             </div>
           </div>
         </div>

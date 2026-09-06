@@ -5,16 +5,7 @@ import Image from "next/image";
 import {
   ArrowRight,
   Check,
-  Code2,
-  Globe2,
-  GraduationCap,
-  Layers3,
-  Mail,
-  MapPin,
   MessagesSquare,
-  ShieldCheck,
-  Sparkles,
-  Users,
 } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
 import { JobApplyModal } from "@/components/modals/JobApplyModal";
@@ -26,7 +17,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { companyInfo } from "@/data/companyData";
 import { FaqSection } from "@/components/shared/FaqSection";
 
 const careerCards = [
@@ -53,69 +43,6 @@ const careerCards = [
     image:
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=85",
     imagePosition: "right",
-  },
-];
-
-const workStories = [
-  {
-    eyebrow: "Kolaborasi tanpa sekat",
-    title: "Pekerjaan terbaik lahir dari banyak sudut pandang.",
-    description:
-      "Developer, desainer, tenaga ahli, dan pendamping program bekerja sebagai satu tim. Setiap orang punya ruang untuk menyampaikan ide, menguji keputusan, dan ikut membentuk hasil akhir.",
-    image:
-      "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=85",
-    imagePosition: "right",
-  },
-  {
-    eyebrow: "Belajar melalui proyek nyata",
-    title: "Tumbuh lewat tantangan yang relevan.",
-    description:
-      "Kami mengembangkan kemampuan lewat persoalan nyata—mulai dari layanan digital, sistem internal, hingga pendampingan program. Anda mendapat konteks, tanggung jawab, dan dukungan untuk berkembang.",
-    image:
-      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=85",
-    imagePosition: "left",
-  },
-  {
-    eyebrow: "Berakar di Kalimantan Timur",
-    title: "Dekat dengan orang yang menerima manfaatnya.",
-    description:
-      "Berbasis di Kutai Kartanegara membuat kami memahami kebutuhan mitra dan masyarakat secara langsung. Teknologi bukan sekadar keluaran proyek, tetapi alat untuk membuat pekerjaan sehari-hari lebih baik.",
-    image:
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85",
-    imagePosition: "right",
-  },
-];
-
-const featureItems = [
-  {
-    icon: Code2,
-    title: "Proyek teknologi yang beragam",
-    description: "Web, software, otomasi, integrasi data, dan platform digital dalam satu lingkungan kerja.",
-  },
-  {
-    icon: Users,
-    title: "Kolaborasi lintas keahlian",
-    description: "Bertukar perspektif dengan tim teknis, kreatif, operasional, dan tenaga pendamping.",
-  },
-  {
-    icon: GraduationCap,
-    title: "Ruang belajar yang nyata",
-    description: "Mengembangkan kemampuan melalui tanggung jawab proyek dan umpan balik yang terbuka.",
-  },
-  {
-    icon: Globe2,
-    title: "Dampak untuk daerah",
-    description: "Mengerjakan solusi yang membantu instansi, pelaku usaha, dan masyarakat lokal.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Kerja profesional",
-    description: "Standar kerja yang jelas, komunikasi jujur, dan akuntabilitas dalam setiap penugasan.",
-  },
-  {
-    icon: Layers3,
-    title: "Peluang lintas proyek",
-    description: "Satu profil dapat dipertimbangkan untuk beragam kebutuhan dan penugasan JDS berikutnya.",
   },
 ];
 
@@ -579,7 +506,7 @@ export default function CareerPage() {
           if (!open) setSelectedRole(null);
         }}
       >
-        <DialogContent className="max-w-[720px] gap-0 overflow-hidden border-[#dadada] p-0 sm:rounded-2xl">
+        <DialogContent className="max-w-[720px] gap-0 overflow-y-auto border-[#dadada] p-0 sm:rounded-2xl sm:p-0">
           {selectedRole && (
             <>
               <DialogHeader className="bg-[#f8f8f8] px-6 py-7 pr-16 text-left sm:px-8 sm:py-8 sm:pr-16">

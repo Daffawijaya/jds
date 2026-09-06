@@ -39,31 +39,31 @@ export function Navbar() {
 
   const isHome = pathname === "/" || pathname === "";
 
-  // Di luar beranda, sebelum scroll: bg #f8f8f8
-  const useF8 = !isHome && !isScrolled;
+  // Di luar beranda, sebelum scroll: samakan dengan permukaan hero terang.
+  const useLightSurface = !isHome && !isScrolled;
 
   return (
     <header
       className={`sticky top-0 z-50 h-16 transition-colors duration-300 ${
-        useF8 ? "bg-[#f8f8f8]" : ""
+        useLightSurface ? "bg-[#f5f5f5]" : ""
       }`}
     >
       {" "}
       <div
         className={`absolute inset-0 flex items-center justify-between transition-all duration-300 ${
-          useF8
+          useLightSurface
             ? "rounded-none px-5.5 border-b border-gray-200"
             : isScrolled
               ? "mx-2 rounded-2xl mt-2 px-3.5 border-b border-transparent"
               : "px-5.5 border-b border-transparent"
         } ${
-          useF8
-            ? "bg-[#f8f8f8]"
+          useLightSurface
+            ? "bg-[#f5f5f5]"
             : isDark
               ? "bg-white/60 backdrop-blur-xl"
               : "bg-transparent"
         } ${isScrolled ? "shadow-lg shadow-black/10" : ""} ${
-          useF8 || isDark ? "" : ""
+          useLightSurface || isDark ? "" : ""
         }`}
       >
         {/* Logo + Desktop Navigation */}
