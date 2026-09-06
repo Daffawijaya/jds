@@ -61,7 +61,65 @@ const processSteps = [
 export default function ServicesPage() {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [methodTab, setMethodTab] = useState<"perencanaan" | "eksekusi">("perencanaan");
 
+  const planningCards = [
+    {
+      num: "01",
+      color: "bg-[#1473E6]",
+      title: "Konsultasi & Analisis",
+      subtitle: "Tahap Awal",
+      desc: "Pemahaman mendalam terhadap kebutuhan, tantangan, dan tujuan bisnis client sebelum masuk ke perancangan solusi.",
+      steps: [
+        "Konsultasi & analisis kebutuhan proyek",
+        "Identifikasi tantangan & peluang digitalisasi",
+        "Penyusunan dokumen kebutuhan & ruang lingkup",
+      ],
+    },
+    {
+      num: "02",
+      color: "bg-[#1473E6]",
+      title: "Perancangan Arsitektur",
+      subtitle: "Tahap Perencanaan",
+      desc: "Merancang arsitektur solusi teknis, blueprints, dan rencana penyiapan tenaga ahli secara terstruktur.",
+      steps: [
+        "Perancangan arsitektur & solusi teknis",
+        "Penyiapan blueprint & skema tenaga ahli",
+        "Estimasi jadwal, biaya, dan sumber daya",
+      ],
+    },
+  ];
+
+  const executionCards = [
+    {
+      num: "03",
+      color: "bg-[#A855F7]",
+      title: "Eksekusi & Pengembangan",
+      subtitle: "Tahap Inti",
+      desc: "Implementasi, pengembangan, dan pengujian produk sesuai perancangan yang telah disepakati.",
+      badge: "Inti Pekerjaan",
+      steps: [
+        "Eksekusi & pengembangan sesuai jadwal",
+        "Pengujian & verifikasi kualitas",
+        "Optimasi performa & keamanan sistem",
+      ],
+    },
+    {
+      num: "04",
+      color: "bg-[#A855F7]",
+      title: "Penyerahan & Dukungan",
+      subtitle: "Tahap Akhir",
+      desc: "Serah terima proyek, pelatihan pengguna, dan dukungan pasca-peluncuran untuk kelancaran operasional.",
+      badge: "Serah Terima",
+      steps: [
+        "Peluncuran & serah terima proyek",
+        "Pelatihan pengguna & dokumentasi",
+        "Dukungan teknis pasca-peluncuran",
+      ],
+    },
+  ];
+
+  const activeCards = methodTab === "perencanaan" ? planningCards : executionCards;
 
   const categories = [
     { key: "all", label: "Semua Layanan" },
@@ -175,74 +233,64 @@ export default function ServicesPage() {
 
           {/* Toggle */}
           <div className="inline-flex bg-white rounded-full p-1 shadow-sm mb-12 border">
-            <button className="bg-gray-900 text-white px-6 py-2 rounded-full text-sm font-semibold">
+            <button
+              onClick={() => setMethodTab("perencanaan")}
+              className={`px-6 py-2 rounded-full text-sm font-semibold transition-colors ${
+                methodTab === "perencanaan"
+                  ? "bg-gray-900 text-white"
+                  : "text-gray-600 hover:bg-gray-50"
+              }`}
+            >
               Perencanaan
             </button>
-            <button className="text-gray-600 px-6 py-2 rounded-full text-sm font-semibold hover:bg-gray-50">
+            <button
+              onClick={() => setMethodTab("eksekusi")}
+              className={`px-6 py-2 rounded-full text-sm font-semibold transition-colors ${
+                methodTab === "eksekusi"
+                  ? "bg-gray-900 text-white"
+                  : "text-gray-600 hover:bg-gray-50"
+              }`}
+            >
               Eksekusi
             </button>
           </div>
 
           {/* Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-5xl mx-auto">
-            {/* Card 1 */}
-            <div className="bg-white p-8 rounded-2xl flex flex-col">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded bg-[#1473E6] flex items-center justify-center text-white font-bold text-sm">
-                  01
+            {activeCards.map((card, idx) => (
+              <div
+                key={`${methodTab}-${idx}`}
+                className={`bg-white p-8 rounded-2xl flex flex-col ${
+                  card.badge ? "shadow-xl relative border-2 border-yellow-400" : ""
+                }`}
+              >
+                {card.badge && (
+                  <div className="absolute top-0 right-8 bg-yellow-400 text-xs font-bold px-3 py-1 rounded-b-lg">
+                    {card.badge}
+                  </div>
+                )}
+                <div className="flex items-center gap-2 mb-4">
+                  <div className={`w-8 h-8 rounded ${card.color} flex items-center justify-center text-white font-bold text-sm`}>
+                    {card.num}
+                  </div>
+                  <span className="font-bold">{card.title}</span>
                 </div>
-                <span className="font-bold">Perencanaan & Persiapan</span>
+                <h3 className="text-3xl font-bold mb-2">
+                  {card.subtitle}
+                </h3>
+                <p className="text-gray-600 text-sm mb-6 flex-grow">
+                  {card.desc}
+                </p>
+                <h4 className="font-semibold text-sm mb-4">Tahapan:</h4>
+                <ul className="space-y-3 text-sm text-gray-700">
+                  {card.steps.map((step, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      ✓ <span>{step}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <h3 className="text-3xl font-bold mb-2">
-                Tahap Awal
-              </h3>
-              <p className="text-gray-600 text-sm mb-6 flex-grow">
-                Analisis kebutuhan dan perancangan arsitektur solusi sebelum memulai pengembangan.
-              </p>
-              <h4 className="font-semibold text-sm mb-4">Tahapan:</h4>
-              <ul className="space-y-3 text-sm text-gray-700">
-                <li className="flex items-start gap-2">
-                  ✓ <span>Konsultasi & Analisis Kebutuhan proyek</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  ✓ <span>Perancangan Arsitektur & Solusi teknis</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  ✓ <span>Penyiapan skema tenaga ahli & blueprint</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-white p-8 rounded-2xl shadow-xl flex flex-col relative border-2 border-yellow-400">
-              <div className="absolute top-0 right-8 bg-yellow-400 text-xs font-bold px-3 py-1 rounded-b-lg">
-                Inti Pekerjaan
-              </div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded bg-[#A855F7] flex items-center justify-center text-white font-bold text-sm">
-                  02
-                </div>
-                <span className="font-bold">Eksekusi & Penyerahan</span>
-              </div>
-              <h3 className="text-3xl font-bold mb-2">
-                Tahap Inti
-              </h3>
-              <p className="text-gray-600 text-sm mb-6 flex-grow">
-                Pengembangan, pengujian, hingga serah terima proyek dan dukungan pasca-peluncuran.
-              </p>
-              <h4 className="font-semibold text-sm mb-4">Tahapan:</h4>
-              <ul className="space-y-3 text-sm text-gray-700">
-                <li className="flex items-start gap-2">
-                  ✓ <span>Eksekusi & Pengembangan sesuai jadual</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  ✓ <span>Pengujian & Verifikasi Kualitas</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  ✓ <span>Peluncuran, pelatihan & pengawasan</span>
-                </li>
-              </ul>
-            </div>
+            ))}
           </div>
 
           <div className="mt-8 text-center">
