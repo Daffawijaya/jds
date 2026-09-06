@@ -185,7 +185,7 @@ export function FeatureHighlights() {
   return (
     // overflow-x-clip: card yang melebihi layar saat full-bleed tidak
     // boleh bikin halaman ikut ke-scroll horizontal.
-    <div ref={wrapRef} className="relative overflow-x-clip mb-16">
+    <div ref={wrapRef} className="relative overflow-x-clip mb-24">
       {/* ── Card gambar besar + 2 panel liquid glass ── */}
       <motion.div
         style={cardStyle}
