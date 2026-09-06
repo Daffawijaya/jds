@@ -248,7 +248,7 @@ export default function HomePage() {
         <ProjectCarousel />
 
         {/* Baris 3: Testimoni */}
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 mt-16 mb-24">
+        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 mt-16 mb-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {testimonialsData.map((t) => (
               <div key={t.id} className="p-2 flex flex-col">
