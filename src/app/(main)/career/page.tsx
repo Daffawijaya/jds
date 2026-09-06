@@ -408,7 +408,7 @@ export default function CareerPage() {
             </div>
           </div>
 
-          <div className="mt-8 hidden overflow-hidden rounded-2xl border border-[#dadada] bg-white lg:block">
+          <div className="mt-8 hidden overflow-hidden rounded-none border border-[#dadada] bg-white lg:block">
             <table className="w-full table-fixed border-collapse text-left">
               <caption className="sr-only">
                 Daftar area posisi Talent Pool JDS beserta jenjang pendidikan dan jurusan yang relevan
