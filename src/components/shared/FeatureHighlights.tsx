@@ -261,7 +261,7 @@ export function FeatureHighlights() {
       </motion.div>
 
       {/* ── 3 card di bawahnya (gaya adobe.com) — selalu sejajar container ── */}
-      <div className="max-w-[1310px] mx-auto">
+      <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
         <HighlightCardsGrid cards={highlightCards} />
       </div>
     </div>
