@@ -49,7 +49,7 @@ const glassSheen =
 
 export function FeatureHighlights() {
   return (
-    <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 mb-16">
+    <div className="mb-16">
       {/* ── Card gambar besar + 2 panel liquid glass ── */}
       <div className="relative rounded-3xl overflow-hidden shadow-xl min-h-[520px] sm:min-h-[560px] flex">
         <img
