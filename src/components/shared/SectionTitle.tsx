@@ -19,7 +19,7 @@ export function SectionTitle({
         {title}
       </h2>
       {subtitle && (
-        <p className="text-black text-lg max-w-2xl mx-auto">
+        <p className="text-black text-lg max-w-2xl mx-auto mb-0">
           {subtitle}
         </p>
       )}

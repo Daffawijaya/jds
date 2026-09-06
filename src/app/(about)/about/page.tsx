@@ -175,15 +175,18 @@ export default function AboutPage() {
 
       {/* 7. CREATIVITY FOR ALL */}
       <section className="bg-white py-20 px-2 sm:px-4 lg:px-6 text-center">
-        {/* Abstract Logo Placeholder */}
-        <div className="w-12 h-12 mx-auto mb-6 bg-gradient-to-tr from-yellow-400 via-red-500 to-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
-          JDS
-        </div>
-        <h2 className="text-2xl font-bold mb-4">Solusi IT untuk semua</h2>
-        <p className="text-gray-600 text-sm max-w-2xl mx-auto mb-6">
-          Web, software, desain, digitalisasi, konsultasi IT, hingga tenaga ahli, semuanya dalam satu tim. Berpusat di Kutai Kartanegara, Kalimantan Timur.
-        </p>
-        <a href="#" className="text-blue-600 font-semibold hover:underline">
+        {/* Logo */}
+        <img
+          src="/icon.png"
+          alt="JDS Logo"
+          className="w-12 h-12 mx-auto mb-6 object-contain"
+        />
+        <SectionTitle
+          title="Solusi IT untuk semua"
+          subtitle="Web, software, desain, digitalisasi, konsultasi IT, hingga tenaga ahli, semuanya dalam satu tim. Berpusat di Kutai Kartanegara, Kalimantan Timur."
+          className="mb-0"
+        />
+        <a href="/services" className="text-lg text-black underline -mt-6 block">
           Lihat semua layanan
         </a>
       </section>
