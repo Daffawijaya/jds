@@ -265,9 +265,6 @@ export function FeatureHighlights() {
       {/* ── Text bar di bawah big card ── */}
       <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 mt-6 flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-1">
-            Platform Digital UMKM
-          </p>
           <h3 className="text-lg font-bold text-zinc-900">
             Wujudkan akses pasar digital untuk UMKM lokal.
           </h3>
