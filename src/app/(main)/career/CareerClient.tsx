@@ -315,7 +315,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
         </div>
       </section>
 
-      <section id="culture" className="scroll-mt-28 px-7 py-20 sm:px-8 lg:py-28">
+      <section id="culture" className="scroll-mt-28 px-7 pb-20 sm:px-8 lg:pb-28">
         <div className="mx-auto max-w-[1120px]">
           <h2 className="mx-auto max-w-4xl text-center text-3xl font-bold leading-tight tracking-[-0.02em] sm:text-4xl">
             Pekerjaan bermakna. Sekarang lebih dekat dengan Anda.
@@ -343,7 +343,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
         </div>
       </section>
 
-      <section id="process" className="scroll-mt-28 px-7 py-20 text-center sm:px-8 lg:py-28">
+      <section id="process" className="scroll-mt-28 px-7 pb-20 text-center sm:px-8 lg:pb-28">
         <div className="mx-auto max-w-4xl">
           <h2 className="text-3xl font-bold tracking-[-0.02em] sm:text-4xl">Satu profil. Banyak kemungkinan.</h2>
           <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-black/70 sm:text-lg">
@@ -370,10 +370,12 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
         </ol>
       </section>
 
-      <FaqSection
-        title="Pertanyaan yang sering diajukan"
-        items={faqItems}
-      />
+      <div className="-mt-20 lg:-mt-28">
+        <FaqSection
+          title="Pertanyaan yang sering diajukan"
+          items={faqItems}
+        />
+      </div>
 
       <Footer variant="light" />
 

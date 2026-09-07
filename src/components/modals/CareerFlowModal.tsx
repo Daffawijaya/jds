@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Check, CheckCircle2, CornerDownLeft, FileText, Loader2, Send, Upload, X } from "lucide-react";
+import { ArrowRight, Check, CornerDownLeft, FileText, Loader2, Send, Upload, X } from "lucide-react";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -319,12 +319,12 @@ function RoleDetail({ role, onApply }: { role: CareerRole; onApply: () => void }
         <div className="grid w-full gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
           <div className="lg:sticky lg:top-10 lg:self-center">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/50">{role.groupLabel} · Talent Pool JDS</p>
-            <h2 className="mt-5 max-w-xl text-4xl font-bold leading-[1.05] tracking-[-0.035em] text-zinc-950 sm:text-5xl lg:text-6xl">{role.title}</h2>
+            <h2 className="mt-5 max-w-3xl text-4xl font-normal leading-[1.1] tracking-[-0.025em] text-zinc-950 sm:text-5xl">{role.title}</h2>
             {!role.isOpen && <p className="mt-6 inline-flex border border-zinc-300 bg-zinc-100 px-4 py-2 text-sm font-bold text-zinc-600">Pendaftaran tertutup</p>}
             <div className="mt-9 flex flex-wrap gap-3 border-t border-zinc-200 pt-7">
               {role.isOpen ? (
                 <button type="button" onClick={onApply} className="inline-flex items-center gap-2 rounded-full bg-[#3b63fb] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#274dea]">
-                  Daftarkan profil
+                  Lamar posisi
                 </button>
               ) : (
                 <p className="text-sm leading-6 text-zinc-500">Posisi tetap dapat dilihat, tetapi saat ini belum menerima pendaftaran baru.</p>
@@ -364,13 +364,15 @@ function DetailRow({ label, value }: { label: string; value: string }) {
 
 function SuccessState({ jobTitle, onClose }: { jobTitle: string; onClose: () => void }) {
   return (
-    <div className="flex h-full items-center justify-center px-6 py-12 text-center">
-      <div className="max-w-xl career-step-next">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600"><CheckCircle2 className="h-9 w-9" /></div>
-        <p className="mt-8 text-xs font-bold uppercase tracking-[0.16em] text-[#3b63fb]">Pendaftaran terkirim</p>
-        <h2 className="mt-4 text-4xl font-bold tracking-[-0.035em] text-zinc-950 sm:text-5xl">Terima kasih, profil Anda sudah kami terima.</h2>
-        <p className="mx-auto mt-5 max-w-lg text-base leading-7 text-zinc-600">Tim JDS akan meninjau pendaftaran untuk <strong>{jobTitle}</strong> dan menghubungi Anda apabila kualifikasi sesuai.</p>
-        <button type="button" onClick={onClose} className="mt-9 inline-flex min-h-12 items-center justify-center rounded-md bg-zinc-950 px-7 text-sm font-bold text-white hover:bg-zinc-800">Selesai</button>
+    <div className="h-full overflow-y-auto overscroll-contain bg-white">
+      <div className="mx-auto flex min-h-full w-full max-w-[680px] items-center px-6 py-10 sm:px-8 sm:py-14 lg:py-16">
+        <div className="w-full career-step-next">
+          <h2 className="max-w-3xl text-2xl font-normal leading-[1.3] tracking-[-0.025em] text-zinc-950 sm:text-3xl">Terima kasih, profil Anda sudah kami terima.</h2>
+          <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-600">Tim JDS akan meninjau pendaftaran untuk <strong>{jobTitle}</strong> dan menghubungi Anda apabila kualifikasi sesuai.</p>
+          <div className="mt-10 flex items-center justify-end border-t border-zinc-200 pt-5">
+            <button type="button" onClick={onClose} className="inline-flex items-center gap-2 rounded-full bg-[#3b63fb] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#274dea]">Selesai</button>
+          </div>
+        </div>
       </div>
     </div>
   );
