@@ -166,11 +166,11 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
 
         {request ? (
           <>
-        <div className="sticky top-0 z-20 bg-white">
-        <header className="flex h-12 shrink-0 items-center justify-between px-3 sm:h-14 sm:px-5">
+        <div className="sticky top-0 z-20 bg-transparent">
+        <header onClick={closeFlow} className="flex h-12 shrink-0 cursor-pointer items-center justify-between px-3 sm:h-14 sm:px-5">
           <div className="min-w-24">
             {showBack && (
-              <button type="button" onClick={goBack} className="inline-flex min-h-11 items-center gap-2 px-2 text-sm font-bold text-zinc-700 transition-colors hover:text-black">
+              <button type="button" onClick={(e) => { e.stopPropagation(); goBack(); }} className="inline-flex min-h-11 items-center gap-2 px-2 text-sm font-bold text-zinc-700 transition-colors hover:text-black">
                 <ArrowLeft className="h-4 w-4" />
                 Kembali
               </button>
@@ -179,8 +179,8 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
           <p className="absolute left-1/2 -translate-x-1/2 text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
             {!isSubmitted && view === "apply" ? `${step + 1} / ${steps.length}` : ""}
           </p>
-          <button type="button" onClick={closeFlow} disabled={isSubmitting} className="relative z-20 flex h-11 w-11 items-center justify-center rounded-full border border-zinc-300 bg-white/80 text-zinc-900 shadow-sm transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-50" aria-label="Tutup">
-            <X className="h-5 w-5" />
+          <button type="button" onClick={(e) => { e.stopPropagation(); closeFlow(); }} disabled={isSubmitting} className="relative z-20 flex h-8 w-8 items-center justify-center rounded-full border border-black/20 bg-white/20 text-black transition-colors hover:bg-white/30 disabled:cursor-not-allowed disabled:opacity-50" aria-label="Tutup">
+            <X className="h-4 w-4" />
           </button>
         </header>
 
