@@ -39,9 +39,9 @@ const steps = [
   { eyebrow: "Dokumen", title: "Lengkapi dokumen pendukung." },
 ];
 
-const inputClassName = "h-14 rounded-none border border-zinc-300 bg-white px-4 text-base shadow-none transition-colors focus-visible:border-[#3b63fb] focus-visible:ring-1 focus-visible:ring-[#3b63fb]";
-const selectClassName = "h-14 w-full rounded-none border border-zinc-300 bg-white px-4 text-base outline-none transition-colors focus:border-[#3b63fb] focus:ring-1 focus:ring-[#3b63fb]";
-const fileClassName = "h-auto min-h-14 cursor-pointer rounded-none border border-zinc-300 px-3 py-2 file:mr-3 file:rounded-sm file:border-0 file:bg-zinc-950 file:px-3 file:py-2 file:text-xs file:font-bold file:text-white";
+const inputClassName = "h-14 rounded-lg border border-zinc-300 bg-white px-4 text-base shadow-none transition-colors focus-visible:border-[#3b63fb] focus-visible:ring-1 focus-visible:ring-[#3b63fb]";
+const selectClassName = "h-14 w-full rounded-lg border border-zinc-300 bg-white px-4 text-base outline-none transition-colors focus:border-[#3b63fb] focus:ring-1 focus:ring-[#3b63fb]";
+const fileClassName = "h-auto min-h-14 cursor-pointer rounded-lg border border-zinc-300 px-3 py-2 file:mr-3 file:rounded-sm file:border-0 file:bg-zinc-950 file:px-3 file:py-2 file:text-xs file:font-bold file:text-white";
 
 export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
   const formRef = useRef<HTMLFormElement>(null);
@@ -229,8 +229,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
                     <div data-career-step="0" hidden={step !== 0} className={step === 0 ? stepAnimation(direction) : undefined}>
                       <StepHeading step={0} />
                       <div className="mt-8 space-y-6">
-                        <ReadonlyPosition value={displayRequest?.jobTitle ?? "Tenaga Ahli / Professional Talent JDS"} />
-                        <div className="grid gap-x-6 gap-y-6 sm:grid-cols-2">
+                        <div className="grid gap-5 sm:grid-cols-2">
                           <Field id="career-name" name="name" label="Nama lengkap" required autoComplete="name" placeholder="Sesuai identitas" />
                           <Field id="career-email" name="email" label="Email" required type="email" autoComplete="email" placeholder="nama@email.com" />
                           <Field id="career-phone" name="phone" label="WhatsApp / telepon" required type="tel" inputMode="tel" autoComplete="tel" placeholder="08xxxxxxxxxx" />
@@ -242,7 +241,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
 
                     <div data-career-step="1" hidden={step !== 1} className={step === 1 ? stepAnimation(direction) : undefined}>
                       <StepHeading step={1} />
-                      <div className="mt-8 grid gap-x-6 gap-y-6 sm:grid-cols-2">
+                      <div className="mt-8 grid gap-5 sm:grid-cols-2">
                         <SelectField id="career-education" name="education_level" label="Jenjang pendidikan" required defaultValue="">
                           <option value="" disabled>Pilih jenjang</option>
                           <option>SMA/SMK/Sederajat</option><option>D1</option><option>D2</option><option>D3</option><option>D4</option><option>S1</option><option>S2</option><option>S3</option>
@@ -257,7 +256,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
                     <div data-career-step="2" hidden={step !== 2} className={step === 2 ? stepAnimation(direction) : undefined}>
                       <StepHeading step={2} />
                       <div className="mt-8 space-y-6">
-                        <div className="grid gap-x-6 gap-y-6 sm:grid-cols-2">
+                        <div className="grid gap-5 sm:grid-cols-2">
                           <Field id="career-experience" name="experience_years" label="Lama pengalaman (tahun)" required type="number" min="0" max="60" step="0.5" placeholder="0 untuk fresh graduate" />
                           <SelectField id="career-availability" name="availability" label="Ketersediaan mulai" required defaultValue="">
                             <option value="" disabled>Pilih ketersediaan</option><option>Segera</option><option>Dalam 2 minggu</option><option>Dalam 1 bulan</option><option>Lebih dari 1 bulan</option>
@@ -266,7 +265,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
                           <Field id="career-company" name="latest_company" label="Perusahaan / organisasi terakhir" placeholder="Nama perusahaan" />
                         </div>
                         <TextAreaField id="career-skills" name="skills" label="Keahlian utama" required placeholder="Keterampilan, tools, sertifikasi, atau kompetensi yang relevan" />
-                        <div className="grid gap-x-6 gap-y-6 sm:grid-cols-2">
+                        <div className="grid gap-5 sm:grid-cols-2">
                           <Field id="career-linkedin" name="linkedin_url" label="LinkedIn" type="url" placeholder="https://linkedin.com/in/..." />
                           <Field id="career-portfolio" name="portfolio_url" label="Portofolio / GitHub" type="url" placeholder="https://..." />
                           <div className="sm:col-span-2"><Field id="career-salary" name="expected_salary" label="Ekspektasi kompensasi" placeholder="Contoh: Rp7.000.000/bulan atau dapat dinegosiasikan" /></div>
@@ -279,7 +278,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
                       <StepHeading step={3} />
                       <p className="mt-3 text-sm leading-6 text-zinc-500">Dokumen disimpan privat dan hanya dapat diakses administrator JDS.</p>
                       <div className="mt-8 space-y-6">
-                        <div className="grid gap-x-6 gap-y-6 sm:grid-cols-2">
+                        <div className="grid gap-5 sm:grid-cols-2">
                           <FileField id="career-photo" name="photo" label="Pasfoto" required accept="image/jpeg,image/png,image/webp" hint="JPG, PNG, atau WebP · maks. 2 MB" icon="upload" />
                           <FileField id="career-resume" name="resume" label="CV / Resume" required accept="application/pdf,.pdf" hint="PDF · maks. 5 MB" />
                           <FileField id="career-diploma" name="diploma" label="Ijazah terakhir" required accept="application/pdf,.pdf" hint="PDF · maks. 5 MB" />
@@ -379,8 +378,7 @@ function stepAnimation(direction: "next" | "back") {
 function StepHeading({ step }: { step: number }) {
   return (
   <div>
-    <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#3b63fb]">Langkah {step + 1} · {steps[step].eyebrow}</p>
-    <h2 tabIndex={-1} className="mt-3 max-w-3xl text-2xl font-normal leading-[1.3] tracking-[-0.025em] text-zinc-950 outline-none sm:text-3xl">{steps[step].title}</h2>
+    <h2 tabIndex={-1} className="max-w-3xl text-2xl font-normal leading-[1.3] tracking-[-0.025em] text-zinc-950 outline-none sm:text-3xl">{steps[step].title}</h2>
   </div>
   );
 }
@@ -388,36 +386,30 @@ function StepHeading({ step }: { step: number }) {
 function StepActions({ onNext, submit = false, isSubmitting = false }: { onNext?: () => void; submit?: boolean; isSubmitting?: boolean }) {
   return (
     <div className="mt-10 flex justify-end border-t border-zinc-200 pt-5">
-      <button type={submit ? "submit" : "button"} onClick={submit ? undefined : onNext} disabled={isSubmitting} className="group inline-flex min-h-12 items-center gap-5 rounded-md border border-zinc-300 bg-white py-1 pl-5 pr-1 text-sm font-bold text-zinc-950 transition-colors hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-60">
+      <button type={submit ? "submit" : "button"} onClick={submit ? undefined : onNext} disabled={isSubmitting} className="inline-flex items-center gap-2 rounded-full bg-[#3b63fb] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#274dea] disabled:cursor-not-allowed disabled:opacity-60">
         {submit ? (isSubmitting ? "Mengirim..." : "Kirim pendaftaran") : "Berikutnya"}
-        <span className="flex h-10 w-10 items-center justify-center rounded bg-zinc-950 text-white transition-transform group-hover:translate-x-0.5">
-          {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : submit ? <Send className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
-        </span>
+        {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : submit ? <Send className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
       </button>
     </div>
   );
 }
 
-function ReadonlyPosition({ value }: { value: string }) {
-  return <div className="border-l-2 border-[#3b63fb] bg-blue-50 px-4 py-3"><p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-500">Posisi yang dipilih</p><p className="mt-1 text-base font-bold text-[#274dea]">{value}</p></div>;
-}
-
 function FieldLabel({ htmlFor, children, required }: { htmlFor: string; children: React.ReactNode; required?: boolean }) {
-  return <label htmlFor={htmlFor} className="text-sm font-bold text-zinc-800">{children}{required && <span className="ml-1 text-[#3b63fb]">*</span>}</label>;
+  return <label htmlFor={htmlFor} className="block text-sm font-bold text-zinc-800">{children}{required && <span className="ml-1 text-[#3b63fb]">*</span>}</label>;
 }
 
 type FieldProps = React.ComponentProps<typeof Input> & { label: string };
 function Field({ label, id, required, ...props }: FieldProps) {
-  return <div className="space-y-1.5"><FieldLabel htmlFor={String(id)} required={required}>{label}</FieldLabel><Input id={id} required={required} {...props} className={inputClassName} /></div>;
+  return <div className="space-y-2"><FieldLabel htmlFor={String(id)} required={required}>{label}</FieldLabel><Input id={id} required={required} {...props} className={inputClassName} /></div>;
 }
 
 type SelectFieldProps = React.SelectHTMLAttributes<HTMLSelectElement> & { id: string; label: string };
 function SelectField({ id, label, required, children, ...props }: SelectFieldProps) {
-  return <div className="space-y-1.5"><FieldLabel htmlFor={id} required={required}>{label}</FieldLabel><select id={id} required={required} {...props} className={selectClassName}>{children}</select></div>;
+  return <div className="space-y-2"><FieldLabel htmlFor={id} required={required}>{label}</FieldLabel><select id={id} required={required} {...props} className={selectClassName}>{children}</select></div>;
 }
 
 function TextAreaField({ id, name, label, placeholder, required }: { id: string; name: string; label: string; placeholder: string; required?: boolean }) {
-  return <div className="space-y-1.5"><FieldLabel htmlFor={id} required={required}>{label}</FieldLabel><Textarea id={id} name={name} required={required} rows={4} placeholder={placeholder} className="resize-none rounded-none border border-zinc-300 px-4 py-3 text-base shadow-none focus-visible:border-[#3b63fb] focus-visible:ring-1 focus-visible:ring-[#3b63fb]" /></div>;
+  return <div className="space-y-2"><FieldLabel htmlFor={id} required={required}>{label}</FieldLabel><Textarea id={id} name={name} required={required} rows={4} placeholder={placeholder} className="resize-none rounded-lg border border-zinc-300 px-4 py-3 text-base shadow-none focus-visible:border-[#3b63fb] focus-visible:ring-1 focus-visible:ring-[#3b63fb]" /></div>;
 }
 
 function FileField({ id, name, label, accept, hint, required, icon }: { id: string; name: string; label: string; accept: string; hint: string; required?: boolean; icon?: "upload" }) {
