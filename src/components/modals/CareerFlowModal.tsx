@@ -183,11 +183,10 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
           </button>
         </header>
 
-        {view === "apply" && (
-          <div className="h-1.5 shrink-0 bg-zinc-100" role="progressbar" aria-label="Progres pendaftaran" aria-valuemin={1} aria-valuemax={steps.length} aria-valuenow={isSubmitted ? steps.length : step + 1}>
-            <div className="h-full bg-[#3b63fb] transition-[width] duration-500 ease-out" style={{ width: `${progress}%` }} />
-          </div>
-        )}
+        <div className="h-0.5 shrink-0 bg-white" />
+        <div className="h-2.5 shrink-0 bg-zinc-200 relative" role={view === "apply" ? "progressbar" : undefined} aria-label="Progres pendaftaran" aria-valuemin={view === "apply" ? 1 : undefined} aria-valuemax={view === "apply" ? steps.length : undefined} aria-valuenow={view === "apply" ? (isSubmitted ? steps.length : step + 1) : undefined}>
+          {view === "apply" && <div className="h-full bg-[#3b63fb] transition-[width] duration-500 ease-out" style={{ width: `${progress}%` }} />}
+        </div>
 
         {view === "detail" && request?.role ? (
           <RoleDetail role={request.role} onApply={startApplication} />
