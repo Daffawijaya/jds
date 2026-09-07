@@ -1,112 +1,39 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { CheckCircle2, ArrowRight, Layers, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { ArrowRight, Check } from "lucide-react";
+import { FullscreenDetailSheet } from "@/components/modals/FullscreenDetailSheet";
 
 interface ServiceDetailModalProps {
-  service: {
-    title: string;
-    category: string;
-    full_desc: string | null;
-    features: string[];
-    deliverables: string[];
-  } | null;
+  service: { title: string; category: string; full_desc: string | null; features: string[]; deliverables: string[] } | null;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function ServiceDetailModal({
-  service,
-  isOpen,
-  onClose,
-}: ServiceDetailModalProps) {
-  if (!service) return null;
-
+export function ServiceDetailModal({ service, isOpen, onClose }: ServiceDetailModalProps) {
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-2xl">
-        <DialogHeader>
-          <div className="flex items-center gap-2 mb-2">
-            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 capitalize">
-              {service.category}
-            </Badge>
-          </div>
-          <DialogTitle className="text-xl sm:text-2xl font-extrabold text-slate-950">
-            {service.title}
-          </DialogTitle>
-          <DialogDescription className="text-sm text-slate-500 mt-1">
-            Solusi dan ruang lingkup pelaksanaan layanan {service.title} oleh Jaya Dinara Sukses.
-          </DialogDescription>
-        </DialogHeader>
-
-        <div className="space-y-6 my-2">
-          {/* Detailed Overview */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-            <p className="text-sm text-slate-600 leading-relaxed">
-              {service.full_desc}
-            </p>
-          </div>
-
-          {/* Key Features */}
-          <div>
-            <h4 className="text-sm font-extrabold text-slate-950 mb-3 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#eb1000]" />
-              Fitur & Keunggulan Layanan
-            </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {service.features.map((feature, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200"
-                >
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span className="text-xs sm:text-sm text-slate-600">{feature}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Deliverables Scope */}
-          <div>
-            <h4 className="text-sm font-extrabold text-slate-950 mb-3 flex items-center gap-2">
-              <Layers className="w-4 h-4 text-emerald-600" />
-              Hasil Kerja / Deliverables
-            </h4>
-            <ul className="space-y-2">
-              {service.deliverables.map((item, idx) => (
-                <li key={idx} className="flex items-center gap-2.5 text-sm text-slate-600">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#eb1000] shrink-0"></span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <DialogFooter className="gap-2 sm:gap-0">
-          <Button variant="outline" onClick={onClose}>
-            Tutup
-          </Button>
-          <Link
-            href={`/contact?service=${encodeURIComponent(service.title)}`}
-            className={cn(buttonVariants({ variant: "default" }), "flex items-center gap-2")}
-          >
-            <span>Minta Penawaran Layanan</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <FullscreenDetailSheet open={isOpen && service !== null} onClose={onClose} contentKey={service?.title ?? null} title={service ? `Detail layanan ${service.title}` : "Detail layanan"} description="Informasi lengkap, fitur, dan hasil layanan JDS.">
+      {service && <div className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain bg-white lg:overflow-hidden"><div className="mx-auto w-full max-w-[1180px] px-6 sm:px-10 lg:h-full lg:px-14"><div className="grid w-full gap-10 py-8 lg:h-full lg:min-h-0 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:py-0">
+        <section aria-label="Ringkasan layanan" className="lg:min-h-0 lg:overflow-y-auto lg:overscroll-y-contain"><div className="lg:flex lg:min-h-full lg:items-center lg:py-8"><div className="w-full">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/50">{formatCategory(service.category)} · Layanan JDS</p>
+          <h2 className="mt-5 max-w-3xl text-4xl font-normal leading-[1.1] tracking-[-0.025em] text-zinc-950 sm:text-5xl">{service.title}</h2>
+          <p className="mt-6 max-w-xl text-lg leading-8 text-zinc-600">{service.full_desc || `Solusi dan ruang lingkup pelaksanaan layanan ${service.title} oleh Jaya Dinara Sukses.`}</p>
+          <div className="mt-9 border-t border-zinc-200 pt-7"><Link href={`/contact?service=${encodeURIComponent(service.title)}#contact-form`} className="inline-flex items-center gap-2 rounded-full bg-[#3b63fb] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#274dea]">Minta penawaran layanan <ArrowRight className="h-4 w-4" /></Link></div>
+        </div></div></section>
+        <section aria-label="Fitur dan hasil layanan" className="lg:min-h-0 lg:overflow-y-auto lg:overscroll-y-contain"><div className="lg:flex lg:min-h-full lg:items-center lg:py-8"><div className="w-full space-y-10">
+          <ServiceList title="Fitur & keunggulan layanan" items={service.features} emptyMessage="Fitur layanan belum tersedia." />
+          <div className="border-t border-zinc-200 pt-9"><ServiceList title="Hasil kerja / deliverables" items={service.deliverables} emptyMessage="Informasi hasil kerja belum tersedia." /></div>
+        </div></div></section>
+      </div></div></div>}
+    </FullscreenDetailSheet>
   );
+}
+
+function ServiceList({ title, items, emptyMessage }: { title: string; items: string[]; emptyMessage: string }) {
+  return <div><h3 className="text-xl font-bold text-zinc-950">{title}</h3>{items.length > 0 ? <ul className="mt-6 space-y-4">{items.map((item) => <li key={item} className="flex gap-4 text-base leading-7 text-zinc-600"><span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-600"><Check className="h-3.5 w-3.5" /></span><span>{item}</span></li>)}</ul> : <p className="mt-4 text-base text-zinc-500">{emptyMessage}</p>}</div>;
+}
+
+function formatCategory(category: string) {
+  const labels: Record<string, string> = { development: "Software & Web", solutions: "Digitalisasi", outsourcing: "Tenaga Ahli & Outsourcing", consulting: "Konsultasi IT", media: "Multimedia" };
+  return labels[category] ?? category;
 }

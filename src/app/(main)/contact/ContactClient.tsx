@@ -46,6 +46,7 @@ interface ContactClientProps {
   companyInfo: CompanyInfo;
   servicesData: ServiceRow[];
   faqsData: FaqRow[];
+  initialService?: string;
 }
 
 const contentWidth = "mx-auto w-full max-w-[1056px] px-5 sm:px-8";
@@ -117,13 +118,14 @@ const consultationBenefits = [
   },
 ];
 
-export default function ContactClient({ companyInfo, servicesData, faqsData }: ContactClientProps) {
+export default function ContactClient({ companyInfo, servicesData, faqsData, initialService }: ContactClientProps) {
+  const preselectedService = servicesData.find((service) => service.title.toLowerCase() === initialService?.toLowerCase())?.title;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     company: "",
-    service: servicesData[0]?.title ?? "Konsultasi Umum / Lainnya",
+    service: preselectedService ?? "",
     message: "",
   });
   const [isPrepared, setIsPrepared] = useState(false);
@@ -429,6 +431,7 @@ export default function ContactClient({ companyInfo, servicesData, faqsData }: C
                         <label htmlFor="contact-service" className="mb-2 block text-sm font-bold">Layanan yang dibutuhkan <span className="text-[#1473e6]">*</span></label>
                         <div className="relative">
                           <select id="contact-service" name="service" required value={formData.service} onChange={(event) => setFormData({ ...formData, service: event.target.value })} className={`${fieldClass} appearance-none pr-11`}>
+                            <option value="" disabled>Pilih layanan</option>
                             {servicesData.map((service) => <option key={service.id} value={service.title}>{service.title}</option>)}
                             <option value="Konsultasi Umum / Lainnya">Konsultasi Umum / Lainnya</option>
                           </select>

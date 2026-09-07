@@ -1,7 +1,8 @@
 import { getCompanyInfo, getServices, getFaqs } from "@/lib/supabase-server";
 import ContactClient from "./ContactClient";
 
-export default async function ContactPage() {
+export default async function ContactPage({ searchParams }: { searchParams: Promise<{ service?: string }> }) {
+  const requestedService = (await searchParams).service;
   const [companyInfo, servicesData, faqsData] = await Promise.all([
     getCompanyInfo(),
     getServices(),
@@ -19,8 +20,9 @@ export default async function ContactPage() {
         instagram: companyInfo?.instagram ?? "",
         address: companyInfo?.address ?? "",
       }}
-      servicesData={servicesData.map((s: any) => ({ id: s.id, title: s.title }))}
-      faqsData={faqsData.map((f: any) => ({ id: f.id, question: f.question, answer: f.answer }))}
+      servicesData={servicesData.map((service) => ({ id: service.id, title: service.title }))}
+      faqsData={faqsData.map((faq) => ({ id: faq.id, question: faq.question, answer: faq.answer }))}
+      initialService={requestedService}
     />
   );
 }

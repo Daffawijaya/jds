@@ -80,8 +80,7 @@ const outcomeCards = [
     id: "streamlined-work",
     label: "Efisiensi operasional",
     title: "Proses kerja lebih ringkas.",
-    description:
-      "Kurangi pekerjaan manual dan alur berulang melalui sistem yang disusun sesuai kebutuhan operasional.",
+    description: "Kurangi pekerjaan manual dengan sistem yang sesuai kebutuhan.",
     image: homeImages.digital,
     iconName: "Cpu",
     chipClass: "bg-teal-600",
@@ -89,9 +88,8 @@ const outcomeCards = [
   {
     id: "connected-data",
     label: "Data dan integrasi",
-    title: "Data lebih rapi dan terhubung.",
-    description:
-      "Satukan informasi penting agar mudah ditemukan, dipantau, dan digunakan untuk mengambil keputusan.",
+    title: "Data rapi dan terhubung.",
+    description: "Satukan data penting agar mudah dipantau dan digunakan.",
     image: homeImages.software,
     iconName: "Server",
     chipClass: "bg-cyan-600",
@@ -99,9 +97,8 @@ const outcomeCards = [
   {
     id: "accessible-services",
     label: "Pengalaman digital",
-    title: "Layanan lebih mudah digunakan.",
-    description:
-      "Hadirkan pengalaman digital yang jelas bagi tim internal, mitra, maupun masyarakat.",
+    title: "Layanan mudah digunakan.",
+    description: "Buat layanan digital lebih jelas dan mudah digunakan.",
     image: homeImages.uiux,
     iconName: "Layout",
     chipClass: "bg-violet-600",
@@ -109,9 +106,8 @@ const outcomeCards = [
   {
     id: "project-ready-team",
     label: "Kesiapan tim",
-    title: "Tim proyek lebih siap.",
-    description:
-      "Lengkapi kebutuhan proyek dengan tenaga ahli yang sesuai dan siap mendukung pelaksanaan di lapangan.",
+    title: "Tim proyek siap.",
+    description: "Dukung proyek dengan tenaga ahli yang tepat dan siap bekerja.",
     image: homeImages.staffing,
     iconName: "Users",
     chipClass: "bg-amber-500",
@@ -119,9 +115,8 @@ const outcomeCards = [
   {
     id: "scalable-foundation",
     label: "Fondasi teknologi",
-    title: "Solusi tumbuh bersama kebutuhan.",
-    description:
-      "Bangun fondasi digital yang dapat dikembangkan saat program, pengguna, dan proses organisasi bertambah.",
+    title: "Solusi siap berkembang.",
+    description: "Bangun fondasi digital yang siap berkembang bersama kebutuhan.",
     image: homeImages.web,
     iconName: "Lightbulb",
     chipClass: "bg-fuchsia-600",
@@ -222,7 +217,7 @@ export default async function HomePage() {
                     />
                   </div>
                   <div className="desc-lock w-full px-4 py-5">
-                    <h3 className="line-clamp-2 text-base font-bold leading-5 text-zinc-900 transition-colors duration-300 group-hover:text-white">
+                    <h3 className="truncate text-base font-bold leading-5 text-zinc-900 transition-colors duration-300 group-hover:text-white" title={outcome.title}>
                       {outcome.title}
                     </h3>
                     <p className="mt-1 line-clamp-2 text-base font-normal leading-5 text-zinc-900/60 transition-colors duration-300 group-hover:text-white/60">
