@@ -4,36 +4,14 @@ import { useState } from "react";
 import Image from "next/image";
 import {
   ArrowRight,
-  Check,
   MessagesSquare,
 } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
-import { JobApplyModal } from "@/components/modals/JobApplyModal";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { CareerFlowModal, type CareerFlowRequest, type CareerRole } from "@/components/modals/CareerFlowModal";
 import { FaqSection } from "@/components/shared/FaqSection";
 
 type CareerRoleGroup = "technology" | "creative" | "program";
 type CareerRoleFilter = "all" | CareerRoleGroup;
-
-type CareerRole = {
-  id: string;
-  title: string;
-  group: CareerRoleGroup;
-  groupLabel: string;
-  education: string;
-  majors: string;
-  location: string;
-  engagement: string;
-  summary: string;
-  qualifications: string[];
-};
 
 const careerRoleFilters: { id: CareerRoleFilter; label: string }[] = [
   { id: "all", label: "Semua posisi" },
@@ -120,28 +98,28 @@ const faqItems = [
 ];
 
 export default function CareerClient({ careerRoles }: CareerClientProps) {
-  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
-  const [selectedRole, setSelectedRole] = useState<CareerRole | null>(null);
+  const [careerFlow, setCareerFlow] = useState<CareerFlowRequest | null>(null);
   const [roleFilter, setRoleFilter] = useState<CareerRoleFilter>("all");
-  const [selectedJobTitle, setSelectedJobTitle] = useState(
-    "Tenaga Ahli / Professional Talent JDS",
-  );
 
   const visibleCareerRoles = careerRoles.filter(
     (role) => roleFilter === "all" || role.group === roleFilter,
   );
 
-  const handleOpenApply = (jobTitle?: string) => {
-    setSelectedJobTitle(jobTitle || "Tenaga Ahli / Professional Talent JDS");
-    setIsApplyModalOpen(true);
+  const handleOpenApply = () => {
+    setCareerFlow({
+      initialView: "apply",
+      role: null,
+      jobTitle: "Tenaga Ahli / Professional Talent JDS",
+    });
   };
 
-  const handleApplyForSelectedRole = () => {
-    if (!selectedRole) return;
-
-    const roleTitle = selectedRole.title;
-    setSelectedRole(null);
-    handleOpenApply(roleTitle);
+  const handleOpenDetail = (role: CareerRole) => {
+    setCareerFlow({
+      initialView: "detail",
+      role,
+      jobTitle: role.title,
+      roleSlug: role.id,
+    });
   };
 
   return (
@@ -275,7 +253,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
                     <td className="border-l border-[#dadada] px-5 py-6 text-center">
                       <button
                         type="button"
-                        onClick={() => setSelectedRole(role)}
+                        onClick={() => handleOpenDetail(role)}
                         className="inline-flex min-w-24 items-center justify-center rounded-full bg-[#3b63fb] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#274dea] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3b63fb] focus-visible:ring-offset-2"
                         aria-label={`Lihat detail ${role.title}`}
                       >
@@ -308,7 +286,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
                 <div className="p-5">
                   <button
                     type="button"
-                    onClick={() => setSelectedRole(role)}
+                    onClick={() => handleOpenDetail(role)}
                     className="inline-flex w-full items-center justify-center rounded-full bg-[#3b63fb] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#274dea] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3b63fb] focus-visible:ring-offset-2 sm:w-auto"
                   >
                     Lihat detail
@@ -399,87 +377,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
 
       <Footer variant="light" />
 
-      <Dialog
-        open={selectedRole !== null}
-        onOpenChange={(open) => {
-          if (!open) setSelectedRole(null);
-        }}
-      >
-        <DialogContent className="max-w-[720px] gap-0 overflow-y-auto border-[#dadada] p-0 sm:rounded-2xl sm:p-0">
-          {selectedRole && (
-            <>
-              <DialogHeader className="bg-[#f8f8f8] px-6 py-7 pr-16 text-left sm:px-8 sm:py-8 sm:pr-16">
-                <p className="text-xs font-bold uppercase tracking-[0.14em] text-black/50">
-                  {selectedRole.groupLabel} · Talent Pool JDS
-                </p>
-                <DialogTitle className="mt-2 text-2xl leading-tight text-[#2c2c2c] sm:text-3xl">
-                  {selectedRole.title}
-                </DialogTitle>
-                <DialogDescription className="mt-3 max-w-2xl text-base leading-7 text-black/65">
-                  {selectedRole.summary}
-                </DialogDescription>
-              </DialogHeader>
-
-              <div className="space-y-0 px-6 sm:px-8">
-                <dl className="divide-y divide-[#dadada] border-b border-[#dadada]">
-                  <div className="grid gap-1 py-5 sm:grid-cols-[180px_1fr] sm:gap-6">
-                    <dt className="text-sm font-bold">Jenjang pendidikan</dt>
-                    <dd className="text-sm leading-6 text-black/65">{selectedRole.education}</dd>
-                  </div>
-                  <div className="grid gap-1 py-5 sm:grid-cols-[180px_1fr] sm:gap-6">
-                    <dt className="text-sm font-bold">Jurusan</dt>
-                    <dd className="text-sm leading-6 text-black/65">{selectedRole.majors}</dd>
-                  </div>
-                  <div className="grid gap-1 py-5 sm:grid-cols-[180px_1fr] sm:gap-6">
-                    <dt className="text-sm font-bold">Lokasi</dt>
-                    <dd className="text-sm leading-6 text-black/65">{selectedRole.location}</dd>
-                  </div>
-                  <div className="grid gap-1 py-5 sm:grid-cols-[180px_1fr] sm:gap-6">
-                    <dt className="text-sm font-bold">Skema keterlibatan</dt>
-                    <dd className="text-sm leading-6 text-black/65">{selectedRole.engagement}</dd>
-                  </div>
-                </dl>
-
-                <div className="py-6">
-                  <h3 className="text-base font-bold">Kualifikasi utama</h3>
-                  <ul className="mt-4 space-y-3">
-                    {selectedRole.qualifications.map((qualification) => (
-                      <li key={qualification} className="flex gap-3 text-sm leading-6 text-black/65">
-                        <Check className="mt-1 h-4 w-4 shrink-0 text-[#3b63fb]" aria-hidden="true" />
-                        <span>{qualification}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <p className="rounded-xl bg-[#f8f8f8] px-4 py-3 text-xs leading-5 text-black/60">
-                  Informasi ini menggambarkan area Talent Pool. Kebutuhan, ruang lingkup, dan persyaratan akhir dapat berbeda pada setiap proyek.
-                </p>
-              </div>
-
-              <DialogFooter className="mt-7 gap-3 border-[#dadada] px-6 pb-6 pt-5 sm:px-8 sm:pb-8">
-                <button
-                  type="button"
-                  onClick={() => setSelectedRole(null)}
-                  className="inline-flex items-center justify-center rounded-full border-2 border-[#2c2c2c] px-6 py-2.5 text-sm font-bold text-[#2c2c2c] transition-colors hover:bg-[#2c2c2c] hover:text-white"
-                >
-                  Tutup
-                </button>
-                <button
-                  type="button"
-                  onClick={handleApplyForSelectedRole}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#3b63fb] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#274dea]"
-                >
-                  Daftarkan profil
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              </DialogFooter>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
-
-      <JobApplyModal isOpen={isApplyModalOpen} onClose={() => setIsApplyModalOpen(false)} jobTitle={selectedJobTitle} />
+      <CareerFlowModal request={careerFlow} onClose={() => setCareerFlow(null)} />
     </div>
   );
 }

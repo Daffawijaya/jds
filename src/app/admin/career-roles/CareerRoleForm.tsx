@@ -11,12 +11,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
-interface CareerRoleFormProps { initialData?: any; onSubmit: (formData: FormData) => Promise<void>; }
+interface CareerRoleFormData {
+  title?: string;
+  slug?: string;
+  group_name?: string;
+  education?: string;
+  majors?: string;
+  location?: string;
+  engagement?: string;
+  summary?: string;
+  sort_order?: number;
+  qualifications?: string[];
+  is_active?: boolean;
+  is_open?: boolean;
+}
+
+interface CareerRoleFormProps { initialData?: CareerRoleFormData; onSubmit: (formData: FormData) => Promise<void>; }
 
 export function CareerRoleForm({ initialData, onSubmit }: CareerRoleFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isActive, setIsActive] = useState(initialData?.is_active ?? true);
+  const [isOpen, setIsOpen] = useState(initialData?.is_open ?? true);
   const [groupName, setGroupName] = useState(initialData?.group_name || "technology");
   const [qualifications, setQualifications] = useState<string[]>(initialData?.qualifications || []);
   const [newQual, setNewQual] = useState("");
@@ -28,10 +44,11 @@ export function CareerRoleForm({ initialData, onSubmit }: CareerRoleFormProps) {
     setLoading(true);
     const formData = new FormData(e.currentTarget);
     formData.set("is_active", String(isActive));
+    formData.set("is_open", String(isOpen));
     formData.set("group_name", groupName);
     formData.set("group_label", groups[groupName] || groupName);
     formData.set("qualifications", JSON.stringify(qualifications));
-    try { await onSubmit(formData); toast.success(initialData ? "Updated" : "Created"); router.push("/admin/career-roles"); router.refresh(); } catch (err: any) { toast.error(err.message); } finally { setLoading(false); }
+    try { await onSubmit(formData); toast.success(initialData ? "Updated" : "Created"); router.push("/admin/career-roles"); router.refresh(); } catch (err: unknown) { toast.error(err instanceof Error ? err.message : "Terjadi kesalahan"); } finally { setLoading(false); }
   }
 
   return (
@@ -44,7 +61,7 @@ export function CareerRoleForm({ initialData, onSubmit }: CareerRoleFormProps) {
           </div>
           <div className="space-y-2">
             <Label>Group *</Label>
-            <Select value={groupName} onValueChange={setGroupName}>
+            <Select value={groupName} onValueChange={(value) => value && setGroupName(value)}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="technology">Teknologi</SelectItem>
@@ -63,7 +80,21 @@ export function CareerRoleForm({ initialData, onSubmit }: CareerRoleFormProps) {
           </div>
           <div className="space-y-2"><Label htmlFor="summary">Summary</Label><Textarea id="summary" name="summary" defaultValue={initialData?.summary} rows={3} /></div>
           <div className="space-y-2"><Label htmlFor="sort_order">Sort Order</Label><Input id="sort_order" name="sort_order" type="number" defaultValue={initialData?.sort_order || 0} /></div>
-          <div className="flex items-center gap-2"><input type="checkbox" id="is_active" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} className="rounded" /><Label htmlFor="is_active">Active</Label></div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label>Status pendaftaran</Label>
+              <Select value={isOpen ? "open" : "closed"} onValueChange={(value) => setIsOpen(value === "open")}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="open">Terbuka</SelectItem>
+                  <SelectItem value="closed">Tertutup</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-end pb-2">
+              <div className="flex items-center gap-2"><input type="checkbox" id="is_active" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} className="rounded" /><Label htmlFor="is_active">Tampilkan di website</Label></div>
+            </div>
+          </div>
         </CardContent>
       </Card>
 

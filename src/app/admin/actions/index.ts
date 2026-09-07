@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase-server";
+import { createAdminClient } from "@/lib/supabase-admin";
 import { revalidatePath } from "next/cache";
 
 // =============================================================
@@ -251,10 +252,12 @@ export async function createCareerRole(formData: FormData) {
     summary: formData.get("summary") as string,
     qualifications,
     sort_order: Number(formData.get("sort_order")) || 0,
+    is_open: formData.get("is_open") === "true",
     is_active: formData.get("is_active") === "true",
   });
   if (error) throw error;
   revalidatePath("/admin/career-roles");
+  revalidatePath("/career");
 }
 
 export async function updateCareerRole(id: string, formData: FormData) {
@@ -275,11 +278,13 @@ export async function updateCareerRole(id: string, formData: FormData) {
       summary: formData.get("summary") as string,
       qualifications,
       sort_order: Number(formData.get("sort_order")) || 0,
+      is_open: formData.get("is_open") === "true",
       is_active: formData.get("is_active") === "true",
     })
     .eq("id", id);
   if (error) throw error;
   revalidatePath("/admin/career-roles");
+  revalidatePath("/career");
 }
 
 export async function deleteCareerRole(id: string) {
@@ -287,6 +292,7 @@ export async function deleteCareerRole(id: string) {
   const { error } = await supabase.from("career_roles").delete().eq("id", id);
   if (error) throw error;
   revalidatePath("/admin/career-roles");
+  revalidatePath("/career");
 }
 
 // =============================================================
@@ -380,6 +386,17 @@ export async function getApplications() {
   return data;
 }
 
+export async function getApplication(id: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("career_applications")
+    .select("*")
+    .eq("id", id)
+    .single();
+  if (error) throw error;
+  return data;
+}
+
 export async function markApplicationRead(id: string) {
   const supabase = await createClient();
   const { error } = await supabase
@@ -392,8 +409,22 @@ export async function markApplicationRead(id: string) {
 
 export async function deleteApplication(id: string) {
   const supabase = await createClient();
+  const { data: application } = await supabase
+    .from("career_applications")
+    .select("photo_path, resume_path, diploma_path, transcript_path")
+    .eq("id", id)
+    .single();
   const { error } = await supabase.from("career_applications").delete().eq("id", id);
   if (error) throw error;
+
+  const documentPaths = application
+    ? [application.photo_path, application.resume_path, application.diploma_path, application.transcript_path].filter((path): path is string => Boolean(path))
+    : [];
+  if (documentPaths.length > 0) {
+    const admin = createAdminClient();
+    const { error: storageError } = await admin.storage.from("career-applications").remove(documentPaths);
+    if (storageError) throw storageError;
+  }
   revalidatePath("/admin/applications");
 }
 

@@ -9,10 +9,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Trash2, MailOpen } from "lucide-react";
+import { Trash2, MailOpen, Eye } from "lucide-react";
+import { createAdminClient } from "@/lib/supabase-admin";
+import Link from "next/link";
 
 export default async function ApplicationsPage() {
   const applications = await getApplications();
+  const documentPaths = applications.flatMap((application) =>
+    [application.photo_path, application.resume_path, application.diploma_path, application.transcript_path]
+      .filter((path): path is string => Boolean(path)),
+  );
+  const admin = createAdminClient();
+  const { data: signedDocuments } = documentPaths.length > 0
+    ? await admin.storage.from("career-applications").createSignedUrls(documentPaths, 3600)
+    : { data: [] };
+  const documentUrls = new Map((signedDocuments ?? []).map((document) => [document.path, document.signedUrl]));
 
   return (
     <div>
@@ -27,9 +38,11 @@ export default async function ApplicationsPage() {
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Position</TableHead>
+              <TableHead>Pendidikan</TableHead>
+              <TableHead>Dokumen</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="w-[100px]">Aksi</TableHead>
+              <TableHead className="w-[140px]">Aksi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -38,6 +51,23 @@ export default async function ApplicationsPage() {
                 <TableCell className="font-medium">{a.name}</TableCell>
                 <TableCell>{a.email}</TableCell>
                 <TableCell>{a.position || a.expertise}</TableCell>
+                <TableCell>
+                  <p>{[a.education_level, a.major].filter(Boolean).join(" · ") || "-"}</p>
+                  <p className="text-xs text-zinc-500">{a.institution || ""}</p>
+                </TableCell>
+                <TableCell>
+                  <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs font-medium text-blue-600">
+                    {[
+                      ["Pasfoto", a.photo_path],
+                      ["CV", a.resume_path],
+                      ["Ijazah", a.diploma_path],
+                      ["Transkrip", a.transcript_path],
+                    ].map(([label, path]) => path && documentUrls.get(path) ? (
+                      <a key={label} href={documentUrls.get(path) ?? undefined} target="_blank" rel="noreferrer" className="hover:underline">{label}</a>
+                    ) : null)}
+                    {!a.resume_path && a.resume_url && <a href={a.resume_url} target="_blank" rel="noreferrer" className="hover:underline">CV lama</a>}
+                  </div>
+                </TableCell>
                 <TableCell>{new Date(a.created_at).toLocaleDateString("id-ID")}</TableCell>
                 <TableCell>
                   <Badge variant={a.is_read ? "secondary" : "default"}>
@@ -46,6 +76,7 @@ export default async function ApplicationsPage() {
                 </TableCell>
                 <TableCell>
                   <div className="flex gap-1">
+                    <Link href={`/admin/applications/${a.id}`}><Button variant="ghost" size="icon"><Eye className="h-4 w-4" /></Button></Link>
                     {!a.is_read && (
                       <form
                         action={async () => {
@@ -74,7 +105,7 @@ export default async function ApplicationsPage() {
             ))}
             {applications.length === 0 && (
               <TableRow>
-                <TableCell colSpan={6} className="text-center text-zinc-500 py-8">
+                <TableCell colSpan={8} className="text-center text-zinc-500 py-8">
                   Belum ada aplikasi
                 </TableCell>
               </TableRow>
