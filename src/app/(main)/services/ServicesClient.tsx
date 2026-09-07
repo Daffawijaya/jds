@@ -161,7 +161,8 @@ export default function ServicesClient({ companyInfo, servicesData }: ServicesCl
 
       {/* 1. HERO + TABS */}
       <PageHeroWithTabs
-        title={<>Layanan {companyInfo.short_name}.</>}
+        label={`Layanan ${companyInfo.short_name}`}
+        title="Solusi teknologi menyeluruh untuk organisasi yang ingin terus berkembang."
         description="Solusi pengembangan software, perancangan web, digitalisasi sistem, konsultasi teknologi, serta penyediaan tenaga ahli profesional."
         bgImage="/image/bgpur.png"
         tabs={categories}

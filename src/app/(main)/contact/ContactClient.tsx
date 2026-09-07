@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { FaInstagram } from "react-icons/fa6";
 import { Footer } from "@/components/layout/Footer";
+import { PageIntro } from "@/components/shared/PageIntro";
 import { FaqSection } from "@/components/shared/FaqSection";
 
 type CompanyInfo = {
@@ -141,16 +142,14 @@ export default function ContactClient({ companyInfo, servicesData, faqsData }: C
     <div className="min-h-screen bg-white font-sans text-[#2c2c2c] antialiased">
       <section className="bg-white">
         <div className={`${contentWidth} flex min-h-[620px] flex-col items-center justify-center py-16 text-center sm:min-h-[650px] sm:py-20`}>
-          <div className="mb-5 flex items-center gap-2 text-lg font-semibold">
-            <Image src="/icon.png" alt="" width={30} height={30} priority className="h-[30px] w-[30px] object-contain" />
-            <span>Kontak JDS</span>
-          </div>
-          <h1 className="max-w-[820px] text-[36px] font-extrabold leading-[1.16] tracking-[-0.025em] sm:text-[44px] sm:leading-[1.22]">
-            Mulai percakapan untuk mewujudkan solusi yang tepat.
-          </h1>
-          <p className="mt-5 max-w-[660px] text-lg leading-[1.5] sm:text-xl">
-            Ceritakan ide, tantangan, atau program Anda. Tim JDS siap membantu menemukan arah teknologi dan kolaborasi yang relevan.
-          </p>
+          <PageIntro
+            label="Kontak JDS"
+            title="Mulai percakapan untuk mewujudkan solusi yang tepat."
+            description="Ceritakan ide, tantangan, atau program Anda. Tim JDS siap membantu menemukan arah teknologi dan kolaborasi yang relevan."
+            align="center"
+            titleClassName="max-w-[820px]"
+            descriptionClassName="max-w-[660px]"
+          />
           <a href="#contact-form" className={`${primaryButton} mt-7 w-full sm:w-auto`}>
             Mulai percakapan
           </a>

@@ -68,7 +68,8 @@ export default function ProjectsClient({ companyInfo, projectsData }: ProjectsCl
     <div className="min-h-screen bg-white text-gray-900 font-sans">
       {/* Hero + Tabs — same layout as Services */}
       <PageHeroWithTabs
-        title={<>Proyek {companyInfo.short_name}.</>}
+        label={`Proyek ${companyInfo.short_name}`}
+        title="Karya digital yang memperkuat organisasi dan memberi dampak nyata."
         description={`Proyek terverifikasi yang dipercayakan kepada ${companyInfo.official_name} untuk digitalisasi dan penguatan tenaga ahli.`}
         bgImage="/image/bgpur.png"
         tabs={categories}

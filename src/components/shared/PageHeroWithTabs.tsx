@@ -1,6 +1,8 @@
 "use client";
 
 import { type ReactNode } from "react";
+import { PageIntro } from "@/components/shared/PageIntro";
+import { CategoryTabs } from "@/components/shared/CategoryTabs";
 
 export interface Tab {
   key: string;
@@ -8,7 +10,9 @@ export interface Tab {
 }
 
 interface PageHeroWithTabsProps {
-  /** Hero title, e.g. "Layanan JDS." */
+  /** Small page label displayed above the title. */
+  label: string;
+  /** Main hero title. */
   title: ReactNode;
   /** Hero subtitle/description */
   description: ReactNode;
@@ -25,6 +29,7 @@ interface PageHeroWithTabsProps {
 }
 
 export default function PageHeroWithTabs({
+  label,
   title,
   description,
   bgImage,
@@ -44,35 +49,26 @@ export default function PageHeroWithTabs({
           className="pointer-events-none absolute inset-0 w-screen left-1/2 -translate-x-1/2 object-cover h-full"
         />
         <div className="relative max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-4">{title}</h1>
-          <p className="text-black text-xl mb-8 max-w-2xl mx-auto">
-            {description}
-          </p>
+          <PageIntro
+            label={label}
+            title={title}
+            description={description}
+            align="center"
+            titleClassName="max-w-[820px]"
+            descriptionClassName="max-w-[680px]"
+          />
           {heroExtra && <div className="mb-8">{heroExtra}</div>}
         </div>
       </section>
 
       {/* Tab kategori — di luar hero, di atas konten */}
-      <div className="bg-white">
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 pt-16">
-          <nav className="flex flex-wrap justify-center gap-6 text-sm font-bold text-gray-500">
-            {tabs.map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => onTabChange(tab.key)}
-                className={`transition-colors border-b-[4px] ${
-                  activeTab === tab.key
-                    ? "text-black border-[#1473E6] pb-2"
-                    : "text-gray-500 border-transparent hover:text-black pb-2"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </nav>
-        </div>
-        <div className="-mt-px border-t border-gray-400" />
-      </div>
+      <CategoryTabs
+        tabs={tabs}
+        activeTab={activeTab}
+        onTabChange={onTabChange}
+        ariaLabel="Filter kategori"
+        className="pt-12 sm:pt-16"
+      />
     </>
   );
 }

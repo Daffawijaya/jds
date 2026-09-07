@@ -9,6 +9,8 @@ import {
 import { Footer } from "@/components/layout/Footer";
 import { CareerFlowModal, type CareerFlowRequest, type CareerRole } from "@/components/modals/CareerFlowModal";
 import { FaqSection } from "@/components/shared/FaqSection";
+import { PageIntro } from "@/components/shared/PageIntro";
+import { CategoryTabs } from "@/components/shared/CategoryTabs";
 
 type CareerRoleGroup = "technology" | "creative" | "program";
 type CareerRoleFilter = "all" | CareerRoleGroup;
@@ -126,19 +128,15 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
     <div className="min-h-screen w-full bg-white font-sans text-[#2c2c2c] antialiased">
       <section id="overview" className="scroll-mt-28 bg-[#f5f5f5]">
         <div className="grid w-full lg:grid-cols-2">
-          <div className="flex min-h-[560px] flex-col justify-center px-7 py-8 sm:px-12 lg:min-h-[calc(100svh-4rem)] lg:px-16 lg:py-14 xl:px-24">
-            <div className="mb-5 flex items-center gap-3 text-lg font-bold">
-              <span className="flex h-8 w-8 items-center justify-center rounded-md bg-white">
-                <Image src="/icon.png" alt="" width={32} height={32} className="h-8 w-8 object-contain" />
-              </span>
-              <span>Karir</span>
-            </div>
-            <h1 className="max-w-[480px] text-4xl font-bold leading-[1.25] tracking-[-0.03em] sm:text-[2.5rem] lg:text-[2.75rem]">
-              Berkarya untuk masa depan yang lebih baik.
-            </h1>
-            <p className="mt-5 max-w-[500px] text-lg leading-7 text-[#3f3f3f]">
-              Bergabunglah dengan tim yang membangun solusi teknologi, digitalisasi, dan program berdampak untuk organisasi serta masyarakat.
-            </p>
+          <div className="flex min-h-[560px] flex-col justify-center px-5 py-8 sm:px-8 lg:min-h-[calc(100svh-4rem)] lg:py-14 lg:pl-[max(2rem,calc((100vw-1200px)/2))] lg:pr-16">
+            <PageIntro
+              label="Karir"
+              title="Berkarya untuk masa depan yang lebih baik."
+              description="Bergabunglah dengan tim yang membangun solusi teknologi, digitalisasi, dan program berdampak untuk organisasi serta masyarakat."
+              align="left"
+              titleClassName="max-w-[480px]"
+              descriptionClassName="max-w-[500px]"
+            />
             <p className="mt-6 text-lg font-bold">Temukan tempat terbaik untuk kontribusi Anda.</p>
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <button
@@ -180,37 +178,14 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
             </p>
           </div>
 
-          <div className="mt-10 border-b border-[#dadada] sm:mt-12">
-            <div
-              className="-mb-px flex gap-1 overflow-x-auto"
-              role="tablist"
-              aria-label="Filter area posisi"
-            >
-              {careerRoleFilters.map((filter) => {
-                const isActive = roleFilter === filter.id;
-
-                return (
-                  <button
-                    key={filter.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    onClick={() => setRoleFilter(filter.id)}
-                    className={`relative shrink-0 px-5 py-4 text-sm font-bold transition-colors sm:px-7 ${
-                      isActive ? "text-[#2c2c2c]" : "text-black/55 hover:text-[#2c2c2c]"
-                    }`}
-                  >
-                    {filter.label}
-                    <span
-                      className={`absolute inset-x-4 bottom-0 h-[3px] rounded-full bg-[#3b63fb] transition-opacity ${
-                        isActive ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          <CategoryTabs
+            tabs={careerRoleFilters.map((filter) => ({ key: filter.id, label: filter.label }))}
+            activeTab={roleFilter}
+            onTabChange={setRoleFilter}
+            ariaLabel="Filter area posisi"
+            className="mt-10 sm:mt-12"
+            contentClassName="max-w-[1200px]"
+          />
 
           <div className="mt-8 hidden overflow-hidden rounded-none border border-[#dadada] bg-white lg:block">
             <table className="w-full table-fixed border-collapse text-left">
@@ -245,7 +220,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
                       </span>
                     </th>
                     <td className="border-l border-[#dadada] px-7 py-6 text-[0.9375rem] font-semibold leading-6 text-[#2c2c2c]">
-                      {role.education}
+                      {role.education.join(" / ") || "-"}
                     </td>
                     <td className="border-l border-[#dadada] px-7 py-6 text-[0.9375rem] leading-6 text-black/70">
                       {role.majors}
@@ -276,7 +251,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
                 <dl className="divide-y divide-[#dadada] border-y border-[#dadada]">
                   <div className="grid gap-1 px-5 py-4 sm:grid-cols-[180px_1fr] sm:gap-5">
                     <dt className="text-sm font-bold text-[#2c2c2c]">Jenjang pendidikan</dt>
-                    <dd className="text-sm leading-6 text-black/70">{role.education}</dd>
+                    <dd className="text-sm leading-6 text-black/70">{role.education.join(" / ") || "-"}</dd>
                   </div>
                   <div className="grid gap-1 px-5 py-4 sm:grid-cols-[180px_1fr] sm:gap-5">
                     <dt className="text-sm font-bold text-[#2c2c2c]">Jurusan yang relevan</dt>

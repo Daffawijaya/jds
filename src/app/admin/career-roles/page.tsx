@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Link from "next/link";
 import { Plus, Pencil, Trash2 } from "lucide-react";
-import { getRoleEngagementLabel, getWorkArrangementLabel } from "@/lib/career-options";
+import { formatApplicationPeriod, getApplicationWindowState, getRoleEngagementLabel, getWorkArrangementLabel } from "@/lib/career-options";
 
 export default async function CareerRolesPage() {
   const roles = await getCareerRoles();
@@ -16,16 +16,19 @@ export default async function CareerRolesPage() {
       </div>
       <div className="bg-white rounded-lg border border-zinc-200">
         <Table>
-          <TableHeader><TableRow><TableHead>Title</TableHead><TableHead>Group</TableHead><TableHead>Education</TableHead><TableHead>Lokasi</TableHead><TableHead>Skema</TableHead><TableHead>Pendaftaran</TableHead><TableHead>Publikasi</TableHead><TableHead className="w-[100px]">Aksi</TableHead></TableRow></TableHeader>
+          <TableHeader><TableRow><TableHead>Title</TableHead><TableHead>Group</TableHead><TableHead>Pendidikan</TableHead><TableHead>Lokasi</TableHead><TableHead>Skema</TableHead><TableHead>Status</TableHead><TableHead>Periode pendaftaran</TableHead><TableHead>Publikasi</TableHead><TableHead className="w-[100px]">Aksi</TableHead></TableRow></TableHeader>
           <TableBody>
-            {roles.map((r) => (
+            {roles.map((r) => {
+              const isOpen = getApplicationWindowState(r.application_status, r.application_open_date, r.application_close_date) === "open";
+              return (
               <TableRow key={r.id}>
                 <TableCell className="font-medium">{r.title}</TableCell>
                 <TableCell><Badge variant="outline">{r.group_label}</Badge></TableCell>
-                <TableCell>{r.education}</TableCell>
+                <TableCell>{r.education_levels?.join(" / ") || "-"}</TableCell>
                 <TableCell>{getWorkArrangementLabel(r.location)}</TableCell>
                 <TableCell>{getRoleEngagementLabel(r.engagement)}</TableCell>
-                <TableCell><Badge variant={r.application_status === "open" ? "default" : "secondary"}>{r.application_status === "open" ? "Open" : "Closed"}</Badge></TableCell>
+                <TableCell><Badge variant={isOpen ? "default" : "secondary"}>{isOpen ? "Open" : "Closed"}</Badge></TableCell>
+                <TableCell>{formatApplicationPeriod(r.application_open_date, r.application_close_date)}</TableCell>
                 <TableCell><Badge variant={r.is_active ? "default" : "secondary"}>{r.is_active ? "Tampil" : "Disembunyikan"}</Badge></TableCell>
                 <TableCell>
                   <div className="flex gap-2">
@@ -34,8 +37,9 @@ export default async function CareerRolesPage() {
                   </div>
                 </TableCell>
               </TableRow>
-            ))}
-            {roles.length === 0 && <TableRow><TableCell colSpan={8} className="text-center text-zinc-500 py-8">Belum ada data</TableCell></TableRow>}
+              );
+            })}
+            {roles.length === 0 && <TableRow><TableCell colSpan={9} className="text-center text-zinc-500 py-8">Belum ada data</TableCell></TableRow>}
           </TableBody>
         </Table>
       </div>

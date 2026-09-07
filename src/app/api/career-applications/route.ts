@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase-admin";
-import { ROLE_ENGAGEMENT_OPTIONS, WORK_ARRANGEMENT_OPTIONS } from "@/lib/career-options";
+import { ROLE_ENGAGEMENT_OPTIONS, WORK_ARRANGEMENT_OPTIONS, getApplicationWindowState } from "@/lib/career-options";
 
 const MAX_PHOTO_SIZE = 2 * 1024 * 1024;
 const MAX_DOCUMENT_SIZE = 5 * 1024 * 1024;
@@ -167,15 +167,15 @@ export async function POST(request: Request) {
     if (roleSlug) {
       const { data: role, error: roleError } = await supabase
         .from("career_roles")
-        .select("id, title, is_active, application_status")
+        .select("id, title, is_active, application_status, application_open_date, application_close_date")
         .eq("slug", roleSlug)
         .maybeSingle();
 
       if (roleError || !role || !role.is_active) {
         return NextResponse.json({ error: "Posisi tidak ditemukan atau sudah tidak dipublikasikan." }, { status: 404 });
       }
-      if (role.application_status !== "open") {
-        return NextResponse.json({ error: "Pendaftaran untuk posisi ini sudah ditutup." }, { status: 409 });
+      if (getApplicationWindowState(role.application_status, role.application_open_date, role.application_close_date) !== "open") {
+        return NextResponse.json({ error: "Pendaftaran untuk posisi ini sedang tidak dibuka atau berada di luar periode pendaftaran." }, { status: 409 });
       }
       if (!ROLE_ENGAGEMENT_VALUES.has(requestedEngagement)) {
         return NextResponse.json({ error: "Skema keterlibatan tidak valid." }, { status: 400 });

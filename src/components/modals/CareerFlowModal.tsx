@@ -10,7 +10,11 @@ import {
   WORK_ARRANGEMENT_OPTIONS,
   getRoleEngagementLabel,
   getWorkArrangementLabel,
+  formatApplicationPeriod,
+  formatCareerDate,
   type ApplicationStatus,
+  type ApplicationWindowState,
+  type EducationLevel,
   type RoleEngagement,
   type WorkArrangement,
 } from "@/lib/career-options";
@@ -20,13 +24,17 @@ export type CareerRole = {
   title: string;
   group: "technology" | "creative" | "program";
   groupLabel: string;
-  education: string;
+  education: EducationLevel[];
   majors: string;
   location: WorkArrangement;
   engagement: RoleEngagement;
   summary: string;
   qualifications: string[];
   applicationStatus: ApplicationStatus;
+  applicationOpenDate: string | null;
+  applicationCloseDate: string | null;
+  applicationWindowState: ApplicationWindowState;
+  isAcceptingApplications: boolean;
 };
 
 export type CareerFlowRequest = {
@@ -50,13 +58,8 @@ const steps = [
 
 const educationLevels = ["SMA/SMK/Sederajat", "D1", "D2", "D3", "D4", "S1", "S2", "S3"];
 
-function educationOptionsFor(roleEducation?: string): string[] {
-  if (!roleEducation) return educationLevels;
-  const tokens = roleEducation.toUpperCase().split(/[,/]/).map((t) => t.trim()).filter(Boolean);
-  const matched = educationLevels.filter((level) =>
-    level.toUpperCase().split("/").some((part) => tokens.some((t) => t === part || t.split(/\s+/).includes(part)))
-  );
-  return matched.length > 0 ? matched : educationLevels;
+function educationOptionsFor(roleEducation?: EducationLevel[]): string[] {
+  return roleEducation && roleEducation.length > 0 ? roleEducation : educationLevels;
 }
 
 const inputClassName = "h-14 rounded-lg border border-zinc-300 bg-white px-4 text-base shadow-none transition-colors focus-visible:border-[#3b63fb] focus-visible:ring-1 focus-visible:ring-[#3b63fb]";
@@ -123,7 +126,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
   };
 
   const startApplication = () => {
-    if (displayRequest?.role?.applicationStatus !== "open") return;
+    if (!displayRequest?.role?.isAcceptingApplications) return;
     setDirection("next");
     setStep(0);
     setShowApplication(true);
@@ -370,18 +373,18 @@ function RoleDetail({ role, onApply }: { role: CareerRole; onApply: () => void }
                 <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/50">{role.groupLabel} · Posisi JDS</p>
                 <h2 className="mt-5 max-w-3xl text-4xl font-normal leading-[1.1] tracking-[-0.025em] text-zinc-950 sm:text-5xl">{role.title}</h2>
                 <p
-                  aria-label={`Status pendaftaran: ${role.applicationStatus === "open" ? "Open" : "Closed"}`}
-                  className={`mt-6 inline-flex border px-4 py-2 text-sm font-bold ${role.applicationStatus === "open" ? "border-blue-200 bg-blue-50 text-[#274dea]" : "border-zinc-300 bg-zinc-100 text-zinc-600"}`}
+                  aria-label={`Status pendaftaran: ${role.isAcceptingApplications ? "Open" : "Closed"}`}
+                  className={`mt-6 inline-flex border px-4 py-2 text-sm font-bold ${role.isAcceptingApplications ? "border-blue-200 bg-blue-50 text-[#274dea]" : "border-zinc-300 bg-zinc-100 text-zinc-600"}`}
                 >
-                  {role.applicationStatus === "open" ? "Open" : "Closed"}
+                  {role.isAcceptingApplications ? "Open" : "Closed"}
                 </p>
                 <div className="mt-9 flex flex-wrap gap-3 border-t border-zinc-200 pt-7">
-                  {role.applicationStatus === "open" ? (
+                  {role.isAcceptingApplications ? (
                     <button type="button" onClick={onApply} className="inline-flex items-center gap-2 rounded-full bg-[#3b63fb] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#274dea]">
                       Lamar posisi
                     </button>
                   ) : (
-                    <p className="text-sm leading-6 text-zinc-500">Saat ini kami belum menerima lamaran untuk posisi ini. Silakan pantau halaman Karir JDS untuk pembukaan berikutnya.</p>
+                    <p className="text-sm leading-6 text-zinc-500">{getClosedApplicationMessage(role)}</p>
                   )}
                 </div>
               </div>
@@ -396,10 +399,11 @@ function RoleDetail({ role, onApply }: { role: CareerRole; onApply: () => void }
             <div className="lg:flex lg:min-h-full lg:items-center lg:py-8">
               <div className="w-full space-y-10">
                 <dl className="divide-y divide-zinc-200 border-y border-zinc-200">
-                  <DetailRow label="Jenjang pendidikan" value={role.education} />
+                  <DetailRow label="Jenjang pendidikan" value={role.education.join(" / ") || "-"} />
                   <DetailRow label="Jurusan" value={role.majors} />
                   <DetailRow label="Lokasi" value={getWorkArrangementLabel(role.location)} />
                   <DetailRow label="Skema keterlibatan" value={getRoleEngagementLabel(role.engagement)} />
+                  <DetailRow label="Periode pendaftaran" value={formatApplicationPeriod(role.applicationOpenDate, role.applicationCloseDate)} />
                 </dl>
                 <div>
                   <p className="text-lg leading-8 text-zinc-600">{role.summary}</p>
@@ -420,6 +424,16 @@ function RoleDetail({ role, onApply }: { role: CareerRole; onApply: () => void }
       </div>
     </div>
   );
+}
+
+function getClosedApplicationMessage(role: CareerRole) {
+  if (role.applicationWindowState === "scheduled") {
+    return `Pendaftaran belum dimulai. Periode pendaftaran: ${formatApplicationPeriod(role.applicationOpenDate, role.applicationCloseDate)}.`;
+  }
+  if (role.applicationWindowState === "expired") {
+    return `Periode pendaftaran telah berakhir pada ${formatCareerDate(role.applicationCloseDate)}.`;
+  }
+  return "Saat ini kami belum menerima lamaran untuk posisi ini. Silakan pantau halaman Karir JDS untuk pembukaan berikutnya.";
 }
 
 function DetailRow({ label, value }: { label: string; value: string }) {

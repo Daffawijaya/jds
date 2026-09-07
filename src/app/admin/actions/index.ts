@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase-server";
 import { createAdminClient } from "@/lib/supabase-admin";
 import { revalidatePath } from "next/cache";
+import { APPLICATION_STATUS_OPTIONS, EDUCATION_LEVEL_OPTIONS, ROLE_ENGAGEMENT_OPTIONS, WORK_ARRANGEMENT_OPTIONS } from "@/lib/career-options";
 
 // =============================================================
 // SERVICES
@@ -226,6 +227,82 @@ export async function deleteTestimonial(id: string) {
 // =============================================================
 // CAREER ROLES
 // =============================================================
+function slugifyCareerRole(title: string) {
+  const slug = title
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/&/g, " dan ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  if (!slug) throw new Error("Judul posisi tidak dapat digunakan untuk membuat slug.");
+  return slug;
+}
+
+async function createUniqueCareerRoleSlug(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  title: string,
+  excludedId?: string,
+) {
+  const baseSlug = slugifyCareerRole(title);
+  let query = supabase.from("career_roles").select("id, slug").like("slug", `${baseSlug}%`);
+  if (excludedId) query = query.neq("id", excludedId);
+  const { data, error } = await query;
+  if (error) throw error;
+
+  const existingSlugs = new Set((data ?? []).map((role) => role.slug));
+  if (!existingSlugs.has(baseSlug)) return baseSlug;
+  let suffix = 2;
+  while (existingSlugs.has(`${baseSlug}-${suffix}`)) suffix += 1;
+  return `${baseSlug}-${suffix}`;
+}
+
+function parseCareerRoleForm(formData: FormData) {
+  const title = String(formData.get("title") ?? "").trim();
+  if (!title) throw new Error("Judul posisi wajib diisi.");
+
+  const educationInput = JSON.parse(String(formData.get("education_levels") ?? "[]")) as unknown;
+  const educationLevels = EDUCATION_LEVEL_OPTIONS.filter((level) => Array.isArray(educationInput) && educationInput.includes(level));
+  if (educationLevels.length === 0) throw new Error("Pilih minimal satu jenjang pendidikan.");
+
+  const status = String(formData.get("application_status") ?? "");
+  if (!APPLICATION_STATUS_OPTIONS.some((option) => option.value === status)) throw new Error("Status pendaftaran tidak valid.");
+
+  const location = String(formData.get("location") ?? "");
+  if (!WORK_ARRANGEMENT_OPTIONS.some((option) => option.value === location)) throw new Error("Lokasi kerja tidak valid.");
+
+  const engagement = String(formData.get("engagement") ?? "");
+  if (!ROLE_ENGAGEMENT_OPTIONS.some((option) => option.value === engagement)) throw new Error("Skema keterlibatan tidak valid.");
+
+  const openDate = status === "open" ? String(formData.get("application_open_date") ?? "") : null;
+  const closeDate = status === "open" ? String(formData.get("application_close_date") ?? "") : null;
+  if (status === "open" && (!openDate || !closeDate || openDate > closeDate)) {
+    throw new Error("Periode pendaftaran tidak valid.");
+  }
+
+  const qualificationsInput = JSON.parse(String(formData.get("qualifications") ?? "[]")) as unknown;
+  const qualifications = Array.isArray(qualificationsInput)
+    ? qualificationsInput.filter((item): item is string => typeof item === "string" && Boolean(item.trim())).map((item) => item.trim())
+    : [];
+
+  return {
+    title,
+    group_name: String(formData.get("group_name") ?? ""),
+    group_label: String(formData.get("group_label") ?? ""),
+    education_levels: educationLevels,
+    majors: String(formData.get("majors") ?? "").trim(),
+    location,
+    engagement,
+    summary: String(formData.get("summary") ?? "").trim(),
+    qualifications,
+    sort_order: Number(formData.get("sort_order")) || 0,
+    application_status: status,
+    application_open_date: openDate,
+    application_close_date: closeDate,
+    is_active: formData.get("is_active") === "true",
+  };
+}
+
 export async function getCareerRoles() {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -238,22 +315,12 @@ export async function getCareerRoles() {
 
 export async function createCareerRole(formData: FormData) {
   const supabase = await createClient();
-  const qualifications = JSON.parse((formData.get("qualifications") as string) || "[]");
+  const role = parseCareerRoleForm(formData);
+  const slug = await createUniqueCareerRoleSlug(supabase, role.title);
 
   const { error } = await supabase.from("career_roles").insert({
-    slug: formData.get("slug") as string,
-    title: formData.get("title") as string,
-    group_name: formData.get("group_name") as string,
-    group_label: formData.get("group_label") as string,
-    education: formData.get("education") as string,
-    majors: formData.get("majors") as string,
-    location: formData.get("location") as string,
-    engagement: formData.get("engagement") as string,
-    summary: formData.get("summary") as string,
-    qualifications,
-    sort_order: Number(formData.get("sort_order")) || 0,
-    application_status: formData.get("application_status") as string,
-    is_active: formData.get("is_active") === "true",
+    ...role,
+    slug,
   });
   if (error) throw error;
   revalidatePath("/admin/career-roles");
@@ -262,24 +329,14 @@ export async function createCareerRole(formData: FormData) {
 
 export async function updateCareerRole(id: string, formData: FormData) {
   const supabase = await createClient();
-  const qualifications = JSON.parse((formData.get("qualifications") as string) || "[]");
+  const role = parseCareerRoleForm(formData);
+  const slug = await createUniqueCareerRoleSlug(supabase, role.title, id);
 
   const { error } = await supabase
     .from("career_roles")
     .update({
-      slug: formData.get("slug") as string,
-      title: formData.get("title") as string,
-      group_name: formData.get("group_name") as string,
-      group_label: formData.get("group_label") as string,
-      education: formData.get("education") as string,
-      majors: formData.get("majors") as string,
-      location: formData.get("location") as string,
-      engagement: formData.get("engagement") as string,
-      summary: formData.get("summary") as string,
-      qualifications,
-      sort_order: Number(formData.get("sort_order")) || 0,
-      application_status: formData.get("application_status") as string,
-      is_active: formData.get("is_active") === "true",
+      ...role,
+      slug,
     })
     .eq("id", id);
   if (error) throw error;
