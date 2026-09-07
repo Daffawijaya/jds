@@ -4,13 +4,20 @@ import "lenis/dist/lenis.css";
 import "./globals.css";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import { companyInfo } from "@/data/companyData";
-import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-/* Myriad Pro — font yang dipakai Adobe (basis dari Adobe Clean) */
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+/* Myriad Pro — font-body (regular/semibold/bold) */
+const myriad = localFont({
+  src: [
+    { path: "./fonts/myriadpro-regular.otf", weight: "400", style: "normal" },
+    { path: "./fonts/myriadpro-semibold.otf", weight: "600", style: "normal" },
+    { path: "./fonts/myriadpro-bold.otf", weight: "700", style: "normal" },
+  ],
+  variable: "--font-sans",
+  display: "swap",
+});
 
-/* Myriad Pro Condensed — varian display/heading, siap dipakai via kelas font-display */
+/* Myriad Pro Condensed — varian heading/display */
 const myriadCondensed = localFont({
   src: [
     { path: "./fonts/myriadpro-cond.otf", weight: "400", style: "normal" },
@@ -57,7 +64,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={cn("scroll-smooth", myriadCondensed.variable, "font-sans", geist.variable)}>
+    <html lang="id" className={cn("scroll-smooth", myriad.variable, myriadCondensed.variable, "font-sans")}>
       <body className="font-sans bg-white text-slate-900 antialiased">
         <SmoothScroll />
         {children}
