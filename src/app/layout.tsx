@@ -45,6 +45,9 @@ export const metadata: Metadata = {
     "EtamHub"
   ],
   authors: [{ name: companyInfo.officialName }],
+  verification: {
+    google: "maQ8VR_wwFHBIAw1Aza7U7luL9Xt9ySq8hN15zBHSL0",
+  },
   icons: {
     icon: "/icon.png",
   },
