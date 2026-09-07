@@ -39,7 +39,6 @@ export function AboutCardForm({ initialData, onSubmit }: AboutCardFormProps) {
             <div className="space-y-2"><Label htmlFor="button_label">Button Label</Label><Input id="button_label" name="button_label" defaultValue={initialData?.button_label} /></div>
             <div className="space-y-2"><Label htmlFor="button_href">Button Href</Label><Input id="button_href" name="button_href" defaultValue={initialData?.button_href} /></div>
           </div>
-          <div className="space-y-2"><Label htmlFor="sort_order">Sort Order</Label><Input id="sort_order" name="sort_order" type="number" defaultValue={initialData?.sort_order || 0} /></div>
           <div className="flex items-center gap-2"><input type="checkbox" id="is_active" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} className="rounded" /><Label htmlFor="is_active">Active</Label></div>
         </CardContent>
       </Card>

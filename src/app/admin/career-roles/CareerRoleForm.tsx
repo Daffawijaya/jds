@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { ChevronDown, Loader2 } from "lucide-react";
@@ -31,7 +31,6 @@ interface CareerRoleFormData {
   location?: WorkArrangement;
   engagement?: RoleEngagement;
   summary?: string;
-  sort_order?: number;
   qualifications?: string[];
   is_active?: boolean;
   application_status?: ApplicationStatus;
@@ -119,22 +118,24 @@ export function CareerRoleForm({ initialData, onSubmit }: CareerRoleFormProps) {
                   <ChevronDown className="h-4 w-4 shrink-0 text-zinc-500" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="min-w-[var(--anchor-width)] p-2">
-                  <DropdownMenuLabel>Bisa memilih lebih dari satu</DropdownMenuLabel>
-                  {EDUCATION_LEVEL_OPTIONS.map((level) => (
-                    <DropdownMenuCheckboxItem
-                      key={level}
-                      checked={educationLevels.includes(level)}
-                      closeOnClick={false}
-                      onCheckedChange={(checked) => {
-                        setEducationLevels((current) => checked
-                          ? [...current, level].sort((a, b) => EDUCATION_LEVEL_OPTIONS.indexOf(a) - EDUCATION_LEVEL_OPTIONS.indexOf(b))
-                          : current.filter((item) => item !== level));
-                      }}
-                      className="py-2"
-                    >
-                      {level}
-                    </DropdownMenuCheckboxItem>
-                  ))}
+                  <DropdownMenuGroup>
+                    <DropdownMenuLabel>Bisa memilih lebih dari satu</DropdownMenuLabel>
+                    {EDUCATION_LEVEL_OPTIONS.map((level) => (
+                      <DropdownMenuCheckboxItem
+                        key={level}
+                        checked={educationLevels.includes(level)}
+                        closeOnClick={false}
+                        onCheckedChange={(checked) => {
+                          setEducationLevels((current) => checked
+                            ? [...current, level].sort((a, b) => EDUCATION_LEVEL_OPTIONS.indexOf(a) - EDUCATION_LEVEL_OPTIONS.indexOf(b))
+                            : current.filter((item) => item !== level));
+                        }}
+                        className="py-2"
+                      >
+                        {level}
+                      </DropdownMenuCheckboxItem>
+                    ))}
+                  </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -161,7 +162,6 @@ export function CareerRoleForm({ initialData, onSubmit }: CareerRoleFormProps) {
             </div>
           </div>
           <div className="space-y-2"><Label htmlFor="summary">Summary</Label><Textarea id="summary" name="summary" defaultValue={initialData?.summary} rows={3} /></div>
-          <div className="space-y-2"><Label htmlFor="sort_order">Sort Order</Label><Input id="sort_order" name="sort_order" type="number" defaultValue={initialData?.sort_order || 0} /></div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Status pendaftaran</Label>

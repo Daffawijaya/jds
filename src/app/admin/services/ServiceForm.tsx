@@ -137,11 +137,6 @@ export function ServiceForm({ initialData, onSubmit }: ServiceFormProps) {
             <Input id="image_url" name="image_url" defaultValue={initialData?.image_url} />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="sort_order">Sort Order</Label>
-            <Input id="sort_order" name="sort_order" type="number" defaultValue={initialData?.sort_order || 0} />
-          </div>
-
           <div className="flex items-center gap-2">
             <input
               type="checkbox"

@@ -46,7 +46,6 @@ export function FaqForm({ initialData, onSubmit }: FaqFormProps) {
           </div>
           <div className="space-y-2"><Label htmlFor="question">Question *</Label><Input id="question" name="question" defaultValue={initialData?.question} required /></div>
           <div className="space-y-2"><Label htmlFor="answer">Answer *</Label><Textarea id="answer" name="answer" defaultValue={initialData?.answer} rows={4} required /></div>
-          <div className="space-y-2"><Label htmlFor="sort_order">Sort Order</Label><Input id="sort_order" name="sort_order" type="number" defaultValue={initialData?.sort_order || 0} /></div>
           <div className="flex items-center gap-2"><input type="checkbox" id="is_active" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} className="rounded" /><Label htmlFor="is_active">Active</Label></div>
         </CardContent>
       </Card>

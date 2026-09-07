@@ -5,6 +5,53 @@ import { createAdminClient } from "@/lib/supabase-admin";
 import { revalidatePath } from "next/cache";
 import { APPLICATION_STATUS_OPTIONS, EDUCATION_LEVEL_OPTIONS, ROLE_ENGAGEMENT_OPTIONS, WORK_ARRANGEMENT_OPTIONS } from "@/lib/career-options";
 
+const sortableAdminEntities = {
+  services: { table: "services", adminPath: "/admin/services", publicPath: "/services" },
+  projects: { table: "projects", adminPath: "/admin/projects", publicPath: "/projects" },
+  testimonials: { table: "testimonials", adminPath: "/admin/testimonials", publicPath: "/" },
+  faqs: { table: "faqs", adminPath: "/admin/faqs", publicPath: "/" },
+  coreValues: { table: "core_values", adminPath: "/admin/core-values", publicPath: "/about" },
+  aboutCards: { table: "about_cards", adminPath: "/admin/about-cards", publicPath: "/about" },
+} as const;
+
+export type SortableAdminEntity = keyof typeof sortableAdminEntities;
+
+async function getNextSortOrder(entity: SortableAdminEntity) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from(sortableAdminEntities[entity].table)
+    .select("sort_order")
+    .order("sort_order", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (error) throw error;
+  return (data?.sort_order ?? 0) + 1;
+}
+
+export async function reorderSortableAdminItems(entity: SortableAdminEntity, ids: string[]) {
+  const config = sortableAdminEntities[entity];
+  if (!config || ids.length > 500 || new Set(ids).size !== ids.length || ids.some((id) => !/^[0-9a-f-]{36}$/i.test(id))) {
+    throw new Error("Urutan data tidak valid.");
+  }
+
+  const supabase = await createClient();
+  const results = await Promise.all(ids.map((id, index) => supabase.from(config.table).update({ sort_order: index + 1 }).eq("id", id)));
+  const failedUpdate = results.find((result) => result.error);
+  if (failedUpdate?.error) throw failedUpdate.error;
+  revalidatePath(config.adminPath);
+  revalidatePath(config.publicPath);
+}
+
+export async function deleteSortableAdminItem(entity: SortableAdminEntity, id: string) {
+  const config = sortableAdminEntities[entity];
+  if (!config || !/^[0-9a-f-]{36}$/i.test(id)) throw new Error("Data tidak valid.");
+  const supabase = await createClient();
+  const { error } = await supabase.from(config.table).delete().eq("id", id);
+  if (error) throw error;
+  revalidatePath(config.adminPath);
+  revalidatePath(config.publicPath);
+}
+
 // =============================================================
 // SERVICES
 // =============================================================
@@ -44,7 +91,7 @@ export async function createService(formData: FormData) {
     image_url: formData.get("image_url") as string,
     features,
     deliverables,
-    sort_order: Number(formData.get("sort_order")) || 0,
+    sort_order: await getNextSortOrder("services"),
     is_active: formData.get("is_active") === "true",
   });
 
@@ -69,7 +116,6 @@ export async function updateService(id: string, formData: FormData) {
       image_url: formData.get("image_url") as string,
       features,
       deliverables,
-      sort_order: Number(formData.get("sort_order")) || 0,
       is_active: formData.get("is_active") === "true",
       updated_at: new Date().toISOString(),
     })
@@ -127,7 +173,7 @@ export async function createProject(formData: FormData) {
     tags,
     highlight_badge: formData.get("highlight_badge") as string,
     image_url: formData.get("image_url") as string,
-    sort_order: Number(formData.get("sort_order")) || 0,
+    sort_order: await getNextSortOrder("projects"),
     is_active: formData.get("is_active") === "true",
   });
 
@@ -154,7 +200,6 @@ export async function updateProject(id: string, formData: FormData) {
       tags,
       highlight_badge: formData.get("highlight_badge") as string,
       image_url: formData.get("image_url") as string,
-      sort_order: Number(formData.get("sort_order")) || 0,
       is_active: formData.get("is_active") === "true",
       updated_at: new Date().toISOString(),
     })
@@ -192,7 +237,7 @@ export async function createTestimonial(formData: FormData) {
     title: formData.get("title") as string,
     quote: formData.get("quote") as string,
     image_url: formData.get("image_url") as string,
-    sort_order: Number(formData.get("sort_order")) || 0,
+    sort_order: await getNextSortOrder("testimonials"),
     is_active: formData.get("is_active") === "true",
   });
   if (error) throw error;
@@ -209,7 +254,6 @@ export async function updateTestimonial(id: string, formData: FormData) {
       title: formData.get("title") as string,
       quote: formData.get("quote") as string,
       image_url: formData.get("image_url") as string,
-      sort_order: Number(formData.get("sort_order")) || 0,
       is_active: formData.get("is_active") === "true",
     })
     .eq("id", id);
@@ -295,7 +339,6 @@ function parseCareerRoleForm(formData: FormData) {
     engagement,
     summary: String(formData.get("summary") ?? "").trim(),
     qualifications,
-    sort_order: Number(formData.get("sort_order")) || 0,
     application_status: status,
     application_open_date: openDate,
     application_close_date: closeDate,
@@ -317,10 +360,18 @@ export async function createCareerRole(formData: FormData) {
   const supabase = await createClient();
   const role = parseCareerRoleForm(formData);
   const slug = await createUniqueCareerRoleSlug(supabase, role.title);
+  const { data: lastRole, error: orderError } = await supabase
+    .from("career_roles")
+    .select("sort_order")
+    .order("sort_order", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (orderError) throw orderError;
 
   const { error } = await supabase.from("career_roles").insert({
     ...role,
     slug,
+    sort_order: (lastRole?.sort_order ?? 0) + 1,
   });
   if (error) throw error;
   revalidatePath("/admin/career-roles");
@@ -352,6 +403,30 @@ export async function deleteCareerRole(id: string) {
   revalidatePath("/career");
 }
 
+export async function reorderCareerRoles(items: { id: string; sortOrder: number }[]) {
+  if (items.length > 500 || new Set(items.map((item) => item.id)).size !== items.length) {
+    throw new Error("Urutan posisi tidak valid.");
+  }
+
+  const normalizedItems = items.map((item, index) => ({
+    id: String(item.id),
+    sortOrder: index + 1,
+  }));
+  if (normalizedItems.some((item) => !/^[0-9a-f-]{36}$/i.test(item.id))) {
+    throw new Error("ID posisi tidak valid.");
+  }
+
+  const supabase = await createClient();
+  const results = await Promise.all(
+    normalizedItems.map((item) => supabase.from("career_roles").update({ sort_order: item.sortOrder }).eq("id", item.id)),
+  );
+  const failedUpdate = results.find((result) => result.error);
+  if (failedUpdate?.error) throw failedUpdate.error;
+
+  revalidatePath("/admin/career-roles");
+  revalidatePath("/career");
+}
+
 // =============================================================
 // FAQS
 // =============================================================
@@ -370,7 +445,7 @@ export async function createFaq(formData: FormData) {
     page: formData.get("page") as string,
     question: formData.get("question") as string,
     answer: formData.get("answer") as string,
-    sort_order: Number(formData.get("sort_order")) || 0,
+    sort_order: await getNextSortOrder("faqs"),
     is_active: formData.get("is_active") === "true",
   });
   if (error) throw error;
@@ -385,7 +460,6 @@ export async function updateFaq(id: string, formData: FormData) {
       page: formData.get("page") as string,
       question: formData.get("question") as string,
       answer: formData.get("answer") as string,
-      sort_order: Number(formData.get("sort_order")) || 0,
       is_active: formData.get("is_active") === "true",
     })
     .eq("id", id);
@@ -548,7 +622,7 @@ export async function createCoreValue(formData: FormData) {
     title: formData.get("title") as string,
     description: formData.get("description") as string,
     icon_name: formData.get("icon_name") as string,
-    sort_order: Number(formData.get("sort_order")) || 0,
+    sort_order: await getNextSortOrder("coreValues"),
     is_active: formData.get("is_active") === "true",
   });
   if (error) throw error;
@@ -563,7 +637,6 @@ export async function updateCoreValue(id: string, formData: FormData) {
       title: formData.get("title") as string,
       description: formData.get("description") as string,
       icon_name: formData.get("icon_name") as string,
-      sort_order: Number(formData.get("sort_order")) || 0,
       is_active: formData.get("is_active") === "true",
     })
     .eq("id", id);
@@ -600,7 +673,7 @@ export async function createAboutCard(formData: FormData) {
     image_url: formData.get("image_url") as string,
     button_label: formData.get("button_label") as string,
     button_href: formData.get("button_href") as string,
-    sort_order: Number(formData.get("sort_order")) || 0,
+    sort_order: await getNextSortOrder("aboutCards"),
     is_active: formData.get("is_active") === "true",
   });
   if (error) throw error;
@@ -618,7 +691,6 @@ export async function updateAboutCard(id: string, formData: FormData) {
       image_url: formData.get("image_url") as string,
       button_label: formData.get("button_label") as string,
       button_href: formData.get("button_href") as string,
-      sort_order: Number(formData.get("sort_order")) || 0,
       is_active: formData.get("is_active") === "true",
     })
     .eq("id", id);

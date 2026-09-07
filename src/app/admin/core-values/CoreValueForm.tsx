@@ -32,7 +32,6 @@ export function CoreValueForm({ initialData, onSubmit }: CoreValueFormProps) {
           <div className="space-y-2"><Label htmlFor="title">Title *</Label><Input id="title" name="title" defaultValue={initialData?.title} required /></div>
           <div className="space-y-2"><Label htmlFor="description">Description</Label><Textarea id="description" name="description" defaultValue={initialData?.description} rows={3} /></div>
           <div className="space-y-2"><Label htmlFor="icon_name">Icon Name</Label><Input id="icon_name" name="icon_name" defaultValue={initialData?.icon_name} placeholder="ShieldCheck, Sparkles, dll" /></div>
-          <div className="space-y-2"><Label htmlFor="sort_order">Sort Order</Label><Input id="sort_order" name="sort_order" type="number" defaultValue={initialData?.sort_order || 0} /></div>
           <div className="flex items-center gap-2"><input type="checkbox" id="is_active" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} className="rounded" /><Label htmlFor="is_active">Active</Label></div>
         </CardContent>
       </Card>
