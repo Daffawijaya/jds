@@ -47,14 +47,16 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const errorRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<number | null>(null);
   const [showApplication, setShowApplication] = useState(false);
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState<"next" | "back">("next");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [displayRequest, setDisplayRequest] = useState<CareerFlowRequest | null>(null);
 
-  const view = request?.initialView === "apply" || showApplication ? "apply" : "detail";
+  const view = displayRequest?.initialView === "apply" || showApplication ? "apply" : "detail";
 
   useEffect(() => {
     if (request && view === "apply" && !isSubmitted) {
@@ -65,15 +67,29 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
     }
   }, [request, view, step, isSubmitted]);
 
+  useEffect(() => {
+    if (!request) return;
+    if (closeTimer.current !== null) {
+      window.clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setDisplayRequest(request);
+  }, [request]);
+
   const closeFlow = () => {
     if (isSubmitting) return;
-    formRef.current?.reset();
-    setShowApplication(false);
-    setStep(0);
-    setDirection("next");
-    setIsSubmitted(false);
-    setErrorMessage("");
     onClose();
+    if (closeTimer.current !== null) window.clearTimeout(closeTimer.current);
+    closeTimer.current = window.setTimeout(() => {
+      formRef.current?.reset();
+      setShowApplication(false);
+      setStep(0);
+      setDirection("next");
+      setIsSubmitted(false);
+      setErrorMessage("");
+      setDisplayRequest(null);
+      closeTimer.current = null;
+    }, 300);
   };
 
   const startApplication = () => {
@@ -158,13 +174,13 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
         className="h-[100dvh] max-h-[100dvh] gap-0 overflow-y-auto border-0 bg-transparent p-0 text-[#202124] shadow-none duration-300 ease-out data-[side=bottom]:h-[100dvh] data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-[150px] data-[side=bottom]:data-starting-style:translate-y-[150px]"
       >
         <SheetTitle className="sr-only">
-          {view === "detail" ? `Detail posisi ${request?.jobTitle ?? ""}` : "Formulir pendaftaran kandidat"}
+          {view === "detail" ? `Detail posisi ${displayRequest?.jobTitle ?? ""}` : "Formulir pendaftaran kandidat"}
         </SheetTitle>
         <SheetDescription className="sr-only">
           {view === "detail" ? "Informasi lengkap posisi dan kualifikasi." : `Langkah ${step + 1} dari ${steps.length}.`}
         </SheetDescription>
 
-        {request ? (
+        {displayRequest ? (
           <>
         <div className="sticky top-0 z-20 bg-transparent">
         <header onClick={closeFlow} className="flex h-12 shrink-0 cursor-pointer items-center justify-between px-3 sm:h-14 sm:px-5">
@@ -190,16 +206,16 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
         </div>
         </div>
 
-        {view === "detail" && request?.role ? (
-          <RoleDetail role={request.role} onApply={startApplication} />
+        {view === "detail" && displayRequest?.role ? (
+          <RoleDetail role={displayRequest.role} onApply={startApplication} />
         ) : (
           <form ref={formRef} onSubmit={handleSubmit} onKeyDown={handleFormKeyDown} className="min-h-0 flex-1 overflow-hidden">
-            <input type="hidden" name="role_slug" value={request?.roleSlug ?? ""} />
-            <input type="hidden" name="position" value={request?.jobTitle ?? "Tenaga Ahli / Professional Talent JDS"} />
+            <input type="hidden" name="role_slug" value={displayRequest?.roleSlug ?? ""} />
+            <input type="hidden" name="position" value={displayRequest?.jobTitle ?? "Tenaga Ahli / Professional Talent JDS"} />
             <input className="hidden" tabIndex={-1} autoComplete="off" name="website" aria-hidden="true" />
 
             {isSubmitted ? (
-              <SuccessState jobTitle={request?.jobTitle ?? "Talent Pool JDS"} onClose={closeFlow} />
+              <SuccessState jobTitle={displayRequest?.jobTitle ?? "Talent Pool JDS"} onClose={closeFlow} />
             ) : (
               <div ref={scrollAreaRef} className="h-full overflow-y-auto overscroll-contain scroll-pb-32 bg-white">
                 <div className="mx-auto flex min-h-full w-full max-w-[680px] items-center px-6 py-10 sm:px-8 sm:py-14 lg:py-16">
@@ -213,7 +229,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
                     <div data-career-step="0" hidden={step !== 0} className={step === 0 ? stepAnimation(direction) : undefined}>
                       <StepHeading step={0} />
                       <div className="mt-8 space-y-6">
-                        <ReadonlyPosition value={request?.jobTitle ?? "Tenaga Ahli / Professional Talent JDS"} />
+                        <ReadonlyPosition value={displayRequest?.jobTitle ?? "Tenaga Ahli / Professional Talent JDS"} />
                         <div className="grid gap-x-6 gap-y-6 sm:grid-cols-2">
                           <Field id="career-name" name="name" label="Nama lengkap" required autoComplete="name" placeholder="Sesuai identitas" />
                           <Field id="career-email" name="email" label="Email" required type="email" autoComplete="email" placeholder="nama@email.com" />
