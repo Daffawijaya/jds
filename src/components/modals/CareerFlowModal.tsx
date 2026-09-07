@@ -155,7 +155,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
         side="bottom"
         showCloseButton={false}
         overlayClassName="bg-black/40 duration-300 supports-backdrop-filter:backdrop-blur-[15px]"
-        className="h-[100dvh] max-h-[100dvh] gap-0 overflow-hidden border-0 bg-transparent p-0 text-[#202124] shadow-none duration-300 ease-out data-[side=bottom]:h-[100dvh] data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-[150px] data-[side=bottom]:data-starting-style:translate-y-[150px]"
+        className="h-[100dvh] max-h-[100dvh] gap-0 overflow-y-auto border-0 bg-transparent p-0 text-[#202124] shadow-none duration-300 ease-out data-[side=bottom]:h-[100dvh] data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-[150px] data-[side=bottom]:data-starting-style:translate-y-[150px]"
       >
         <SheetTitle className="sr-only">
           {view === "detail" ? `Detail posisi ${request?.jobTitle ?? ""}` : "Formulir pendaftaran kandidat"}
@@ -166,7 +166,8 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
 
         {request ? (
           <>
-        <header className="relative z-10 flex h-12 shrink-0 items-center justify-between bg-transparent px-3 sm:h-14 sm:px-5">
+        <div className="sticky top-0 z-20 bg-white">
+        <header className="flex h-12 shrink-0 items-center justify-between px-3 sm:h-14 sm:px-5">
           <div className="min-w-24">
             {showBack && (
               <button type="button" onClick={goBack} className="inline-flex min-h-11 items-center gap-2 px-2 text-sm font-bold text-zinc-700 transition-colors hover:text-black">
@@ -186,6 +187,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
         <div className="h-0.5 shrink-0 bg-white" />
         <div className="h-2.5 shrink-0 bg-zinc-200 relative" role={view === "apply" ? "progressbar" : undefined} aria-label="Progres pendaftaran" aria-valuemin={view === "apply" ? 1 : undefined} aria-valuemax={view === "apply" ? steps.length : undefined} aria-valuenow={view === "apply" ? (isSubmitted ? steps.length : step + 1) : undefined}>
           {view === "apply" && <div className="h-full bg-[#3b63fb] transition-[width] duration-500 ease-out" style={{ width: `${progress}%` }} />}
+        </div>
         </div>
 
         {view === "detail" && request?.role ? (
@@ -292,19 +294,17 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
 
 function RoleDetail({ role, onApply }: { role: CareerRole; onApply: () => void }) {
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain bg-white">
-      <div className="mx-auto flex min-h-full w-full max-w-[1180px] items-center px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
+    <div className="bg-white">
+      <div className="mx-auto w-full max-w-[1180px] px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
         <div className="grid w-full gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-          <div className="lg:sticky lg:top-10 lg:self-start">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#3b63fb]">{role.groupLabel} · Talent Pool JDS</p>
+          <div className="lg:sticky lg:top-10 lg:self-center">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/50">{role.groupLabel} · Talent Pool JDS</p>
             <h2 className="mt-5 max-w-xl text-4xl font-bold leading-[1.05] tracking-[-0.035em] text-zinc-950 sm:text-5xl lg:text-6xl">{role.title}</h2>
             {!role.isOpen && <p className="mt-6 inline-flex border border-zinc-300 bg-zinc-100 px-4 py-2 text-sm font-bold text-zinc-600">Pendaftaran tertutup</p>}
-            <p className="mt-7 max-w-xl text-lg leading-8 text-zinc-600">{role.summary}</p>
             <div className="mt-9 flex flex-wrap gap-3 border-t border-zinc-200 pt-7">
               {role.isOpen ? (
-                <button type="button" onClick={onApply} className="group inline-flex min-h-12 items-center gap-5 rounded-md bg-[#3b63fb] py-1 pl-6 pr-1 text-sm font-bold text-white transition-colors hover:bg-[#274dea]">
+                <button type="button" onClick={onApply} className="inline-flex items-center gap-2 rounded-full bg-[#3b63fb] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#274dea]">
                   Daftarkan profil
-                  <span className="flex h-10 w-10 items-center justify-center rounded bg-zinc-950 transition-transform group-hover:translate-x-0.5"><ArrowRight className="h-4 w-4" /></span>
                 </button>
               ) : (
                 <p className="text-sm leading-6 text-zinc-500">Posisi tetap dapat dilihat, tetapi saat ini belum menerima pendaftaran baru.</p>
@@ -320,17 +320,17 @@ function RoleDetail({ role, onApply }: { role: CareerRole; onApply: () => void }
               <DetailRow label="Skema keterlibatan" value={role.engagement} />
             </dl>
             <div>
-              <h3 className="text-xl font-bold text-zinc-950">Kualifikasi utama</h3>
+              <p className="text-lg leading-8 text-zinc-600">{role.summary}</p>
+              <h3 className="mt-6 text-xl font-bold text-zinc-950">Kualifikasi utama</h3>
               <ul className="mt-6 space-y-4">
                 {role.qualifications.map((qualification) => (
                   <li key={qualification} className="flex gap-4 text-base leading-7 text-zinc-600">
-                    <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-50 text-[#3b63fb]"><Check className="h-3.5 w-3.5" /></span>
+                    <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-600"><Check className="h-3.5 w-3.5" /></span>
                     <span>{qualification}</span>
                   </li>
                 ))}
               </ul>
             </div>
-            <p className="border-l-2 border-[#3b63fb] bg-zinc-50 px-5 py-4 text-sm leading-6 text-zinc-500">Informasi ini menggambarkan area Talent Pool. Kebutuhan, ruang lingkup, dan persyaratan akhir dapat berbeda pada setiap proyek.</p>
           </div>
         </div>
       </div>
