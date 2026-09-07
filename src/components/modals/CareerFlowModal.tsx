@@ -295,7 +295,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
 function RoleDetail({ role, onApply }: { role: CareerRole; onApply: () => void }) {
   return (
     <div className="bg-white">
-      <div className="mx-auto w-full max-w-[1180px] px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
+      <div className="mx-auto w-full max-w-[1180px] px-6 py-8 sm:px-10 sm:py-8 lg:px-14">
         <div className="grid w-full gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
           <div className="lg:sticky lg:top-10 lg:self-center">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/50">{role.groupLabel} · Talent Pool JDS</p>
