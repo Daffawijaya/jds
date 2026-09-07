@@ -94,7 +94,6 @@ export async function POST(request: Request) {
       ["name", "Nama lengkap"],
       ["email", "Email"],
       ["phone", "Nomor telepon"],
-      ["position", "Posisi"],
       ["domicile", "Domisili"],
       ["education_level", "Pendidikan terakhir"],
       ["institution", "Nama institusi"],
@@ -152,7 +151,7 @@ export async function POST(request: Request) {
 
     const roleSlug = optionalText(formData, "role_slug");
     let roleId: string | null = null;
-    let position = text(formData, "position");
+    let position = text(formData, "position") || "Talent Pool";
 
     if (roleSlug) {
       const { data: role, error: roleError } = await supabase

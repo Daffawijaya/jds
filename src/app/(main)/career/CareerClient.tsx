@@ -109,7 +109,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
     setCareerFlow({
       initialView: "apply",
       role: null,
-      jobTitle: "Tenaga Ahli / Professional Talent JDS",
+      jobTitle: "",
     });
   };
 

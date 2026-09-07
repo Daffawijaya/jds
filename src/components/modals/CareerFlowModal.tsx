@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Check, CheckCircle2, FileText, Loader2, Send, Upload, X } from "lucide-react";
+import { ArrowRight, Check, CheckCircle2, CornerDownLeft, FileText, Loader2, Send, Upload, X } from "lucide-react";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -38,6 +38,17 @@ const steps = [
   { eyebrow: "Pengalaman", title: "Bagikan profil profesional Anda." },
   { eyebrow: "Dokumen", title: "Lengkapi dokumen pendukung." },
 ];
+
+const educationLevels = ["SMA/SMK/Sederajat", "D1", "D2", "D3", "D4", "S1", "S2", "S3"];
+
+function educationOptionsFor(roleEducation?: string): string[] {
+  if (!roleEducation) return educationLevels;
+  const tokens = roleEducation.toUpperCase().split(/[,/]/).map((t) => t.trim()).filter(Boolean);
+  const matched = educationLevels.filter((level) =>
+    level.toUpperCase().split("/").some((part) => tokens.some((t) => t === part || t.split(/\s+/).includes(part)))
+  );
+  return matched.length > 0 ? matched : educationLevels;
+}
 
 const inputClassName = "h-14 rounded-lg border border-zinc-300 bg-white px-4 text-base shadow-none transition-colors focus-visible:border-[#3b63fb] focus-visible:ring-1 focus-visible:ring-[#3b63fb]";
 const selectClassName = "h-14 w-full rounded-lg border border-zinc-300 bg-white px-4 text-base outline-none transition-colors focus:border-[#3b63fb] focus:ring-1 focus:ring-[#3b63fb]";
@@ -163,7 +174,8 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
   };
 
   const progress = isSubmitted ? 100 : ((step + 1) / steps.length) * 100;
-  const showBack = view === "apply" && step > 0;
+  const showBack = view === "apply" && (step > 0 || !!displayRequest?.role);
+  const availableEducation = educationOptionsFor(displayRequest?.role?.education);
 
   return (
     <Sheet open={request !== null} onOpenChange={(open) => !open && closeFlow()}>
@@ -184,14 +196,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
           <>
         <div className="sticky top-0 z-20 bg-transparent">
         <header onClick={closeFlow} className="flex h-12 shrink-0 cursor-pointer items-center justify-between px-3 sm:h-14 sm:px-5">
-          <div className="min-w-24">
-            {showBack && (
-              <button type="button" onClick={(e) => { e.stopPropagation(); goBack(); }} className="inline-flex min-h-11 items-center gap-2 px-2 text-sm font-bold text-zinc-700 transition-colors hover:text-black">
-                <ArrowLeft className="h-4 w-4" />
-                Kembali
-              </button>
-            )}
-          </div>
+          <div className="min-w-24" />
           <p className="absolute left-1/2 -translate-x-1/2 text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
             {!isSubmitted && view === "apply" ? `${step + 1} / ${steps.length}` : ""}
           </p>
@@ -215,7 +220,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
             <input className="hidden" tabIndex={-1} autoComplete="off" name="website" aria-hidden="true" />
 
             {isSubmitted ? (
-              <SuccessState jobTitle={displayRequest?.jobTitle ?? "Talent Pool JDS"} onClose={closeFlow} />
+              <SuccessState jobTitle={displayRequest?.jobTitle || "Talent Pool JDS"} onClose={closeFlow} />
             ) : (
               <div ref={scrollAreaRef} className="h-full overflow-y-auto overscroll-contain scroll-pb-32 bg-white">
                 <div className="mx-auto flex min-h-full w-full max-w-[680px] items-center px-6 py-10 sm:px-8 sm:py-14 lg:py-16">
@@ -236,7 +241,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
                           <Field id="career-domicile" name="domicile" label="Domisili saat ini" required autoComplete="address-level2" placeholder="Kota/Kabupaten, Provinsi" />
                         </div>
                       </div>
-                      <StepActions onNext={goNext} />
+                      <StepActions onNext={goNext} onBack={goBack} showBack={showBack} />
                     </div>
 
                     <div data-career-step="1" hidden={step !== 1} className={step === 1 ? stepAnimation(direction) : undefined}>
@@ -244,13 +249,13 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
                       <div className="mt-8 grid gap-5 sm:grid-cols-2">
                         <SelectField id="career-education" name="education_level" label="Jenjang pendidikan" required defaultValue="">
                           <option value="" disabled>Pilih jenjang</option>
-                          <option>SMA/SMK/Sederajat</option><option>D1</option><option>D2</option><option>D3</option><option>D4</option><option>S1</option><option>S2</option><option>S3</option>
+                          {availableEducation.map((level) => <option key={level}>{level}</option>)}
                         </SelectField>
                         <Field id="career-major" name="major" label="Jurusan" required placeholder="Contoh: Teknik Informatika" />
                         <Field id="career-institution" name="institution" label="Sekolah / perguruan tinggi" required placeholder="Nama institusi" />
                         <Field id="career-graduation" name="graduation_year" label="Tahun lulus" required type="number" min="1950" max={new Date().getFullYear() + 1} placeholder="2025" />
                       </div>
-                      <StepActions onNext={goNext} />
+                      <StepActions onNext={goNext} onBack={goBack} showBack={showBack} />
                     </div>
 
                     <div data-career-step="2" hidden={step !== 2} className={step === 2 ? stepAnimation(direction) : undefined}>
@@ -271,7 +276,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
                           <div className="sm:col-span-2"><Field id="career-salary" name="expected_salary" label="Ekspektasi kompensasi" placeholder="Contoh: Rp7.000.000/bulan atau dapat dinegosiasikan" /></div>
                         </div>
                       </div>
-                      <StepActions onNext={goNext} />
+                      <StepActions onNext={goNext} onBack={goBack} showBack={showBack} />
                     </div>
 
                     <div data-career-step="3" hidden={step !== 3} className={step === 3 ? stepAnimation(direction) : undefined}>
@@ -290,7 +295,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
                           <span>Saya menyatakan data yang dikirim benar dan menyetujui JDS memproses data pribadi serta dokumen ini untuk keperluan rekrutmen. *</span>
                         </label>
                       </div>
-                      <StepActions submit isSubmitting={isSubmitting} />
+                      <StepActions submit isSubmitting={isSubmitting} onBack={goBack} showBack={showBack} />
                     </div>
                   </div>
                 </div>
@@ -383,9 +388,18 @@ function StepHeading({ step }: { step: number }) {
   );
 }
 
-function StepActions({ onNext, submit = false, isSubmitting = false }: { onNext?: () => void; submit?: boolean; isSubmitting?: boolean }) {
+function StepActions({ onNext, onBack, showBack = false, submit = false, isSubmitting = false }: { onNext?: () => void; onBack?: () => void; showBack?: boolean; submit?: boolean; isSubmitting?: boolean }) {
   return (
-    <div className="mt-10 flex justify-end border-t border-zinc-200 pt-5">
+    <div className="mt-10 flex items-center justify-end gap-6 border-t border-zinc-200 pt-5">
+      {showBack && (
+        <>
+          <button type="button" onClick={onBack} className="inline-flex items-center gap-1.5 text-sm text-zinc-500 transition-colors hover:text-zinc-900">
+            Sebelumnya
+            <CornerDownLeft className="h-4 w-4" />
+          </button>
+          <span className="text-sm text-zinc-500">atau</span>
+        </>
+      )}
       <button type={submit ? "submit" : "button"} onClick={submit ? undefined : onNext} disabled={isSubmitting} className="inline-flex items-center gap-2 rounded-full bg-[#3b63fb] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#274dea] disabled:cursor-not-allowed disabled:opacity-60">
         {submit ? (isSubmitting ? "Mengirim..." : "Kirim pendaftaran") : "Berikutnya"}
         {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : submit ? <Send className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
