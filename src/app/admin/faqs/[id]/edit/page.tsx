@@ -6,5 +6,5 @@ export default async function EditFaqPage({ params }: { params: Promise<{ id: st
   const { id } = await params;
   const supabase = await createClient();
   const { data } = await supabase.from("faqs").select("*").eq("id", id).single();
-  return <FaqForm initialData={data} onSubmit={(formData) => updateFaq(id, formData)} />;
+  return <FaqForm initialData={data} onSubmit={updateFaq.bind(null, id)} />;
 }

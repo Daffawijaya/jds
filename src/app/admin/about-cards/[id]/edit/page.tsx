@@ -6,5 +6,5 @@ export default async function EditAboutCardPage({ params }: { params: Promise<{ 
   const { id } = await params;
   const supabase = await createClient();
   const { data } = await supabase.from("about_cards").select("*").eq("id", id).single();
-  return <AboutCardForm initialData={data} onSubmit={(formData) => updateAboutCard(id, formData)} />;
+  return <AboutCardForm initialData={data} onSubmit={updateAboutCard.bind(null, id)} />;
 }

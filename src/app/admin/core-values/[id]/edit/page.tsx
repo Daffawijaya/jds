@@ -6,5 +6,5 @@ export default async function EditCoreValuePage({ params }: { params: Promise<{ 
   const { id } = await params;
   const supabase = await createClient();
   const { data } = await supabase.from("core_values").select("*").eq("id", id).single();
-  return <CoreValueForm initialData={data} onSubmit={(formData) => updateCoreValue(id, formData)} />;
+  return <CoreValueForm initialData={data} onSubmit={updateCoreValue.bind(null, id)} />;
 }

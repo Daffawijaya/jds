@@ -6,5 +6,5 @@ export default async function EditCareerRolePage({ params }: { params: Promise<{
   const { id } = await params;
   const supabase = await createClient();
   const { data } = await supabase.from("career_roles").select("*").eq("id", id).single();
-  return <CareerRoleForm initialData={data} onSubmit={(formData) => updateCareerRole(id, formData)} />;
+  return <CareerRoleForm initialData={data} onSubmit={updateCareerRole.bind(null, id)} />;
 }

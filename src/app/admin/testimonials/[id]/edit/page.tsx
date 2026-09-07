@@ -6,5 +6,5 @@ export default async function EditTestimonialPage({ params }: { params: Promise<
   const { id } = await params;
   const supabase = await createClient();
   const { data } = await supabase.from("testimonials").select("*").eq("id", id).single();
-  return <TestimonialForm initialData={data} onSubmit={(formData) => updateTestimonial(id, formData)} />;
+  return <TestimonialForm initialData={data} onSubmit={updateTestimonial.bind(null, id)} />;
 }
