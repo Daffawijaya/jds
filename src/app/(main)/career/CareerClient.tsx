@@ -73,7 +73,7 @@ const faqItems = [
   {
     question: "Apakah JDS sedang membuka lowongan?",
     answer:
-      "Tabel Peluang menampilkan area posisi yang paling sering dibutuhkan untuk Talent Pool JDS, bukan jaminan lowongan aktif. Saat ada kebutuhan spesifik yang sesuai, tim kami akan menghubungi kandidat terpilih.",
+      "Setiap posisi memiliki status Open atau Closed. Posisi Open sedang menerima lamaran, sedangkan posisi Closed hanya dapat dilihat. Jika belum menemukan posisi yang sesuai, Anda tetap dapat mengirim profil melalui Talent Pool JDS.",
   },
   {
     question: "Bidang keahlian apa yang paling sering dibutuhkan?",
@@ -171,7 +171,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
       <section id="positions" className="scroll-mt-24 bg-white px-5 py-16 sm:px-8 lg:py-24">
         <div className="mx-auto max-w-[1200px]">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/55">Talent Pool JDS</p>
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/55">Peluang Karier JDS</p>
             <h2 className="mt-4 text-3xl font-bold leading-tight tracking-[-0.025em] sm:text-4xl">
               Temukan area posisi yang sesuai untuk Anda.
             </h2>
@@ -215,7 +215,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
           <div className="mt-8 hidden overflow-hidden rounded-none border border-[#dadada] bg-white lg:block">
             <table className="w-full table-fixed border-collapse text-left">
               <caption className="sr-only">
-                Daftar area posisi Talent Pool JDS beserta jenjang pendidikan dan jurusan yang relevan
+                Daftar posisi JDS beserta jenjang pendidikan dan jurusan yang relevan
               </caption>
               <thead>
                 <tr className="text-sm font-bold text-[#2c2c2c]">

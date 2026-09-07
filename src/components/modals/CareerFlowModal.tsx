@@ -5,6 +5,15 @@ import { ArrowRight, Check, CornerDownLeft, FileText, Loader2, Send, Upload, X }
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  ROLE_ENGAGEMENT_OPTIONS,
+  WORK_ARRANGEMENT_OPTIONS,
+  getRoleEngagementLabel,
+  getWorkArrangementLabel,
+  type ApplicationStatus,
+  type RoleEngagement,
+  type WorkArrangement,
+} from "@/lib/career-options";
 
 export type CareerRole = {
   id: string;
@@ -13,11 +22,11 @@ export type CareerRole = {
   groupLabel: string;
   education: string;
   majors: string;
-  location: string;
-  engagement: string;
+  location: WorkArrangement;
+  engagement: RoleEngagement;
   summary: string;
   qualifications: string[];
-  isOpen: boolean;
+  applicationStatus: ApplicationStatus;
 };
 
 export type CareerFlowRequest = {
@@ -58,6 +67,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const errorRef = useRef<HTMLDivElement>(null);
+  const successHeadingRef = useRef<HTMLHeadingElement>(null);
   const closeTimer = useRef<number | null>(null);
   const [showApplication, setShowApplication] = useState(false);
   const [step, setStep] = useState(0);
@@ -65,26 +75,35 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [displayRequest, setDisplayRequest] = useState<CareerFlowRequest | null>(null);
+  const [displayRequest, setDisplayRequest] = useState<CareerFlowRequest | null>(request);
+
+  if (request && request !== displayRequest) setDisplayRequest(request);
 
   const view = displayRequest?.initialView === "apply" || showApplication ? "apply" : "detail";
 
   useEffect(() => {
-    if (request && view === "apply" && !isSubmitted) {
-      if (scrollAreaRef.current) scrollAreaRef.current.scrollTop = 0;
-      formRef.current
-        ?.querySelector<HTMLHeadingElement>(`[data-career-step="${step}"] h2`)
-        ?.focus({ preventScroll: true });
+    if (!request || view !== "apply") return;
+    if (isSubmitted) {
+      requestAnimationFrame(() => successHeadingRef.current?.focus({ preventScroll: true }));
+      return;
     }
+    if (scrollAreaRef.current) scrollAreaRef.current.scrollTop = 0;
+    formRef.current
+      ?.querySelector<HTMLHeadingElement>(`[data-career-step="${step}"] h2`)
+      ?.focus({ preventScroll: true });
   }, [request, view, step, isSubmitted]);
 
   useEffect(() => {
-    if (!request) return;
-    if (closeTimer.current !== null) {
+    return () => {
+      if (closeTimer.current !== null) window.clearTimeout(closeTimer.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (request && closeTimer.current !== null) {
       window.clearTimeout(closeTimer.current);
       closeTimer.current = null;
     }
-    setDisplayRequest(request);
   }, [request]);
 
   const closeFlow = () => {
@@ -104,7 +123,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
   };
 
   const startApplication = () => {
-    if (!request?.role?.isOpen) return;
+    if (displayRequest?.role?.applicationStatus !== "open") return;
     setDirection("next");
     setStep(0);
     setShowApplication(true);
@@ -176,6 +195,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
   const progress = isSubmitted ? 100 : ((step + 1) / steps.length) * 100;
   const showBack = view === "apply" && (step > 0 || !!displayRequest?.role);
   const availableEducation = educationOptionsFor(displayRequest?.role?.education);
+  const isTalentPoolApplication = !displayRequest?.role;
 
   return (
     <Sheet open={request !== null} onOpenChange={(open) => !open && closeFlow()}>
@@ -183,7 +203,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
         side="bottom"
         showCloseButton={false}
         overlayClassName="bg-black/40 duration-300 supports-backdrop-filter:backdrop-blur-[15px]"
-        className="h-[100dvh] max-h-[100dvh] gap-0 overflow-y-auto border-0 bg-transparent p-0 text-[#202124] shadow-none duration-300 ease-out data-[side=bottom]:h-[100dvh] data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-[150px] data-[side=bottom]:data-starting-style:translate-y-[150px]"
+        className="h-[100dvh] max-h-[100dvh] gap-0 overflow-hidden border-0 bg-transparent p-0 text-[#202124] shadow-none duration-300 ease-out data-[side=bottom]:h-[100dvh] data-[side=bottom]:border-t-0 data-[side=bottom]:data-ending-style:translate-y-[150px] data-[side=bottom]:data-starting-style:translate-y-[150px]"
       >
         <SheetTitle className="sr-only">
           {view === "detail" ? `Detail posisi ${displayRequest?.jobTitle ?? ""}` : "Formulir pendaftaran kandidat"}
@@ -194,7 +214,7 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
 
         {displayRequest ? (
           <>
-        <div className="sticky top-0 z-20 bg-transparent">
+        <div className="relative z-20 shrink-0 bg-transparent">
         <header onClick={closeFlow} className="flex h-12 shrink-0 cursor-pointer items-center justify-between px-3 sm:h-14 sm:px-5">
           <div className="min-w-24" />
           <p className="absolute left-1/2 -translate-x-1/2 text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
@@ -214,13 +234,14 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
         {view === "detail" && displayRequest?.role ? (
           <RoleDetail role={displayRequest.role} onApply={startApplication} />
         ) : (
-          <form ref={formRef} onSubmit={handleSubmit} onKeyDown={handleFormKeyDown} className="min-h-0 flex-1 overflow-hidden">
+          <form key={displayRequest?.roleSlug ?? "talent-pool"} ref={formRef} onSubmit={handleSubmit} onKeyDown={handleFormKeyDown} className="min-h-0 flex-1 overflow-hidden">
             <input type="hidden" name="role_slug" value={displayRequest?.roleSlug ?? ""} />
             <input type="hidden" name="position" value={displayRequest?.jobTitle ?? "Tenaga Ahli / Professional Talent JDS"} />
+            {isTalentPoolApplication && <input type="hidden" name="engagement_scheme" value="talent_pool" />}
             <input className="hidden" tabIndex={-1} autoComplete="off" name="website" aria-hidden="true" />
 
             {isSubmitted ? (
-              <SuccessState jobTitle={displayRequest?.jobTitle || "Talent Pool JDS"} onClose={closeFlow} />
+              <SuccessState jobTitle={displayRequest?.jobTitle || "Talent Pool JDS"} onClose={closeFlow} headingRef={successHeadingRef} />
             ) : (
               <div ref={scrollAreaRef} className="h-full overflow-y-auto overscroll-contain scroll-pb-32 bg-white">
                 <div className="mx-auto flex min-h-full w-full max-w-[680px] items-center px-6 py-10 sm:px-8 sm:py-14 lg:py-16">
@@ -234,6 +255,28 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
                     <div data-career-step="0" hidden={step !== 0} className={step === 0 ? stepAnimation(direction) : undefined}>
                       <StepHeading step={0} />
                       <div className="mt-8 space-y-6">
+                        <ReadonlyChoice
+                          label={isTalentPoolApplication ? "Skema pendaftaran" : "Posisi yang dipilih"}
+                          value={isTalentPoolApplication ? "Talent Pool" : displayRequest?.jobTitle || "Posisi JDS"}
+                        />
+                        <div className="grid gap-5 sm:grid-cols-2">
+                          {!isTalentPoolApplication && (
+                            <SelectField id="career-engagement" name="engagement_scheme" label="Skema yang diminati" required defaultValue={displayRequest?.role?.engagement ?? ""}>
+                              <option value="" disabled>Pilih skema</option>
+                              {ROLE_ENGAGEMENT_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+                            </SelectField>
+                          )}
+                          <SelectField
+                            id="career-work-arrangement"
+                            name="work_arrangement"
+                            label="Preferensi cara kerja"
+                            required
+                            defaultValue={isTalentPoolApplication ? "" : displayRequest?.role?.location ?? ""}
+                          >
+                            <option value="" disabled>Pilih cara kerja</option>
+                            {WORK_ARRANGEMENT_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+                          </SelectField>
+                        </div>
                         <div className="grid gap-5 sm:grid-cols-2">
                           <Field id="career-name" name="name" label="Nama lengkap" required autoComplete="name" placeholder="Sesuai identitas" />
                           <Field id="career-email" name="email" label="Email" required type="email" autoComplete="email" placeholder="nama@email.com" />
@@ -314,44 +357,65 @@ export function CareerFlowModal({ request, onClose }: CareerFlowModalProps) {
 
 function RoleDetail({ role, onApply }: { role: CareerRole; onApply: () => void }) {
   return (
-    <div className="bg-white">
-      <div className="mx-auto w-full max-w-[1180px] px-6 py-8 sm:px-10 sm:py-8 lg:px-14">
-        <div className="grid w-full gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-          <div className="lg:sticky lg:top-10 lg:self-center">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/50">{role.groupLabel} · Talent Pool JDS</p>
-            <h2 className="mt-5 max-w-3xl text-4xl font-normal leading-[1.1] tracking-[-0.025em] text-zinc-950 sm:text-5xl">{role.title}</h2>
-            {!role.isOpen && <p className="mt-6 inline-flex border border-zinc-300 bg-zinc-100 px-4 py-2 text-sm font-bold text-zinc-600">Pendaftaran tertutup</p>}
-            <div className="mt-9 flex flex-wrap gap-3 border-t border-zinc-200 pt-7">
-              {role.isOpen ? (
-                <button type="button" onClick={onApply} className="inline-flex items-center gap-2 rounded-full bg-[#3b63fb] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#274dea]">
-                  Lamar posisi
-                </button>
-              ) : (
-                <p className="text-sm leading-6 text-zinc-500">Posisi tetap dapat dilihat, tetapi saat ini belum menerima pendaftaran baru.</p>
-              )}
+    <div data-career-detail-scroll className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain bg-white lg:overflow-hidden">
+      <div className="mx-auto w-full max-w-[1180px] px-6 sm:px-10 lg:h-full lg:px-14">
+        <div className="grid w-full gap-10 py-8 lg:h-full lg:min-h-0 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:py-0">
+          <section
+            data-career-detail-column="summary"
+            aria-label="Ringkasan posisi"
+            className="lg:min-h-0 lg:overflow-y-auto lg:overscroll-y-contain"
+          >
+            <div className="lg:flex lg:min-h-full lg:items-center lg:py-8">
+              <div className="w-full">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/50">{role.groupLabel} · Posisi JDS</p>
+                <h2 className="mt-5 max-w-3xl text-4xl font-normal leading-[1.1] tracking-[-0.025em] text-zinc-950 sm:text-5xl">{role.title}</h2>
+                <p
+                  aria-label={`Status pendaftaran: ${role.applicationStatus === "open" ? "Open" : "Closed"}`}
+                  className={`mt-6 inline-flex border px-4 py-2 text-sm font-bold ${role.applicationStatus === "open" ? "border-blue-200 bg-blue-50 text-[#274dea]" : "border-zinc-300 bg-zinc-100 text-zinc-600"}`}
+                >
+                  {role.applicationStatus === "open" ? "Open" : "Closed"}
+                </p>
+                <div className="mt-9 flex flex-wrap gap-3 border-t border-zinc-200 pt-7">
+                  {role.applicationStatus === "open" ? (
+                    <button type="button" onClick={onApply} className="inline-flex items-center gap-2 rounded-full bg-[#3b63fb] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#274dea]">
+                      Lamar posisi
+                    </button>
+                  ) : (
+                    <p className="text-sm leading-6 text-zinc-500">Saat ini kami belum menerima lamaran untuk posisi ini. Silakan pantau halaman Karir JDS untuk pembukaan berikutnya.</p>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
+          </section>
 
-          <div className="space-y-10">
-            <dl className="divide-y divide-zinc-200 border-y border-zinc-200">
-              <DetailRow label="Jenjang pendidikan" value={role.education} />
-              <DetailRow label="Jurusan" value={role.majors} />
-              <DetailRow label="Lokasi" value={role.location} />
-              <DetailRow label="Skema keterlibatan" value={role.engagement} />
-            </dl>
-            <div>
-              <p className="text-lg leading-8 text-zinc-600">{role.summary}</p>
-              <h3 className="mt-6 text-xl font-bold text-zinc-950">Kualifikasi utama</h3>
-              <ul className="mt-6 space-y-4">
-                {role.qualifications.map((qualification) => (
-                  <li key={qualification} className="flex gap-4 text-base leading-7 text-zinc-600">
-                    <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-600"><Check className="h-3.5 w-3.5" /></span>
-                    <span>{qualification}</span>
-                  </li>
-                ))}
-              </ul>
+          <section
+            data-career-detail-column="requirements"
+            aria-label="Detail dan kualifikasi posisi"
+            className="lg:min-h-0 lg:overflow-y-auto lg:overscroll-y-contain"
+          >
+            <div className="lg:flex lg:min-h-full lg:items-center lg:py-8">
+              <div className="w-full space-y-10">
+                <dl className="divide-y divide-zinc-200 border-y border-zinc-200">
+                  <DetailRow label="Jenjang pendidikan" value={role.education} />
+                  <DetailRow label="Jurusan" value={role.majors} />
+                  <DetailRow label="Lokasi" value={getWorkArrangementLabel(role.location)} />
+                  <DetailRow label="Skema keterlibatan" value={getRoleEngagementLabel(role.engagement)} />
+                </dl>
+                <div>
+                  <p className="text-lg leading-8 text-zinc-600">{role.summary}</p>
+                  <h3 className="mt-6 text-xl font-bold text-zinc-950">Kualifikasi utama</h3>
+                  <ul className="mt-6 space-y-4">
+                    {role.qualifications.map((qualification) => (
+                      <li key={qualification} className="flex gap-4 text-base leading-7 text-zinc-600">
+                        <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-600"><Check className="h-3.5 w-3.5" /></span>
+                        <span>{qualification}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </div>
@@ -362,12 +426,12 @@ function DetailRow({ label, value }: { label: string; value: string }) {
   return <div className="grid gap-2 py-5 sm:grid-cols-[180px_1fr] sm:gap-8"><dt className="text-sm font-bold text-zinc-900">{label}</dt><dd className="text-sm leading-6 text-zinc-600">{value}</dd></div>;
 }
 
-function SuccessState({ jobTitle, onClose }: { jobTitle: string; onClose: () => void }) {
+function SuccessState({ jobTitle, onClose, headingRef }: { jobTitle: string; onClose: () => void; headingRef: React.RefObject<HTMLHeadingElement | null> }) {
   return (
-    <div className="h-full overflow-y-auto overscroll-contain bg-white">
+    <div role="status" aria-live="polite" aria-atomic="true" className="h-full overflow-y-auto overscroll-contain bg-white">
       <div className="mx-auto flex min-h-full w-full max-w-[680px] items-center px-6 py-10 sm:px-8 sm:py-14 lg:py-16">
         <div className="w-full career-step-next">
-          <h2 className="max-w-3xl text-2xl font-normal leading-[1.3] tracking-[-0.025em] text-zinc-950 sm:text-3xl">Terima kasih, profil Anda sudah kami terima.</h2>
+          <h2 ref={headingRef} tabIndex={-1} className="max-w-3xl text-2xl font-normal leading-[1.3] tracking-[-0.025em] text-zinc-950 outline-none sm:text-3xl">Terima kasih, profil Anda sudah kami terima.</h2>
           <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-600">Tim JDS akan meninjau pendaftaran untuk <strong>{jobTitle}</strong> dan menghubungi Anda apabila kualifikasi sesuai.</p>
           <div className="mt-10 flex items-center justify-end border-t border-zinc-200 pt-5">
             <button type="button" onClick={onClose} className="inline-flex items-center gap-2 rounded-full bg-[#3b63fb] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#274dea]">Selesai</button>
@@ -406,6 +470,15 @@ function StepActions({ onNext, onBack, showBack = false, submit = false, isSubmi
         {submit ? (isSubmitting ? "Mengirim..." : "Kirim pendaftaran") : "Berikutnya"}
         {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : submit ? <Send className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
       </button>
+    </div>
+  );
+}
+
+function ReadonlyChoice({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="border-l-2 border-[#3b63fb] bg-blue-50 px-4 py-3">
+      <p className="text-xs font-bold uppercase tracking-[0.12em] text-zinc-500">{label}</p>
+      <p className="mt-1 text-base font-bold text-[#274dea]">{value}</p>
     </div>
   );
 }

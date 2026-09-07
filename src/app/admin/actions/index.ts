@@ -252,7 +252,7 @@ export async function createCareerRole(formData: FormData) {
     summary: formData.get("summary") as string,
     qualifications,
     sort_order: Number(formData.get("sort_order")) || 0,
-    is_open: formData.get("is_open") === "true",
+    application_status: formData.get("application_status") as string,
     is_active: formData.get("is_active") === "true",
   });
   if (error) throw error;
@@ -278,7 +278,7 @@ export async function updateCareerRole(id: string, formData: FormData) {
       summary: formData.get("summary") as string,
       qualifications,
       sort_order: Number(formData.get("sort_order")) || 0,
-      is_open: formData.get("is_open") === "true",
+      application_status: formData.get("application_status") as string,
       is_active: formData.get("is_active") === "true",
     })
     .eq("id", id);
@@ -409,22 +409,23 @@ export async function markApplicationRead(id: string) {
 
 export async function deleteApplication(id: string) {
   const supabase = await createClient();
-  const { data: application } = await supabase
+  const { data: application, error: applicationError } = await supabase
     .from("career_applications")
     .select("photo_path, resume_path, diploma_path, transcript_path")
     .eq("id", id)
     .single();
-  const { error } = await supabase.from("career_applications").delete().eq("id", id);
-  if (error) throw error;
+  if (applicationError) throw applicationError;
 
-  const documentPaths = application
-    ? [application.photo_path, application.resume_path, application.diploma_path, application.transcript_path].filter((path): path is string => Boolean(path))
-    : [];
+  const documentPaths = [application.photo_path, application.resume_path, application.diploma_path, application.transcript_path]
+    .filter((path): path is string => Boolean(path));
   if (documentPaths.length > 0) {
     const admin = createAdminClient();
     const { error: storageError } = await admin.storage.from("career-applications").remove(documentPaths);
     if (storageError) throw storageError;
   }
+
+  const { error } = await supabase.from("career_applications").delete().eq("id", id);
+  if (error) throw error;
   revalidatePath("/admin/applications");
 }
 

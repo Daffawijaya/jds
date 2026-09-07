@@ -4,6 +4,7 @@ import { getApplication } from "@/app/admin/actions";
 import { createAdminClient } from "@/lib/supabase-admin";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getApplicationSourceLabel, getRoleEngagementLabel, getWorkArrangementLabel } from "@/lib/career-options";
 
 export default async function ApplicationDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -35,6 +36,9 @@ export default async function ApplicationDetailPage({ params }: { params: Promis
         <CardHeader><CardTitle>Posisi & kontak</CardTitle></CardHeader>
         <CardContent className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <Detail label="Posisi" value={application.position || application.expertise} />
+          <Detail label="Jalur pendaftaran" value={getApplicationSourceLabel(application.application_source)} />
+          <Detail label="Skema keterlibatan" value={getRoleEngagementLabel(application.engagement_scheme)} />
+          <Detail label="Cara kerja" value={getWorkArrangementLabel(application.work_arrangement)} />
           <Detail label="Email" value={application.email} />
           <Detail label="WhatsApp / telepon" value={application.phone} />
           <Detail label="Domisili" value={application.domicile} />

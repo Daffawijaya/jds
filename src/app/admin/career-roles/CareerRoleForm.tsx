@@ -10,6 +10,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import {
+  APPLICATION_STATUS_OPTIONS,
+  ROLE_ENGAGEMENT_OPTIONS,
+  WORK_ARRANGEMENT_OPTIONS,
+  type ApplicationStatus,
+  type RoleEngagement,
+  type WorkArrangement,
+} from "@/lib/career-options";
 
 interface CareerRoleFormData {
   title?: string;
@@ -17,13 +25,13 @@ interface CareerRoleFormData {
   group_name?: string;
   education?: string;
   majors?: string;
-  location?: string;
-  engagement?: string;
+  location?: WorkArrangement;
+  engagement?: RoleEngagement;
   summary?: string;
   sort_order?: number;
   qualifications?: string[];
   is_active?: boolean;
-  is_open?: boolean;
+  application_status?: ApplicationStatus;
 }
 
 interface CareerRoleFormProps { initialData?: CareerRoleFormData; onSubmit: (formData: FormData) => Promise<void>; }
@@ -32,8 +40,10 @@ export function CareerRoleForm({ initialData, onSubmit }: CareerRoleFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isActive, setIsActive] = useState(initialData?.is_active ?? true);
-  const [isOpen, setIsOpen] = useState(initialData?.is_open ?? true);
+  const [applicationStatus, setApplicationStatus] = useState<ApplicationStatus>(initialData?.application_status ?? "open");
   const [groupName, setGroupName] = useState(initialData?.group_name || "technology");
+  const [location, setLocation] = useState<WorkArrangement>(initialData?.location ?? "flexible");
+  const [engagement, setEngagement] = useState<RoleEngagement>(initialData?.engagement ?? "project_based");
   const [qualifications, setQualifications] = useState<string[]>(initialData?.qualifications || []);
   const [newQual, setNewQual] = useState("");
 
@@ -44,9 +54,11 @@ export function CareerRoleForm({ initialData, onSubmit }: CareerRoleFormProps) {
     setLoading(true);
     const formData = new FormData(e.currentTarget);
     formData.set("is_active", String(isActive));
-    formData.set("is_open", String(isOpen));
+    formData.set("application_status", applicationStatus);
     formData.set("group_name", groupName);
     formData.set("group_label", groups[groupName] || groupName);
+    formData.set("location", location);
+    formData.set("engagement", engagement);
     formData.set("qualifications", JSON.stringify(qualifications));
     try { await onSubmit(formData); toast.success(initialData ? "Updated" : "Created"); router.push("/admin/career-roles"); router.refresh(); } catch (err: unknown) { toast.error(err instanceof Error ? err.message : "Terjadi kesalahan"); } finally { setLoading(false); }
   }
@@ -75,19 +87,34 @@ export function CareerRoleForm({ initialData, onSubmit }: CareerRoleFormProps) {
             <div className="space-y-2"><Label htmlFor="majors">Majors</Label><Input id="majors" name="majors" defaultValue={initialData?.majors} /></div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2"><Label htmlFor="location">Location</Label><Input id="location" name="location" defaultValue={initialData?.location} /></div>
-            <div className="space-y-2"><Label htmlFor="engagement">Engagement</Label><Input id="engagement" name="engagement" defaultValue={initialData?.engagement} /></div>
+            <div className="space-y-2">
+              <Label>Lokasi kerja</Label>
+              <Select value={location} onValueChange={(value) => value && setLocation(value as WorkArrangement)}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {WORK_ARRANGEMENT_OPTIONS.map((option) => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Skema keterlibatan</Label>
+              <Select value={engagement} onValueChange={(value) => value && setEngagement(value as RoleEngagement)}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {ROLE_ENGAGEMENT_OPTIONS.map((option) => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           <div className="space-y-2"><Label htmlFor="summary">Summary</Label><Textarea id="summary" name="summary" defaultValue={initialData?.summary} rows={3} /></div>
           <div className="space-y-2"><Label htmlFor="sort_order">Sort Order</Label><Input id="sort_order" name="sort_order" type="number" defaultValue={initialData?.sort_order || 0} /></div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Status pendaftaran</Label>
-              <Select value={isOpen ? "open" : "closed"} onValueChange={(value) => setIsOpen(value === "open")}>
+              <Select value={applicationStatus} onValueChange={(value) => value && setApplicationStatus(value as ApplicationStatus)}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="open">Terbuka</SelectItem>
-                  <SelectItem value="closed">Tertutup</SelectItem>
+                  {APPLICATION_STATUS_OPTIONS.map((option) => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>

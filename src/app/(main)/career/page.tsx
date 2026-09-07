@@ -1,4 +1,5 @@
 import { getCareerRoles } from "@/lib/supabase-server";
+import type { ApplicationStatus, RoleEngagement, WorkArrangement } from "@/lib/career-options";
 import CareerClient from "./CareerClient";
 
 type CareerRoleRow = {
@@ -8,11 +9,11 @@ type CareerRoleRow = {
   group_label: string | null;
   education: string | null;
   majors: string | null;
-  location: string | null;
-  engagement: string | null;
+  location: WorkArrangement | null;
+  engagement: RoleEngagement | null;
   summary: string | null;
   qualifications: string[];
-  is_open: boolean | null;
+  application_status: ApplicationStatus | null;
 };
 
 export default async function CareerPage() {
@@ -27,11 +28,11 @@ export default async function CareerPage() {
         groupLabel: r.group_label ?? "",
         education: r.education ?? "",
         majors: r.majors ?? "",
-        location: r.location ?? "",
-        engagement: r.engagement ?? "",
+        location: r.location ?? "flexible",
+        engagement: r.engagement ?? "project_based",
         summary: r.summary ?? "",
         qualifications: r.qualifications as string[],
-        isOpen: r.is_open ?? true,
+        applicationStatus: r.application_status ?? "open",
       }))}
     />
   );

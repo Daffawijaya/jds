@@ -12,6 +12,7 @@ import {
 import { Trash2, MailOpen, Eye } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase-admin";
 import Link from "next/link";
+import { getApplicationSourceLabel, getRoleEngagementLabel, getWorkArrangementLabel } from "@/lib/career-options";
 
 export default async function ApplicationsPage() {
   const applications = await getApplications();
@@ -50,7 +51,12 @@ export default async function ApplicationsPage() {
               <TableRow key={a.id} className={a.is_read ? "" : "bg-blue-50/50"}>
                 <TableCell className="font-medium">{a.name}</TableCell>
                 <TableCell>{a.email}</TableCell>
-                <TableCell>{a.position || a.expertise}</TableCell>
+                <TableCell>
+                  <p>{a.position || a.expertise}</p>
+                  <p className="text-xs text-zinc-500">
+                    {getApplicationSourceLabel(a.application_source)} · {getRoleEngagementLabel(a.engagement_scheme)} · {getWorkArrangementLabel(a.work_arrangement)}
+                  </p>
+                </TableCell>
                 <TableCell>
                   <p>{[a.education_level, a.major].filter(Boolean).join(" · ") || "-"}</p>
                   <p className="text-xs text-zinc-500">{a.institution || ""}</p>

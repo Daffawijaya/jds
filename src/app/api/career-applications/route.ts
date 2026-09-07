@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase-admin";
+import { ROLE_ENGAGEMENT_OPTIONS, WORK_ARRANGEMENT_OPTIONS } from "@/lib/career-options";
 
 const MAX_PHOTO_SIZE = 2 * 1024 * 1024;
 const MAX_DOCUMENT_SIZE = 5 * 1024 * 1024;
 const MAX_REQUEST_SIZE = 20 * 1024 * 1024;
+const ROLE_ENGAGEMENT_VALUES = new Set<string>(ROLE_ENGAGEMENT_OPTIONS.map((option) => option.value));
+const WORK_ARRANGEMENT_VALUES = new Set<string>(WORK_ARRANGEMENT_OPTIONS.map((option) => option.value));
 
 type UploadDescriptor = { contentType: string; extension: string };
 
@@ -129,6 +132,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Lama pengalaman tidak valid." }, { status: 400 });
     }
 
+    const requestedEngagement = text(formData, "engagement_scheme");
+    const workArrangement = text(formData, "work_arrangement");
+    if (!WORK_ARRANGEMENT_VALUES.has(workArrangement)) {
+      return NextResponse.json({ error: "Preferensi cara kerja tidak valid." }, { status: 400 });
+    }
+
     const photo = file(formData, "photo");
     const resume = file(formData, "resume");
     const diploma = file(formData, "diploma");
@@ -151,23 +160,30 @@ export async function POST(request: Request) {
 
     const roleSlug = optionalText(formData, "role_slug");
     let roleId: string | null = null;
-    let position = text(formData, "position") || "Talent Pool";
+    let applicationSource: "talent_pool" | "position" = "talent_pool";
+    let engagementScheme = "talent_pool";
+    let position = "Talent Pool JDS";
 
     if (roleSlug) {
       const { data: role, error: roleError } = await supabase
         .from("career_roles")
-        .select("id, title, is_active, is_open")
+        .select("id, title, is_active, application_status")
         .eq("slug", roleSlug)
         .maybeSingle();
 
       if (roleError || !role || !role.is_active) {
         return NextResponse.json({ error: "Posisi tidak ditemukan atau sudah tidak dipublikasikan." }, { status: 404 });
       }
-      if (!role.is_open) {
+      if (role.application_status !== "open") {
         return NextResponse.json({ error: "Pendaftaran untuk posisi ini sudah ditutup." }, { status: 409 });
+      }
+      if (!ROLE_ENGAGEMENT_VALUES.has(requestedEngagement)) {
+        return NextResponse.json({ error: "Skema keterlibatan tidak valid." }, { status: 400 });
       }
 
       roleId = role.id;
+      applicationSource = "position";
+      engagementScheme = requestedEngagement;
       position = role.title;
     }
 
@@ -193,6 +209,9 @@ export async function POST(request: Request) {
       const { error: insertError } = await supabase.from("career_applications").insert({
         id: applicationId,
         role_id: roleId,
+        application_source: applicationSource,
+        engagement_scheme: engagementScheme,
+        work_arrangement: workArrangement,
         name: text(formData, "name"),
         email,
         phone: text(formData, "phone"),
