@@ -337,26 +337,6 @@ export default function ServicesClient({ companyInfo, servicesData }: ServicesCl
         </div>
       </section>
 
-      {/* 6. PROMO BANNER */}
-      <section className="bg-gradient-to-r from-[#FFF0E6] via-[#F4E6FF] to-[#E6F0FF] py-6">
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 flex flex-col md:flex-row items-center justify-between">
-          <div className="flex items-center gap-4 mb-4 md:mb-0">
-            <div className="w-10 h-10 rounded-lg bg-[#1473E6] flex items-center justify-center text-white font-bold text-sm shadow-sm">
-              {companyInfo.short_name}
-            </div>
-            <p className="font-semibold text-gray-900">
-              {companyInfo.short_name} menyediakan layanan terintegrasi.{" "}
-              <span className="font-normal text-gray-600">
-                Konsultasikan kebutuhan Anda sekarang.
-              </span>
-            </p>
-          </div>
-          <a href="/contact" className="bg-[#1473E6] hover:bg-blue-700 text-white px-6 py-2 rounded-full font-semibold text-sm">
-            Mulai Konsultasi
-          </a>
-        </div>
-      </section>
-
       {/* Detail Modal */}
       <ServiceDetailModal
         service={selectedService}

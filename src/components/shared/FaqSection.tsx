@@ -19,7 +19,7 @@ export function FaqSection({ title, items }: FaqSectionProps) {
   return (
     <section className="py-20 sm:py-28">
       <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
-        <h2 className="mb-10 text-[28px] font-extrabold leading-tight tracking-[-0.02em] sm:text-[36px]">
+        <h2 className="mx-auto mb-10 max-w-[820px] text-center text-[28px] font-extrabold leading-tight tracking-[-0.02em] sm:text-[36px]">
           {title}
         </h2>
         <div className="border-t border-[#9a9a9a]">

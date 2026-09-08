@@ -53,24 +53,6 @@ const careerCards = [
   },
 ];
 
-const applicationSteps = [
-  {
-    number: "01",
-    title: "Kirim profil terbaik Anda.",
-    description: "Ceritakan keahlian, pengalaman, serta tautkan CV atau portofolio yang paling relevan.",
-  },
-  {
-    number: "02",
-    title: "Kami pelajari kecocokannya.",
-    description: "Tim JDS meninjau profil Anda terhadap kebutuhan posisi dan penugasan yang sedang disiapkan.",
-  },
-  {
-    number: "03",
-    title: "Mulai percakapan.",
-    description: "Jika ada kebutuhan yang sesuai, kami menghubungi Anda untuk membahas peran dan ruang lingkupnya.",
-  },
-];
-
 const faqItems = [
   {
     question: "Apakah JDS sedang membuka lowongan?",
@@ -128,7 +110,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
     <div className="min-h-screen w-full bg-white font-sans text-[#2c2c2c] antialiased">
       <section id="overview" className="scroll-mt-28 bg-[#f5f5f5]">
         <div className="grid w-full lg:grid-cols-2">
-          <div className="flex min-h-[560px] flex-col justify-center px-5 py-8 sm:px-8 lg:min-h-[calc(100svh-4rem)] lg:py-14 lg:pl-[max(2rem,calc((100vw-1200px)/2))] lg:pr-16">
+          <div className="flex min-h-[560px] flex-col justify-center px-2 py-8 sm:px-4 lg:min-h-[calc(100svh-4rem)] lg:py-14 lg:pl-[max(1.5rem,calc((100vw-1310px)/2+1.5rem))] lg:pr-16">
             <PageIntro
               label="Karir"
               title="Berkarya untuk masa depan yang lebih baik."
@@ -166,8 +148,8 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
         </div>
       </section>
 
-      <section id="positions" className="scroll-mt-24 bg-white px-5 py-16 sm:px-8 lg:py-24">
-        <div className="mx-auto max-w-[1200px]">
+      <section id="positions" className="scroll-mt-24 bg-white py-16 lg:py-24">
+        <div className="mx-auto max-w-[1310px] px-2 sm:px-4 lg:px-6">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/55">Peluang Karier JDS</p>
             <h2 className="mt-4 text-3xl font-bold leading-tight tracking-[-0.025em] sm:text-4xl">
@@ -184,7 +166,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
             onTabChange={setRoleFilter}
             ariaLabel="Filter area posisi"
             className="mt-10 sm:mt-12"
-            contentClassName="max-w-[1200px]"
+            contentClassName="max-w-[1310px] px-2 sm:px-4 lg:px-6"
           />
 
           <div className="mt-8 hidden overflow-hidden rounded-none border border-[#dadada] bg-white lg:block">
@@ -290,8 +272,8 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
         </div>
       </section>
 
-      <section id="culture" className="scroll-mt-28 px-7 pb-20 sm:px-8 lg:pb-28">
-        <div className="mx-auto max-w-[1120px]">
+      <section id="culture" className="scroll-mt-28 pb-20 lg:pb-28">
+        <div className="mx-auto max-w-[1310px] px-2 sm:px-4 lg:px-6">
           <h2 className="mx-auto max-w-4xl text-center text-3xl font-bold leading-tight tracking-[-0.02em] sm:text-4xl">
             Pekerjaan bermakna. Sekarang lebih dekat dengan Anda.
           </h2>
@@ -325,8 +307,8 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
             Kirimkan profil satu kali, lalu biarkan kami mencocokkannya dengan kebutuhan proyek JDS yang relevan.
           </p>
         </div>
-        <div className="relative mx-auto mt-12 min-h-[500px] max-w-[1120px] overflow-hidden bg-[#dcecff] text-left">
-          <Image src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1800&q=90" alt="Sesi kolaborasi dan pengembangan talenta" fill sizes="(min-width: 1400px) 1310px, 100vw" className="object-cover" />
+        <div className="relative mx-auto mt-12 min-h-[500px] max-w-[960px] overflow-hidden bg-[#dcecff] text-left">
+          <Image src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1800&q=90" alt="Sesi kolaborasi dan pengembangan talenta" fill sizes="(min-width: 1024px) 960px, 100vw" className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent" />
           <div className="relative flex min-h-[500px] max-w-xl flex-col justify-center p-7 text-white sm:p-12 lg:p-16">
             <MessagesSquare className="h-10 w-10" />
@@ -334,15 +316,6 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
             <p className="mt-5 text-lg leading-7 text-white/80">Anda tahu apa yang perlu dikirim, bagaimana profil ditinjau, dan kapan percakapan dimulai.</p>
           </div>
         </div>
-        <ol className="mx-auto mt-12 grid max-w-[1120px] gap-8 text-left md:grid-cols-3">
-          {applicationSteps.map((step) => (
-            <li key={step.number} className="border-t-2 border-black pt-6">
-              <span className="text-sm font-bold text-[#1473e6]">{step.number}</span>
-              <h3 className="mt-8 text-2xl font-bold leading-tight">{step.title}</h3>
-              <p className="mt-3 leading-7 text-black/70">{step.description}</p>
-            </li>
-          ))}
-        </ol>
       </section>
 
       <div className="-mt-20 lg:-mt-28">

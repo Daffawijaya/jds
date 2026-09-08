@@ -11,7 +11,6 @@ import {
   Clock3,
   Gift,
   Mail,
-  MapPin,
   MessageCircle,
   Send,
   ShieldCheck,
@@ -19,6 +18,7 @@ import {
 import { FaInstagram } from "react-icons/fa6";
 import { Footer } from "@/components/layout/Footer";
 import { PageIntro } from "@/components/shared/PageIntro";
+import { TrustCtaSection } from "@/components/shared/TrustCtaSection";
 import { FaqSection } from "@/components/shared/FaqSection";
 
 type CompanyInfo = {
@@ -50,7 +50,7 @@ interface ContactClientProps {
 }
 
 const contentWidth = "mx-auto w-full max-w-[1056px] px-5 sm:px-8";
-const wideContentWidth = "mx-auto w-full max-w-[1264px] px-5 sm:px-8";
+const wideContentWidth = "mx-auto w-full max-w-[1310px] px-2 sm:px-4 lg:px-6";
 const primaryButton =
   "inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#3b63fb] px-7 py-3 text-base font-bold text-white transition-colors hover:bg-[#274dea] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#274dea]";
 const secondaryButton =
@@ -131,7 +131,7 @@ export default function ContactClient({ companyInfo, servicesData, faqsData, ini
   const [isPrepared, setIsPrepared] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(companyInfo.address ?? "")}`;
+  const mapsUrl = "https://www.google.com/maps/search/?api=1&query=-0.3813079833826407%2C117.11484972485147";
   const message = `Halo tim JDS, saya ingin berdiskusi mengenai ${formData.service}.\n\nNama: ${formData.name}\nEmail: ${formData.email}\nTelepon: ${formData.phone}\nInstansi: ${formData.company || "-"}\n\n${formData.message}`;
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -291,20 +291,13 @@ export default function ContactClient({ companyInfo, servicesData, faqsData, ini
         </div>
       </section>
 
-      <section className="bg-gradient-to-br from-[#2710b7] via-[#6433d7] to-[#d940e6] px-5 py-20 text-left text-white sm:py-24 sm:text-center">
-        <div className="mx-auto max-w-[860px]">
-          <MapPin aria-hidden="true" className="mb-6 h-9 w-9 sm:mx-auto" />
-          <h2 className="text-[28px] font-extrabold leading-tight tracking-[-0.02em] sm:text-[36px]">
-            Berakar di Kalimantan. Terhubung dari mana saja.
-          </h2>
-          <p className="mx-auto mt-5 max-w-[720px] text-base leading-relaxed sm:text-lg">
-            {companyInfo.official_name} berbasis di Kutai Kartanegara dan terbuka untuk kolaborasi dengan instansi, bisnis, serta talenta dari berbagai daerah.
-          </p>
-          <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="mt-7 inline-flex items-center gap-2 font-bold underline underline-offset-4">
-            Lihat lokasi JDS <ArrowUpRight className="h-4 w-4" />
-          </a>
-        </div>
-      </section>
+      <TrustCtaSection
+        eyebrow="Lokasi & Kolaborasi"
+        title="Berakar di Kalimantan. Terhubung dari mana saja."
+        description={`${companyInfo.official_name} berbasis di Kutai Kartanegara dan terbuka untuk kolaborasi dengan instansi, bisnis, serta talenta dari berbagai daerah.`}
+        primaryAction={{ label: "Lihat lokasi JDS", href: mapsUrl, external: true }}
+        secondaryAction={{ label: "Hubungi via WhatsApp", href: companyInfo.whatsapp_url ?? "", external: true }}
+      />
 
       <FaqSection
         title="Pertanyaan yang sering diajukan sebelum menghubungi JDS."

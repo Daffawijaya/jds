@@ -1,14 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import {
-  ArrowRight,
-} from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
 import { ProjectDetailModal } from "@/components/modals/ProjectDetailModal";
 import PageHeroWithTabs from "@/components/shared/PageHeroWithTabs";
 import { FeatureSection } from "@/components/shared/FeatureSection";
+import { TrustCtaSection } from "@/components/shared/TrustCtaSection";
 
 type CompanyInfo = {
   official_name: string | null;
@@ -103,60 +100,14 @@ export default function ProjectsClient({ companyInfo, projectsData }: ProjectsCl
         </p>
       </section>
 
-      {/* Dark CTA mengambil treatment yang sama dengan dark sections pada Services. */}
-      <section className="bg-[#191919] text-white py-20 mt-8">
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-gray-400">
-            Kerja Sama Terpercaya
-          </p>
-          <h2 className="text-3xl font-bold mb-2">
-            Ingin Mengembangkan Proyek atau Aplikasi Serupa?
-          </h2>
-          <p className="text-gray-400 mb-12 max-w-2xl mx-auto">
-            Tim {companyInfo.short_name} siap membantu merancang solusi perangkat lunak dan menyiapkan tenaga ahli pendamping secara terukur dan tepat sasaran.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg transition-colors"
-            >
-              <span>Diskusi Proyek Bersama {companyInfo.short_name}</span>
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-            <a
-              href={companyInfo.whatsapp_url ?? ""}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border border-gray-500 text-white px-8 py-3 rounded-full font-semibold text-lg hover:bg-gray-800 transition-colors"
-            >
-              Hubungi via WhatsApp
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Promo strip menyamakan akhir halaman Projects dengan Services. */}
-      <section className="bg-gradient-to-r from-[#FFF0E6] via-[#F4E6FF] to-[#E6F0FF] py-6">
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#1473E6] text-sm font-bold text-white shadow-sm">
-              {companyInfo.short_name}
-            </div>
-            <p className="font-semibold text-gray-900">
-              Mulai proyek berikutnya bersama {companyInfo.short_name}.{" "}
-              <span className="font-normal text-gray-600">
-                Konsultasikan kebutuhan dan ruang lingkupnya sekarang.
-              </span>
-            </p>
-          </div>
-          <Link
-            href="/contact"
-            className="shrink-0 bg-[#1473E6] hover:bg-blue-700 text-white px-6 py-2 rounded-full font-semibold text-sm transition-colors"
-          >
-            Mulai Konsultasi
-          </Link>
-        </div>
-      </section>
+      <TrustCtaSection
+        className="mt-8"
+        eyebrow="Kerja Sama Terpercaya"
+        title="Ingin Mengembangkan Proyek atau Aplikasi Serupa?"
+        description={`Tim ${companyInfo.short_name} siap membantu merancang solusi perangkat lunak dan menyiapkan tenaga ahli pendamping secara terukur dan tepat sasaran.`}
+        primaryAction={{ label: `Diskusi Proyek Bersama ${companyInfo.short_name}`, href: "/contact" }}
+        secondaryAction={{ label: "Hubungi via WhatsApp", href: companyInfo.whatsapp_url ?? "", external: true }}
+      />
 
       <ProjectDetailModal
         project={selectedProject}
