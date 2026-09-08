@@ -146,6 +146,93 @@ body {
   overflow-x: hidden;
 }
 
+@keyframes mobile-hero-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mobile-hero-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.mobile-hero-copy {
+  animation: mobile-hero-copy-in 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mobile-hero-progress {
+  width: 100%;
+  transform-origin: left;
+  animation: mobile-hero-progress 5200ms linear both;
+}
+
+.footer-accordion {
+  border-bottom: 1px solid rgb(255 255 255 / 0.1);
+}
+
+.footer-accordion summary {
+  position: relative;
+  cursor: pointer;
+  list-style: none;
+  padding: 22px 28px 22px 8px;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.footer-accordion summary::-webkit-details-marker { display: none; }
+
+.footer-accordion summary::after {
+  content: "+";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  font-weight: 400;
+  transition: transform 300ms ease;
+}
+
+.footer-accordion[open] summary::after {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.footer-accordion ul,
+.footer-accordion > div {
+  display: grid;
+  gap: 12px;
+  padding: 0 8px 22px;
+}
+
+@media (max-width: 639px) {
+  .mobile-outcome-card {
+    min-height: 548px;
+    background: #000;
+    color: #fff;
+  }
+
+  .mobile-outcome-card .desc-lock h3 {
+    color: #fff;
+  }
+
+  .mobile-outcome-card .desc-lock p {
+    color: rgb(255 255 255 / 0.68);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-hero-copy,
+  .mobile-hero-progress {
+    animation-duration: 1ms;
+  }
+}
+
 /* Sembunyikan scrollbar tapi tetap bisa scroll */
 ::-webkit-scrollbar {
   display: none;

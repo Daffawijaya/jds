@@ -6,6 +6,7 @@ interface SectionHeadingProps {
   subtitle?: string;
   align?: "left" | "center";
   className?: string;
+  titleClassName?: string;
   button?: { label: string; href: string };
   dark?: boolean;
 }
@@ -16,6 +17,7 @@ export function SectionHeading({
   subtitle,
   align = "center",
   className = "",
+  titleClassName = "text-3xl sm:text-5xl",
   button,
   dark = false,
 }: SectionHeadingProps) {
@@ -31,7 +33,7 @@ export function SectionHeading({
           {badgeText}
         </span>
       )}
-      <h2 className={`text-3xl sm:text-5xl font-bold tracking-tight ${titleColor} mb-2`}>
+      <h2 className={`${titleClassName} font-bold tracking-tight ${titleColor} mb-2`}>
         {title}
       </h2>
       {subtitle && (

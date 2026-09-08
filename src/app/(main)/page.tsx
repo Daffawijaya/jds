@@ -21,6 +21,8 @@ import ParallaxHero from "@/components/shared/ParallaxHero";
 import RevealServices from "@/components/shared/RevealServices";
 import ServiceCardsReveal from "@/components/shared/ServiceCardsReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import MobileHeroCarousel from "@/components/shared/MobileHeroCarousel";
+import MobileTestimonials from "@/components/shared/MobileTestimonials";
 
 /* ═══════════════════════════════════════════════════════════════
    Homepage JDS — layout & styling mengikuti halaman /adobe-demo
@@ -146,51 +148,16 @@ export default async function HomePage() {
     <div className="w-full min-h-screen bg-white text-slate-900 font-sans antialiased">
       {/* 1. HERO SECTION */}
       <ParallaxHero>
-        <img
-          src="/bggggg.png"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="relative w-full max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 py-20 sm:py-24 lg:py-28">
-          <div className="max-w-full sm:max-w-[70%] lg:max-w-[50%]">
-            <span className="text-sm font-bold tracking-widest text-white">
-              {companyInfo.officialName}
-            </span>
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mt-3 mb-5 leading-tight">
-              Masa depan digital,
-              <br />
-              dibangun hari ini.
-            </h1>
-            <p className="text-zinc-200 text-base sm:text-xl leading-relaxed mb-6">
-              Satu mitra untuk transformasi digital: membangun sistem, mendigitalkan alur kerja, dan
-              menyiapkan tenaga ahli profesional bagi instansi maupun bisnis Anda.
-            </p>
-            <div className="flex flex-wrap items-center gap-4">
-              <Link
-                href="/contact"
-                className="bg-white text-black hover:bg-zinc-200 font-semibold px-6 py-2.5 rounded-full text-sm transition-all shadow-md"
-              >
-                Mulai Proyek
-              </Link>
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-1.5 text-zinc-300 hover:text-white font-semibold text-sm transition-colors"
-              >
-                Lihat Layanan
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
+        <MobileHeroCarousel companyName={companyInfo.officialName || "Jaya Dinara Sukses"} />
       </ParallaxHero>
 
       {/* 2. HASIL UNTUK MITRA */}
-      <section className="featured-sec relative z-10 overflow-x-clip -mt-12 sm:-mt-16 rounded-t-4xl bg-white text-zinc-900 py-14 sm:py-20">
+      <section className="featured-sec relative z-10 -mt-8 rounded-t-[32px] bg-white py-12 text-zinc-900 sm:py-20">
         <div className="row-wrap px-5 sm:px-4 lg:px-6 text-center">
           <SectionHeading
             title="Yang berubah ketika teknologi bekerja dengan tepat."
             subtitle="Pekerjaan lebih ringkas, data lebih tertata, layanan lebih mudah digunakan, dan tim lebih siap menjalankan program."
+            titleClassName="text-[28px] sm:text-[42px]"
             className="mb-12"
           />
 
@@ -198,7 +165,7 @@ export default async function HomePage() {
             {outcomeCards.map((outcome) => (
                 <div
                   key={outcome.id}
-                  className="bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group relative flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
+                  className="mobile-outcome-card bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group relative flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
                 >
                   <div className="px-4 py-5 flex items-center space-x-2 text-sm font-bold">
                     <span
@@ -208,7 +175,7 @@ export default async function HomePage() {
                     </span>
                     <span className="group-hover:text-white transition-colors duration-300">{outcome.label}</span>
                   </div>
-                  <div className="card-img-frame h-72 sm:h-96 overflow-hidden rounded-2xl relative flex items-center justify-center">
+                  <div className="card-img-frame h-[420px] sm:h-96 overflow-hidden rounded-2xl relative flex items-center justify-center">
                     <img
                       src={outcome.image}
                       alt=""
@@ -249,8 +216,9 @@ export default async function HomePage() {
         <ProjectCarousel />
 
         {/* Baris 3: Testimoni */}
-        <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 mt-10 sm:mt-16 mb-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="max-w-[1310px] mx-auto mt-10 sm:mt-16 mb-12 md:px-5 lg:px-6">
+          <MobileTestimonials testimonials={testimonialsData} />
+          <div className="hidden grid-cols-1 gap-4 px-5 md:grid md:grid-cols-3 md:px-0">
             {testimonialsData.map((t: any) => (
               <div key={t.id} className="p-2 flex flex-col">
                 <div className="flex items-center gap-3 mb-8">

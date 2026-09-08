@@ -72,14 +72,22 @@ const easeOutScroll = (progress: number) =>
 
 function HighlightCardsGrid({ cards }: { cards: typeof highlightCards }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 639px)");
+    const update = () => setMobile(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 1", "start 0.3"],
   });
   const remaining = useTransform(scrollYProgress, (p) => (1 - p) ** 3);
-  const y0 = useTransform(remaining, (v) => `${v * 80}%`);
-  const y1 = useTransform(remaining, (v) => `${v * 160}%`);
-  const y2 = useTransform(remaining, (v) => `${v * 240}%`);
+  const y0 = useTransform(remaining, (v) => `${v * (mobile ? 10 : 80)}%`);
+  const y1 = useTransform(remaining, (v) => `${v * (mobile ? 16 : 160)}%`);
+  const y2 = useTransform(remaining, (v) => `${v * (mobile ? 22 : 240)}%`);
   const offsets = [y0, y1, y2];
 
   return (

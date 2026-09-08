@@ -15,10 +15,10 @@ export default function ParallaxHero({ children }: { children: ReactNode }) {
   const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <section ref={ref} className="relative z-0 -mt-[72px] overflow-hidden bg-[#070b12] text-white">
+    <section ref={ref} className="relative z-0 -mt-[72px] overflow-hidden bg-[#070b12] text-white md:-mt-16">
       <motion.div
         style={{ y: reduceMotion ? 0 : y }}
-        className="relative flex min-h-[100svh] sm:min-h-[104vh] items-center motion-reduce:transform-none!"
+        className="relative flex h-[100svh] min-h-[100svh] items-center motion-reduce:transform-none!"
       >
         {children}
         <motion.div

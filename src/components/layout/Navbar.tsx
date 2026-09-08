@@ -139,7 +139,7 @@ export function Navbar({ companyName, officialName, phone, whatsappUrl }: Navbar
             Konsultasi
           </Link>
 
-          <div className="md:hidden">
+          <div className="order-first md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger
                 aria-label="Buka Menu"

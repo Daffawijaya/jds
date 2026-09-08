@@ -24,7 +24,7 @@ export function Footer({
     >
       <div className={`relative z-10 pt-8 sm:pt-10 ${dark ? "bg-black" : "bg-[#f8f8f8]"}`}>
         <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+          <div className="hidden grid-cols-1 gap-8 mb-12 sm:grid sm:grid-cols-2 lg:grid-cols-5">
             {/* Brand & Profil */}
             <div className="col-span-1 sm:col-span-2 space-y-3">
               <Link href="/" aria-label={logoAlt} className="inline-flex items-center">
@@ -102,7 +102,54 @@ export function Footer({
             </div>
           </div>
 
-          <div className="pt-4 pb-8 sm:pb-10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="sm:hidden">
+            <div className="pb-7">
+              <Link href="/" aria-label={logoAlt} className="inline-flex items-center">
+                <Image
+                  src={dark ? "/jdsw.png" : "/jds.png"}
+                  alt={logoAlt}
+                  width={626}
+                  height={271}
+                  className="h-8 w-auto object-contain"
+                />
+              </Link>
+              <p className="mt-4 max-w-sm text-[15px] leading-relaxed">{companyInfo.positioning}</p>
+            </div>
+
+            <div className={`border-t ${dark ? "border-white/10" : "border-black/10"}`}>
+              <details className="footer-accordion group">
+                <summary>Navigasi</summary>
+                <ul>
+                  {siteNavLinks.map((link) => (
+                    <li key={link.href}><Link href={link.href}>{link.name}</Link></li>
+                  ))}
+                </ul>
+              </details>
+              <details className="footer-accordion group">
+                <summary>Layanan {companyInfo.shortName}</summary>
+                <ul>
+                  {servicesData.slice(0, 6).map((service) => (
+                    <li key={service.id}><Link href="/services">{service.title}</Link></li>
+                  ))}
+                </ul>
+              </details>
+              <details className="footer-accordion group">
+                <summary>Hubungi Kami</summary>
+                <ul>
+                  <li>{companyInfo.address}</li>
+                  <li><a href={companyInfo.whatsappUrl}>{companyInfo.phone}</a></li>
+                  <li><a href={`mailto:${companyInfo.email}`}>{companyInfo.email}</a></li>
+                  <li><a href={companyInfo.instagramUrl}>{companyInfo.instagram}</a></li>
+                </ul>
+              </details>
+              <details className="footer-accordion group">
+                <summary>Jaya Dinara Sukses</summary>
+                <div className="pb-5 text-sm leading-relaxed">{companyInfo.overview}</div>
+              </details>
+            </div>
+          </div>
+
+          <div className="pt-6 pb-8 sm:pt-4 sm:pb-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-2 sm:gap-4 text-xs sm:text-sm">
             <span>
               &copy; {new Date().getFullYear()} {companyInfo.officialName} ({companyInfo.shortName}). All
               rights reserved.
