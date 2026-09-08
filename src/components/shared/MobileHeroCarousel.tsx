@@ -4,6 +4,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
+  AnimatePresence,
+  MotionConfig,
+  motion,
+  type Variants,
+} from "framer-motion";
+import {
   ArrowRight,
   ChevronRight,
   Clapperboard,
@@ -89,10 +95,50 @@ const slides = [
 
 const AUTOPLAY_MS = 5200;
 
+// Easing ala adobe.com: gambar wipe kanan → kiri, teks cepat-ke-lambat.
+const ADOBE_EASE: [number, number, number, number] = [0.32, 0.72, 0, 1];
+const EXPO_EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const IMG_MS = 0.8;
+
+// Gambar baru masuk dari kanan menutupi gambar lama (tanpa celah).
+const bgVariants: Variants = {
+  enter: (dir: number) => ({ x: dir < 0 ? "-100%" : "100%" }),
+  center: { x: "0%", transition: { duration: IMG_MS, ease: ADOBE_EASE } },
+  exit: (dir: number) => ({
+    x: dir < 0 ? "100%" : "-100%",
+    transition: { duration: IMG_MS, ease: ADOBE_EASE },
+  }),
+};
+
+// Zoom halus 1.08 → 1 mengikuti durasi slide.
+const imgVariants: Variants = {
+  enter: { scale: 1.08 },
+  center: { scale: 1, transition: { duration: IMG_MS, ease: ADOBE_EASE } },
+  exit: { scale: 1 },
+};
+
+const copyParent: Variants = {
+  enter: {},
+  center: { transition: { staggerChildren: 0.07, delayChildren: 0.15 } },
+  exit: { transition: { staggerChildren: 0.015 } },
+};
+
+const copyChild: Variants = {
+  enter: (dir: number) => ({ opacity: 0, x: dir < 0 ? -56 : 56 }),
+  center: { opacity: 1, x: 0, transition: { duration: 0.7, ease: EXPO_EASE } },
+  exit: (dir: number) => ({
+    opacity: 0,
+    x: dir < 0 ? 24 : -24,
+    transition: { duration: 0.22, ease: "easeIn" },
+  }),
+};
+
 export default function MobileHeroCarousel({ companyName }: { companyName: string }) {
   const [active, setActive] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [paused, setPaused] = useState(false);
   const railRef = useRef<HTMLDivElement>(null);
+  const activeRef = useRef(0);
 
   const centerTab = useCallback((index: number) => {
     const rail = railRef.current;
@@ -105,62 +151,121 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
   }, []);
 
   const select = useCallback((index: number) => {
-    setActive(index);
-    centerTab(index);
+    const cur = activeRef.current;
+    const next = (index + slides.length) % slides.length;
+    if (next !== cur) {
+      setDirection(
+        next === 0 && cur === slides.length - 1
+          ? 1
+          : next === slides.length - 1 && cur === 0
+            ? -1
+            : next > cur
+              ? 1
+              : -1,
+      );
+      activeRef.current = next;
+      setActive(next);
+    }
+    centerTab(next);
   }, [centerTab]);
 
   useEffect(() => {
     if (paused) return;
     const timer = window.setInterval(() => {
-      setActive((current) => (current + 1) % slides.length);
+      select(activeRef.current + 1);
     }, AUTOPLAY_MS);
     return () => window.clearInterval(timer);
-  }, [paused, active]);
+  }, [paused, active, select]);
+
+  // Preload semua gambar hero supaya slide pertama tidak kedip.
+  useEffect(() => {
+    slides.forEach((slide) => {
+      const img = new window.Image();
+      img.src = slide.image;
+    });
+  }, []);
 
   useEffect(() => {
     centerTab(active);
   }, [active, centerTab]);
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="relative min-h-[100svh] w-full overflow-hidden md:h-[100svh] md:min-h-[100svh]">
-      {slides.map((slide, index) => (
-        <div
-          key={slide.title}
-          aria-hidden={index !== active}
-          className={`absolute inset-0 transition-opacity duration-700 ease-[cubic-bezier(.42,0,0,1)] motion-reduce:transition-none ${
-            index === active ? "opacity-100" : "pointer-events-none opacity-0"
-          }`}
+      <AnimatePresence initial={false} custom={direction}>
+        <motion.div
+          key={active}
+          custom={direction}
+          variants={bgVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          aria-hidden="true"
+          className="absolute inset-0"
         >
-          <Image
-            src={slide.image}
-            alt=""
-            fill
-            priority={index === 0}
-            sizes="100vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/35 to-black/70" />
-        </div>
-      ))}
+          <motion.div variants={imgVariants} className="relative h-full w-full">
+            <Image
+              src={slides[active].image}
+              alt=""
+              fill
+              priority={active === 0}
+              sizes="100vw"
+              className="object-cover"
+            />
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/35 to-black/70" />
 
       <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1310px] flex-col px-5 pb-[168px] pt-[86px] text-white sm:px-4 md:h-full md:min-h-0 md:pb-[112px] md:pt-[116px] lg:px-6">
-        <div key={active} className="mobile-hero-copy mt-1 max-w-[350px] -translate-y-2 md:max-w-[640px] md:-translate-y-8">
-          <p className="mb-3 text-base font-bold md:mb-5 md:text-lg">{active === 0 ? companyName : slides[active].eyebrow}</p>
-          <h1 className="text-[40px] font-black leading-[.98] tracking-[-.025em] md:text-[72px] md:leading-[.96] md:tracking-[-.035em]">
-            {slides[active].title}
-          </h1>
-          <p className="mt-3 text-[17px] font-semibold leading-[1.18] text-white md:mt-6 md:max-w-[560px] md:text-xl md:leading-[1.25]">
-            {slides[active].description}
-          </p>
-          <p className="mt-2 text-[17px] font-semibold leading-[1.18] text-white md:mt-7 md:max-w-[560px] md:text-xl md:leading-[1.25]">
-            {slides[active].offer}
-          </p>
-          <Link
-            href={slides[active].href}
-            className="mt-7 inline-flex items-center rounded-full border border-white bg-white px-4 py-2 text-sm font-semibold text-black transition-transform active:scale-[.98] sm:px-5 md:mt-8"
-          >
-            {slides[active].cta}
-          </Link>
+        <div className="mt-1 max-w-[350px] -translate-y-2 md:max-w-[640px] md:-translate-y-8">
+          <AnimatePresence initial={false} custom={direction} mode="wait">
+            <motion.div
+              key={active}
+              custom={direction}
+              variants={copyParent}
+              initial="enter"
+              animate="center"
+              exit="exit"
+            >
+              <motion.p
+                custom={direction}
+                variants={copyChild}
+                className="mb-3 text-base font-bold md:mb-5 md:text-lg"
+              >
+                {active === 0 ? companyName : slides[active].eyebrow}
+              </motion.p>
+              <motion.h1
+                custom={direction}
+                variants={copyChild}
+                className="text-[40px] font-black leading-[.98] tracking-[-.025em] md:text-[72px] md:leading-[.96] md:tracking-[-.035em]"
+              >
+                {slides[active].title}
+              </motion.h1>
+              <motion.p
+                custom={direction}
+                variants={copyChild}
+                className="mt-3 text-[17px] font-semibold leading-[1.18] text-white md:mt-6 md:max-w-[560px] md:text-xl md:leading-[1.25]"
+              >
+                {slides[active].description}
+              </motion.p>
+              <motion.p
+                custom={direction}
+                variants={copyChild}
+                className="mt-2 text-[17px] font-semibold leading-[1.18] text-white md:mt-7 md:max-w-[560px] md:text-xl md:leading-[1.25]"
+              >
+                {slides[active].offer}
+              </motion.p>
+              <motion.div custom={direction} variants={copyChild}>
+                <Link
+                  href={slides[active].href}
+                  className="mt-7 inline-flex items-center rounded-full border border-white bg-white px-4 py-2 text-sm font-semibold text-black transition-transform active:scale-[.98] sm:px-5 md:mt-8"
+                >
+                  {slides[active].cta}
+                </Link>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         <div className="mt-auto flex items-center justify-between md:justify-start">
@@ -174,7 +279,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
           </button>
           <button
             type="button"
-            onClick={() => select((active + 1) % slides.length)}
+            onClick={() => select(active + 1)}
             aria-label="Slide berikutnya"
             className="grid h-12 w-12 place-items-center rounded-xl bg-black/55 text-white backdrop-blur-sm md:hidden"
           >
@@ -228,5 +333,6 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
         </button>
       </div>
     </div>
+    </MotionConfig>
   );
 }
