@@ -152,17 +152,17 @@ export default async function HomePage() {
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="relative w-full max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-20 sm:py-24 lg:py-28">
-          <div className="max-w-[50%]">
+        <div className="relative w-full max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 py-20 sm:py-24 lg:py-28">
+          <div className="max-w-full sm:max-w-[70%] lg:max-w-[50%]">
             <span className="text-sm font-bold tracking-widest text-white">
               {companyInfo.officialName}
             </span>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mt-3 mb-5 leading-tight">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mt-3 mb-5 leading-tight">
               Masa depan digital,
               <br />
               dibangun hari ini.
             </h1>
-            <p className="text-zinc-200 text-xl leading-relaxed mb-6">
+            <p className="text-zinc-200 text-base sm:text-xl leading-relaxed mb-6">
               Satu mitra untuk transformasi digital: membangun sistem, mendigitalkan alur kerja, dan
               menyiapkan tenaga ahli profesional bagi instansi maupun bisnis Anda.
             </p>
@@ -186,8 +186,8 @@ export default async function HomePage() {
       </ParallaxHero>
 
       {/* 2. HASIL UNTUK MITRA */}
-      <section className="featured-sec relative z-10 overflow-x-clip -mt-12 sm:-mt-16 rounded-t-4xl bg-white text-zinc-900 py-20">
-        <div className="row-wrap px-3 sm:px-4 lg:px-6 text-center">
+      <section className="featured-sec relative z-10 overflow-x-clip -mt-12 sm:-mt-16 rounded-t-4xl bg-white text-zinc-900 py-14 sm:py-20">
+        <div className="row-wrap px-5 sm:px-4 lg:px-6 text-center">
           <SectionHeading
             title="Yang berubah ketika teknologi bekerja dengan tepat."
             subtitle="Pekerjaan lebih ringkas, data lebih tertata, layanan lebih mudah digunakan, dan tim lebih siap menjalankan program."
@@ -232,7 +232,7 @@ export default async function HomePage() {
 
       {/* 3. PROYEK & KEUNGGULAN */}
       <section className="relative z-10 py-12 bg-white text-zinc-900">
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
+        <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6">
           <SectionHeading
             badgeText="Proyek & Keunggulan"
             title="Dampak nyata untuk daerah & bisnis."
@@ -249,7 +249,7 @@ export default async function HomePage() {
         <ProjectCarousel />
 
         {/* Baris 3: Testimoni */}
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 mt-16 mb-12">
+        <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 mt-10 sm:mt-16 mb-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {testimonialsData.map((t: any) => (
               <div key={t.id} className="p-2 flex flex-col">
@@ -283,7 +283,7 @@ export default async function HomePage() {
 
       {/* 5. KATALOG LAYANAN LENGKAP */}
       <RevealServices heading={
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
+        <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6">
           <SectionHeading
             title="Satu mitra, semua solusi digital."
             subtitle="Layanan lengkap untuk instansi pemerintah, korporasi, dan pelaku usaha di Kalimantan Timur."
@@ -300,7 +300,7 @@ export default async function HomePage() {
           className="w-full h-auto block -mt-28 -mb-16 opacity-80 [mask-image:linear-gradient(to_bottom,black_70%,transparent_85%)] [-webkit-mask-image:linear-gradient(to_bottom,black_70%,transparent_85%)]"
         />
 
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
+        <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6">
           {/* 3x3 Grid Layanan */}
           <ServiceCardsReveal>
             {servicesData.map((service: any) => (
@@ -322,7 +322,7 @@ export default async function HomePage() {
                   {iconMapLg[service.icon_name ?? ""]}
                 </div>
                 <div className="relative z-10 mt-auto">
-                  <h3 className="font-bold text-2xl mb-1">{service.title}</h3>
+                  <h3 className="font-bold text-xl sm:text-2xl mb-1">{service.title}</h3>
                   <p className="text-sm text-zinc-400 group-hover:text-zinc-200 leading-relaxed transition-colors duration-500">
                     {service.short_desc}
                   </p>

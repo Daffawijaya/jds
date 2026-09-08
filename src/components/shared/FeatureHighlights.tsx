@@ -83,7 +83,7 @@ function HighlightCardsGrid({ cards }: { cards: typeof highlightCards }) {
   const offsets = [y0, y1, y2];
 
   return (
-    <div ref={ref} className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+    <div ref={ref} className="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-6 mt-6">
       {cards.map((card, i) => (
         <motion.div
           key={card.title}
@@ -188,11 +188,11 @@ export function FeatureHighlights() {
   return (
     // overflow-x-clip: card yang melebihi layar saat full-bleed tidak
     // boleh bikin halaman ikut ke-scroll horizontal.
-    <div ref={wrapRef} className="relative overflow-x-clip mb-24">
+    <div ref={wrapRef} className="relative overflow-x-clip mb-16 sm:mb-24">
       {/* ── Card gambar besar + 2 panel liquid glass ── */}
       <motion.div
         style={cardStyle}
-        className="relative mx-auto overflow-hidden shadow-xl min-h-[90vh] flex"
+        className="relative mx-auto overflow-hidden shadow-xl min-h-[78svh] sm:min-h-[90vh] flex"
       >
         <img
           src="/image/etamhub.png"
@@ -208,7 +208,7 @@ export function FeatureHighlights() {
             <span className="relative z-10 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-semibold backdrop-blur-md">
               ✨ Baru rilis · 2026
             </span>
-            <h3 className="relative z-10 mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+            <h3 className="relative z-10 mt-4 text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
               etamhub: satu pintu UMKM Kutai Kartanegara.
             </h3>
             <p className="relative z-10 mt-2 text-sm sm:text-base text-white/85 leading-relaxed">
@@ -264,9 +264,9 @@ export function FeatureHighlights() {
       </motion.div>
 
       {/* ── Text bar di bawah big card ── */}
-      <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 mt-4 mb-16 flex items-start justify-between gap-4">
-        <div className="max-w-[40%] px-4 pt-2 pb-4">
-          <h3 className="text-2xl font-bold text-zinc-900">
+      <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 mt-4 mb-12 sm:mb-16 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+        <div className="max-w-full sm:max-w-[40%] px-0 sm:px-4 pt-2 pb-4">
+          <h3 className="text-xl sm:text-2xl font-bold text-zinc-900">
             Wujudkan akses pasar digital untuk UMKM lokal melalui etamhub.
           </h3>
           <p className="text-sm text-zinc-600 mt-1">
@@ -283,7 +283,7 @@ export function FeatureHighlights() {
       </div>
 
       {/* ── 3 card di bawahnya (gaya adobe.com) — selalu sejajar container ── */}
-      <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
+      <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6">
         <HighlightCardsGrid cards={highlightCards} />
       </div>
     </div>

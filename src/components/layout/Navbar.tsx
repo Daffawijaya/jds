@@ -130,7 +130,7 @@ export function Navbar({ companyName, officialName, phone, whatsappUrl }: Navbar
         <div className="flex items-center gap-2">
           <Link
             href="/contact"
-            className={`font-semibold px-5 py-2 rounded-full text-sm transition-all ${
+            className={`font-semibold px-4 sm:px-5 py-2 rounded-full text-sm transition-all ${
               isDark
                 ? "bg-transparent text-zinc-900 border border-zinc-900 hover:bg-zinc-900 hover:text-white"
                 : "bg-white text-black border border-white hover:bg-zinc-200"

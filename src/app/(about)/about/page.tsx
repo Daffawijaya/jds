@@ -26,25 +26,25 @@ export default async function AboutPage() {
           className="pointer-events-none absolute left-0 top-0 h-auto w-full max-w-none origin-top scale-[1.2]"
         />
         {/* Hero content */}
-        <div className="relative max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 pt-20 pb-32 flex flex-col items-center text-center">
+        <div className="relative max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 pt-16 sm:pt-20 pb-20 sm:pb-32 flex flex-col items-center text-center">
           <span className="text-xs font-semibold tracking-widest text-white uppercase mb-4">
             Tentang Kami
           </span>
-          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl text-white">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight max-w-4xl text-white">
             Jaya Dinara Sukses<br />
             Solusi IT Terpercaya
           </h1>
-          <p className="text-white max-w-3xl text-lg leading-relaxed mb-8">
+          <p className="text-white max-w-3xl text-base sm:text-lg leading-relaxed mb-8">
             Penyedia solusi IT terintegrasi yang membantu instansi pemerintah
             dan mitra bisnis di Kalimantan Timur bertransformasi digital secara
             efisien dan terukur.
           </p>
 
-          <div className="flex space-x-4 mb-20">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full transition-colors">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 sm:space-x-4 mb-12 sm:mb-20 w-full sm:w-auto px-1 sm:px-0">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 sm:py-2 px-6 rounded-full transition-colors w-full sm:w-auto">
               Hubungi Kami
             </button>
-            <button className="border border-white hover:bg-white hover:text-black text-white font-semibold py-2 px-6 rounded-full transition-colors">
+            <button className="border border-white hover:bg-white hover:text-black text-white font-semibold py-2.5 sm:py-2 px-6 rounded-full transition-colors w-full sm:w-auto">
               Lihat Layanan
             </button>
           </div>
@@ -101,8 +101,8 @@ export default async function AboutPage() {
       />
 
       {/* 5. INSPIRATION SECTION */}
-      <section className="bg-[#f8f8f8] pt-20 pb-16">
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
+      <section className="bg-[#f8f8f8] pt-14 sm:pt-20 pb-16">
+        <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6">
           <SectionTitle
             title="Nilai-nilai kerja JDS."
             subtitle="Prinsip dasar yang menjadi pegangan kami dalam membangun kepercayaan dan hasil karya."
@@ -113,7 +113,7 @@ export default async function AboutPage() {
             <img
               src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80"
               alt="Profesionalisme"
-              className="w-full h-[24rem] object-cover"
+              className="w-full h-56 sm:h-[24rem] object-cover"
             />
             <div className="p-6">
               <p className="text-sm font-semibold text-gray-500 mb-2">
@@ -129,7 +129,7 @@ export default async function AboutPage() {
             <img
               src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80"
               alt="Inovasi Tepat Guna"
-              className="w-full h-[24rem] object-cover"
+              className="w-full h-56 sm:h-[24rem] object-cover"
             />
             <div className="p-6">
               <p className="text-sm font-semibold text-gray-500 mb-2">
@@ -145,7 +145,7 @@ export default async function AboutPage() {
       </section>
 
       {/* 6. WHICH APP IS BEST */}
-      <section className="bg-[#f8f8f8] pt-4 pb-8 px-2 sm:px-4 lg:px-6">
+      <section className="bg-[#f8f8f8] pt-4 pb-8 px-5 sm:px-4 lg:px-6">
         <SectionTitle
           title="Belum yakin layanan mana yang sesuai?"
           subtitle="Ceritakan kebutuhan Anda. Tim kami siap membantu dari konsultasi hingga implementasi."
@@ -155,7 +155,7 @@ export default async function AboutPage() {
       </section>
 
       {/* 7. CREATIVITY FOR ALL */}
-      <section className="bg-white py-20 px-2 sm:px-4 lg:px-6 text-center">
+      <section className="bg-white py-14 sm:py-20 px-5 sm:px-4 lg:px-6 text-center">
         {/* Logo */}
         <img
           src="/icon.png"

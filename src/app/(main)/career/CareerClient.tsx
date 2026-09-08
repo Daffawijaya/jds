@@ -110,7 +110,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
     <div className="min-h-screen w-full bg-white font-sans text-[#2c2c2c] antialiased">
       <section id="overview" className="scroll-mt-28 bg-[#f5f5f5]">
         <div className="grid w-full lg:grid-cols-2">
-          <div className="flex min-h-[560px] flex-col justify-center px-2 py-8 sm:px-4 lg:min-h-[calc(100svh-4rem)] lg:py-14 lg:pl-[max(1.5rem,calc((100vw-1310px)/2+1.5rem))] lg:pr-16">
+          <div className="flex min-h-[560px] flex-col justify-center px-5 py-8 sm:px-4 lg:min-h-[calc(100svh-4rem)] lg:py-14 lg:pl-[max(1.5rem,calc((100vw-1310px)/2+1.5rem))] lg:pr-16">
             <PageIntro
               label="Karir"
               title="Berkarya untuk masa depan yang lebih baik."
@@ -149,7 +149,7 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
       </section>
 
       <section id="positions" className="scroll-mt-24 bg-white py-16 lg:py-24">
-        <div className="mx-auto max-w-[1310px] px-2 sm:px-4 lg:px-6">
+        <div className="mx-auto max-w-[1310px] px-5 sm:px-4 lg:px-6">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/55">Peluang Karier JDS</p>
             <h2 className="mt-4 text-3xl font-bold leading-tight tracking-[-0.025em] sm:text-4xl">
@@ -273,11 +273,11 @@ export default function CareerClient({ careerRoles }: CareerClientProps) {
       </section>
 
       <section id="culture" className="scroll-mt-28 pb-20 lg:pb-28">
-        <div className="mx-auto max-w-[1310px] px-2 sm:px-4 lg:px-6">
+        <div className="mx-auto max-w-[1310px] px-5 sm:px-4 lg:px-6">
           <h2 className="mx-auto max-w-4xl text-center text-3xl font-bold leading-tight tracking-[-0.02em] sm:text-4xl">
             Pekerjaan bermakna. Sekarang lebih dekat dengan Anda.
           </h2>
-          <div className="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
             {careerCards.map((card) => (
               <a key={card.title} href="#positions" className="group overflow-hidden rounded-2xl border border-black/15 bg-white shadow-sm transition-transform duration-300 hover:-translate-y-1">
                 <div className="relative aspect-[3/4] overflow-hidden bg-[#ececec]">

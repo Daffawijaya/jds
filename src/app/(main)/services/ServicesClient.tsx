@@ -171,7 +171,7 @@ export default function ServicesClient({ companyInfo, servicesData }: ServicesCl
       />
 
       {/* 2. SERVICES GRID */}
-      <section id="services" className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-12">
+      <section id="services" className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 py-12">
         <h2 className="text-center text-xl font-semibold mb-12">
           Temukan layanan teknologi yang tepat untuk kebutuhan instansi atau bisnis Anda.
         </h2>
@@ -223,17 +223,17 @@ export default function ServicesClient({ companyInfo, servicesData }: ServicesCl
       </section>
 
       {/* 3. METHODOLOGY SECTION (Dark) */}
-      <section className="bg-[#191919] text-white py-16 mt-8">
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 flex flex-col md:flex-row items-center gap-12">
-          <div className="flex-shrink-0">
+      <section className="bg-[#191919] text-white py-14 sm:py-16 mt-8">
+        <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 flex flex-col md:flex-row items-center gap-8 sm:gap-12">
+          <div className="flex-shrink-0 w-full md:w-auto">
             <img
               src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80"
               alt="Alur Kerja JDS"
-              className="w-[32rem] h-80 object-cover"
+              className="w-full md:w-[32rem] h-56 sm:h-80 object-cover rounded-xl md:rounded-none"
             />
           </div>
-          <div className="flex-1">
-            <p className="text-white text-2xl md:text-3xl font-semibold leading-snug mb-4">
+          <div className="flex-1 w-full">
+            <p className="text-white text-xl sm:text-2xl md:text-3xl font-semibold leading-snug mb-4">
               Tahapan kerja sistematis dan transparan untuk memastikan setiap penugasan dapat diselesaikan tepat waktu dan terukur.
             </p>
             <a href="#methodology" className="text-white underline font-medium hover:text-gray-300">
@@ -319,18 +319,18 @@ export default function ServicesClient({ companyInfo, servicesData }: ServicesCl
       </section>
 
       {/* 5. CTA SECTION (Dark) */}
-      <section className="bg-[#191919] text-white py-20">
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 text-center">
-          <h2 className="text-3xl font-bold mb-2">Butuh Solusi Khusus?</h2>
+      <section className="bg-[#191919] text-white py-14 sm:py-20">
+        <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Butuh Solusi Khusus?</h2>
           <p className="text-gray-400 mb-12">
             Tim {companyInfo.short_name} siap memberikan rekomendasi perencanaan teknis dan estimasi penyiapan SDM sesuai kebutuhan instansi Anda.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="/contact" className="bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg">
+            <a href="/contact" className="w-full sm:w-auto bg-[#1473E6] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-base sm:text-lg text-center">
               Minta Penawaran / Konsultasi
             </a>
-            <a href={companyInfo.whatsapp_url ?? ""} target="_blank" rel="noopener noreferrer" className="border border-gray-500 text-white px-8 py-3 rounded-full font-semibold text-lg hover:bg-gray-800">
+            <a href={companyInfo.whatsapp_url ?? ""} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto border border-gray-500 text-white px-8 py-3 rounded-full font-semibold text-base sm:text-lg hover:bg-gray-800 text-center">
               Hubungi via WhatsApp
             </a>
           </div>

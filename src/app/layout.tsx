@@ -49,7 +49,11 @@ export const metadata: Metadata = {
     google: "maQ8VR_wwFHBIAw1Aza7U7luL9Xt9ySq8hN15zBHSL0",
   },
   icons: {
-    icon: "/icon.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: "/icon.png",
   },
   openGraph: {
     type: "website",

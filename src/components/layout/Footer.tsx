@@ -23,10 +23,10 @@ export function Footer({
       }`}
     >
       <div className={`relative z-10 pt-8 sm:pt-10 ${dark ? "bg-black" : "bg-[#f8f8f8]"}`}>
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+        <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
             {/* Brand & Profil */}
-            <div className="col-span-2 space-y-3">
+            <div className="col-span-1 sm:col-span-2 space-y-3">
               <Link href="/" aria-label={logoAlt} className="inline-flex items-center">
                 <Image
                   src={dark ? "/jdsw.png" : "/jds.png"}

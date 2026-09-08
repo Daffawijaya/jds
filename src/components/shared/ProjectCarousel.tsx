@@ -127,7 +127,8 @@ export default function ProjectCarousel() {
   const cardEnd = Math.min(vw - endPad, endMax);
   // Kunci ke setengah area isi kartu terkecil, setelah padding p-14 / sm:p-18.
   // Lebar hanya berubah saat viewport berubah, bukan saat animasi scroll.
-  const textWidth = `calc(${cardEnd / 2}px - ${bp === 0 ? 3.5 : 4.5}rem)`;
+  // Mobile (bp 0): teks full-width, jangan setengah kartu.
+  const textWidth = bp === 0 ? "100%" : `calc(${cardEnd / 2}px - 4.5rem)`;
   const endInset = Math.max(0, (vw - cardEnd) / 2);
   const arrowL = useTransform(progress, [0, 1], [40, 40 + endInset], { ease: easeOutScroll });
   const arrowR = useTransform(progress, [0, 1], [40, 40 + endInset], { ease: easeOutScroll });
@@ -265,7 +266,7 @@ export default function ProjectCarousel() {
             >
               <motion.div
                 style={{ x: on || reduce ? 0 : i < centerSlot ? sideXL : sideXR, ...cardRadiusStyle }}
-                className="relative w-full shrink-0 overflow-hidden shadow-sm flex flex-col justify-center min-h-[90vh] p-14 sm:p-18"
+                className="relative w-full shrink-0 overflow-hidden shadow-sm flex flex-col justify-end sm:justify-center min-h-[75svh] sm:min-h-[90vh] p-6 sm:p-18"
               >
                 {/* Isi kartu dengan skala proporsional; kelebihan gambar terpotong dari tengah. */}
                 <img
@@ -276,12 +277,12 @@ export default function ProjectCarousel() {
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/20" />
                 <div
                   style={{ width: textWidth }}
-                  className={`relative z-10 max-w-[50%] transition-opacity ${
+                  className={`relative z-10 w-full sm:w-auto sm:max-w-[50%] transition-opacity ${
                     on ? "opacity-100 duration-500" : "opacity-0 duration-200"
                   }`}
                   data-text="carousel-text"
                 >
-                  <h4 className="text-white font-extrabold text-4xl sm:text-6xl tracking-tight">
+                  <h4 className="text-white font-extrabold text-3xl sm:text-6xl tracking-tight">
                     {c.title}
                   </h4>
                   <div className="mt-5 mb-6 space-y-1 text-sm font-semibold text-white">

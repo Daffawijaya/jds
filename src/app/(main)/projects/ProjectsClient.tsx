@@ -76,7 +76,7 @@ export default function ProjectsClient({ companyInfo, projectsData }: ProjectsCl
 
       {/* Project grid dibuat ringan seperti service grid: visual, judul, uraian, lalu scope. */}
       <section id="projects" className="scroll-mt-24">
-        <div className="max-w-[1310px] mx-auto px-2 sm:px-4 lg:px-6 py-12">
+        <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 py-12">
           <h2 className="text-center text-xl font-semibold mb-12">
             Karya terpilih yang menghubungkan teknologi, instansi, dan masyarakat.
           </h2>

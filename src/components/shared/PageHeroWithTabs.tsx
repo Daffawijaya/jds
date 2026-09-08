@@ -41,7 +41,7 @@ export default function PageHeroWithTabs({
   return (
     <>
       {/* Hero Section */}
-      <section className="relative text-center py-20 md:py-28 min-h-[280px] md:min-h-[380px] text-zinc-900 bg-white overflow-hidden">
+      <section className="relative text-center py-14 sm:py-20 md:py-28 min-h-[280px] md:min-h-[380px] text-zinc-900 bg-white overflow-hidden">
         <img
           src={bgImage}
           alt=""
