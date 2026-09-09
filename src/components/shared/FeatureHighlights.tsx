@@ -157,8 +157,8 @@ export function FeatureHighlights() {
       window.removeEventListener("resize", update);
     };
   }, []);
-  const endPad = bp === 2 ? 48 : bp === 1 ? 32 : 16;
-  const endMax = bp === 2 ? 1262 : bp === 1 ? 1278 : 1294;
+  const endPad = bp === 2 ? 48 : bp === 1 ? 32 : 40;
+  const endMax = bp === 2 ? 1262 : bp === 1 ? 1278 : 1270;
 
   const pad = useTransform(progress, [0, 1], [0, endPad], { ease: easeOutScroll });
   const width = useMotionTemplate`calc(100% - ${pad}px)`;
@@ -253,17 +253,17 @@ export function FeatureHighlights() {
 
       {/* ── Text bar di bawah big card ── */}
       <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 mt-4 mb-12 sm:mb-16 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
-        <div className="max-w-full sm:max-w-[40%] px-0 sm:px-4 pt-2 pb-4">
-          <h3 className="text-xl sm:text-2xl font-bold text-zinc-900">
+        <div className="max-w-full sm:max-w-[40%] px-4 pt-2 pb-4">
+          <h3 className="font-bold text-2xl tracking-tight mb-1 text-zinc-900">
             Wujudkan akses pasar digital untuk UMKM lokal melalui etamhub.
           </h3>
-          <p className="text-sm text-zinc-600 mt-1">
+          <p className="text-sm text-zinc-600 leading-relaxed mb-4">
             Satu platform untuk katalog, profil usaha, dan promosi produk UMKM.
           </p>
         </div>
         <Link
           href="/projects"
-          className="group shrink-0 inline-flex items-center gap-1 text-sm font-semibold text-zinc-900 hover:underline mt-1"
+          className="group shrink-0 inline-flex items-center gap-1 px-4 sm:px-0 text-sm font-semibold text-zinc-900 hover:underline"
         >
           Pelajari lebih lanjut
           <FaChevronRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
