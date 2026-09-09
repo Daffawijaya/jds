@@ -152,7 +152,7 @@ export default async function HomePage() {
       </ParallaxHero>
 
       {/* 2. HASIL UNTUK MITRA */}
-      <section className="featured-sec relative z-10 -mt-8 rounded-t-[32px] bg-white py-12 text-zinc-900 sm:py-20">
+      <section className="featured-sec relative z-10 -mt-8 rounded-t-[32px] bg-white pt-12 pb-6 text-zinc-900 sm:pt-20 lg:pb-20">
         <div className="row-wrap px-5 sm:px-4 lg:px-6 text-center">
           <SectionHeading
             title="Yang berubah ketika teknologi bekerja dengan tepat."
@@ -201,7 +201,7 @@ export default async function HomePage() {
       </section>
 
       {/* 3. PROYEK & KEUNGGULAN */}
-      <section className="relative z-10 py-12 bg-white text-zinc-900">
+      <section className="relative z-10 py-12 pt-6 bg-white text-zinc-900 lg:pt-12">
         <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6">
           <SectionHeading
             badgeText="Proyek & Keunggulan"
