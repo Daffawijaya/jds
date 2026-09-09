@@ -10,6 +10,7 @@ import {
   type Variants,
 } from "framer-motion";
 import {
+  ArrowRight,
   ChevronRight,
   Clapperboard,
   Code2,
@@ -187,12 +188,17 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
     setPaused(pausedRef.current);
   }, [forEachVideo]);
 
-  const centerTab = useCallback((index: number) => {
+  const alignActiveTab = useCallback((index: number) => {
     const rail = railRef.current;
     const button = railRef.current?.querySelector<HTMLButtonElement>(`[data-hero-tab="${index}"]`);
     if (!rail || !button) return;
+
+    // Mobile/tablet: card aktif selalu mengambil anchor kiri container.
+    // Desktop menampilkan seluruh card sekaligus sehingga tidak perlu digeser.
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    const leftPadding = Number.parseFloat(window.getComputedStyle(rail).paddingLeft) || 0;
     rail.scrollTo({
-      left: button.offsetLeft - (rail.clientWidth - button.offsetWidth) / 2,
+      left: Math.max(0, button.offsetLeft - leftPadding),
       behavior: "smooth",
     });
   }, []);
@@ -214,8 +220,8 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
       remainingRef.current = AUTOPLAY_MS;
       setActive(next);
     }
-    centerTab(next);
-  }, [centerTab]);
+    alignActiveTab(next);
+  }, [alignActiveTab]);
 
   // Timer autoplay yang bisa dijeda/dilanjut tanpa mengulang dari awal,
   // sinkron dengan progress bar (CSS animation-play-state) dan video.
@@ -251,8 +257,8 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
   }, []);
 
   useEffect(() => {
-    centerTab(active);
-  }, [active, centerTab]);
+    alignActiveTab(active);
+  }, [active, alignActiveTab]);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -348,21 +354,29 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
           </AnimatePresence>
         </div>
 
-        <div className="mt-auto flex items-center md:justify-start">
+        <div className="mt-auto flex items-center justify-between md:justify-start">
           <button
             type="button"
             onClick={togglePaused}
             aria-label={paused ? "Putar carousel" : "Jeda carousel"}
-            className="grid h-11 w-11 place-items-center rounded-full bg-black/55 text-white backdrop-blur-sm md:hidden"
+            className="grid h-9 w-9 place-items-center rounded-full bg-black/55 text-white backdrop-blur-sm md:hidden"
           >
-            {paused ? <Play className="h-4 w-4 fill-current" /> : <Pause className="h-4 w-4 fill-current" />}
+            {paused ? <Play className="h-3 w-3 fill-current" /> : <Pause className="h-3 w-3 fill-current" />}
+          </button>
+          <button
+            type="button"
+            onClick={() => select(active + 1)}
+            aria-label="Slide berikutnya"
+            className="grid h-10 w-10 place-items-center rounded-lg bg-black/55 text-white backdrop-blur-sm md:hidden"
+          >
+            <ArrowRight className="h-3.5 w-3.5" />
           </button>
         </div>
       </div>
 
       <div
         ref={railRef}
-        className="absolute inset-x-0 bottom-[144px] z-20 mx-auto flex max-w-[1310px] gap-1 overflow-x-auto bg-black/35 px-1.5 py-1.5 backdrop-blur-md [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:bottom-[144px] md:gap-2 md:overflow-visible md:bg-transparent md:px-5 md:py-0 md:backdrop-blur-none lg:bottom-[72px] lg:px-6"
+        className="absolute inset-x-0 bottom-[144px] z-20 mx-auto flex max-w-[1310px] gap-1 overflow-x-auto px-5 py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-4 md:bottom-[144px] md:gap-2 md:py-0 lg:bottom-[72px] lg:overflow-visible lg:px-6"
       >
         {slides.map((slide, index) => {
           const Icon = slide.icon;
@@ -373,7 +387,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
               type="button"
               data-hero-tab={index}
               onClick={() => select(index)}
-              className={`group relative flex h-12 shrink-0 items-center gap-1.5 rounded-[5px] px-3 font-bold transition-[background-color,color,transform] duration-300 ease-[cubic-bezier(.42,0,0,1)] md:h-16 md:min-w-0 md:flex-1 md:flex-col md:items-start md:gap-0 md:px-2 md:pb-2 md:pt-2 ${
+              className={`group relative flex h-12 w-[220px] shrink-0 items-center gap-1.5 rounded-[5px] px-3 font-bold transition-[background-color,color,transform] duration-300 ease-[cubic-bezier(.42,0,0,1)] sm:w-[240px] md:h-16 md:w-[260px] md:min-w-0 md:flex-none md:flex-col md:items-start md:gap-0 md:px-2 md:pb-2 md:pt-2 lg:w-auto lg:flex-1 ${
                 active === index ? "bg-white text-black" : "bg-black/45 text-white hover:bg-black/60"
               }`}
             >
@@ -403,10 +417,14 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
           type="button"
           onClick={togglePaused}
           aria-label={paused ? "Putar carousel" : "Jeda carousel"}
-          className="hidden h-12 w-12 shrink-0 place-items-center self-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-colors hover:bg-black/75 md:ml-5 md:grid lg:ml-3"
+          className="hidden h-10 w-10 shrink-0 place-items-center self-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-colors hover:bg-black/75 md:ml-5 md:grid lg:ml-3"
         >
-          {paused ? <Play className="h-4 w-4 fill-current" /> : <Pause className="h-4 w-4 fill-current" />}
+          {paused ? <Play className="h-3 w-3 fill-current" /> : <Pause className="h-3 w-3 fill-current" />}
         </button>
+        <span
+          aria-hidden="true"
+          className="h-px w-[calc(100%-220px)] shrink-0 sm:w-[calc(100%-240px)] md:w-[calc(100%-260px)] lg:hidden"
+        />
       </div>
     </div>
     </MotionConfig>
