@@ -22,7 +22,6 @@ import RevealServices from "@/components/shared/RevealServices";
 import ServiceCardsReveal from "@/components/shared/ServiceCardsReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import MobileHeroCarousel from "@/components/shared/MobileHeroCarousel";
-import MobileTestimonials from "@/components/shared/MobileTestimonials";
 
 /* ═══════════════════════════════════════════════════════════════
    Homepage JDS — layout & styling mengikuti halaman /adobe-demo
@@ -221,8 +220,7 @@ export default async function HomePage() {
 
         {/* Baris 3: Testimoni */}
         <div className="max-w-[1310px] mx-auto mt-10 sm:mt-16 mb-12 md:px-5 lg:px-6">
-          <MobileTestimonials testimonials={testimonialsData} />
-          <div className="hidden grid-cols-1 gap-4 px-5 md:grid md:grid-cols-3 md:px-0">
+          <div className="grid grid-cols-1 gap-10 px-5 sm:px-4 md:grid-cols-3 md:gap-4 md:px-0">
             {testimonialsData.map((t: any) => (
               <div key={t.id} className="p-2 flex flex-col">
                 <div className="flex items-center gap-3 mb-8">
