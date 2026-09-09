@@ -174,7 +174,7 @@ export default async function HomePage() {
                     </span>
                     <span className="group-hover:text-white transition-colors duration-300">{outcome.label}</span>
                   </div>
-                  <div className="card-img-frame overflow-hidden rounded-2xl aspect-[4/3] lg:aspect-auto lg:h-48 relative">
+                  <div className="card-img-frame overflow-hidden rounded-2xl aspect-[4/3] lg:aspect-auto lg:h-96 relative">
                     <img
                       src={outcome.image}
                       alt=""
