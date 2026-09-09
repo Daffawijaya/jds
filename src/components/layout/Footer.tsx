@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { companyInfo, servicesData, siteNavLinks } from "@/data/companyData";
 import FooterBrand from "@/components/layout/FooterBrand";
+import FooterAccordion from "@/components/layout/FooterAccordion";
 
 const logoAlt = `${companyInfo.shortName} - ${companyInfo.officialName}`;
 
@@ -117,35 +118,31 @@ export function Footer({
             </div>
 
             <div className={`border-t ${dark ? "border-white/10" : "border-black/10"}`}>
-              <details className="footer-accordion group">
-                <summary>Navigasi</summary>
-                <ul>
+              <FooterAccordion title="Navigasi" dark={dark}>
+                <ul className="grid gap-3">
                   {siteNavLinks.map((link) => (
                     <li key={link.href}><Link href={link.href}>{link.name}</Link></li>
                   ))}
                 </ul>
-              </details>
-              <details className="footer-accordion group">
-                <summary>Layanan {companyInfo.shortName}</summary>
-                <ul>
+              </FooterAccordion>
+              <FooterAccordion title={`Layanan ${companyInfo.shortName}`} dark={dark}>
+                <ul className="grid gap-3">
                   {servicesData.slice(0, 6).map((service) => (
                     <li key={service.id}><Link href="/services">{service.title}</Link></li>
                   ))}
                 </ul>
-              </details>
-              <details className="footer-accordion group">
-                <summary>Hubungi Kami</summary>
-                <ul>
+              </FooterAccordion>
+              <FooterAccordion title="Hubungi Kami" dark={dark}>
+                <ul className="grid gap-3">
                   <li>{companyInfo.address}</li>
                   <li><a href={companyInfo.whatsappUrl}>{companyInfo.phone}</a></li>
                   <li><a href={`mailto:${companyInfo.email}`}>{companyInfo.email}</a></li>
                   <li><a href={companyInfo.instagramUrl}>{companyInfo.instagram}</a></li>
                 </ul>
-              </details>
-              <details className="footer-accordion group">
-                <summary>Jaya Dinara Sukses</summary>
-                <div className="pb-5 text-sm leading-relaxed">{companyInfo.overview}</div>
-              </details>
+              </FooterAccordion>
+              <FooterAccordion title="Jaya Dinara Sukses" dark={dark}>
+                <div>{companyInfo.overview}</div>
+              </FooterAccordion>
             </div>
           </div>
 

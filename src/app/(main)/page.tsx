@@ -303,22 +303,22 @@ export default async function HomePage() {
             {/* Kartu CTA */}
             <Link
               href="/contact"
-              className="bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 p-6 rounded-xl transition-all flex flex-col justify-between group"
+              className="bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 p-6 rounded-xl transition-all min-h-[260px] flex flex-col group"
             >
-              <div>
-                <div className="w-8 h-8 bg-white text-black rounded font-black flex items-center justify-center mb-4">
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-                </div>
-                <h3 className="font-bold text-2xl mb-1">Diskusikan kebutuhan Anda.</h3>
+              <div className="w-8 h-8 bg-white text-black rounded font-black flex items-center justify-center mb-12">
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+              </div>
+              <div className="mt-auto">
+                <h3 className="font-bold text-xl sm:text-2xl mb-1">Diskusikan kebutuhan Anda.</h3>
                 <p className="text-sm text-zinc-400 leading-relaxed">
                   Ceritakan rencana digitalisasi Anda. Tim kami siap membantu dari konsultasi hingga
                   implementasi.
                 </p>
+                <span className="mt-4 text-sm font-semibold text-white inline-flex items-center gap-1">
+                  Konsultasi Gratis
+                  <ArrowUpRight className="w-3 h-3" />
+                </span>
               </div>
-              <span className="mt-4 text-sm font-semibold text-white inline-flex items-center gap-1">
-                Konsultasi Gratis
-                <ArrowUpRight className="w-3 h-3" />
-              </span>
             </Link>
           </ServiceCardsReveal>
         </div>
