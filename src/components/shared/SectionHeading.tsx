@@ -33,7 +33,7 @@ export function SectionHeading({
           {badgeText}
         </span>
       )}
-      <h2 className={`${titleClassName} font-bold tracking-tight ${titleColor} mb-2`}>
+      <h2 className={`${titleClassName} font-bold tracking-tight leading-tight ${titleColor} mb-2`}>
         {title}
       </h2>
       {subtitle && (
