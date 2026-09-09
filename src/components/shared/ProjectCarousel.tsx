@@ -307,7 +307,7 @@ export default function ProjectCarousel() {
         onClick={() => go(-1)}
         aria-label="Geser ke kiri"
         style={reduce ? { left: Math.max(8, 40 + endInset - OUT) } : { left: arrowLOut, x: sideXL }}
-        className="absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-zinc-900 flex items-center justify-center hover:bg-black hover:text-white transition-colors"
+        className="absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-zinc-900 hidden lg:flex items-center justify-center hover:bg-black hover:text-white transition-colors"
       >
         <ChevronLeft className="w-5 h-5" />
       </motion.button>
@@ -316,7 +316,7 @@ export default function ProjectCarousel() {
         onClick={() => go(1)}
         aria-label="Geser ke kanan"
         style={reduce ? { right: Math.max(8, 40 + endInset - OUT) } : { right: arrowROut, x: sideXR }}
-        className="absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-zinc-900 flex items-center justify-center hover:bg-black hover:text-white transition-colors"
+        className="absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-zinc-900 hidden lg:flex items-center justify-center hover:bg-black hover:text-white transition-colors"
       >
         <ChevronRight className="w-5 h-5" />
       </motion.button>
