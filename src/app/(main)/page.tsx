@@ -9,11 +9,14 @@ import {
   Server,
   Users,
   Film,
+  FileText,
+  Palette,
+  Smartphone,
   ArrowRight,
   ArrowUpRight,
 } from "lucide-react";
 import { FaChevronRight } from "react-icons/fa6";
-import { getCompanyInfo, getServices, getTestimonials } from "@/lib/supabase-server";
+import { getServices, getTestimonials } from "@/lib/supabase-server";
 import ProjectCarousel from "@/components/shared/ProjectCarousel";
 import { FeatureHighlights } from "@/components/shared/FeatureHighlights";
 import FeaturedServicesRow from "@/components/shared/FeaturedServicesRow";
@@ -37,6 +40,9 @@ const iconMap: Record<string, React.ReactNode> = {
   Server: <Server className="w-3 h-3" />,
   Users: <Users className="w-3 h-3" />,
   Film: <Film className="w-3 h-3" />,
+  FileText: <FileText className="w-3 h-3" />,
+  Palette: <Palette className="w-3 h-3" />,
+  Smartphone: <Smartphone className="w-3 h-3" />,
 };
 
 const iconMapLg: Record<string, React.ReactNode> = {
@@ -48,6 +54,9 @@ const iconMapLg: Record<string, React.ReactNode> = {
   Server: <Server className="w-4 h-4" />,
   Users: <Users className="w-4 h-4" />,
   Film: <Film className="w-4 h-4" />,
+  FileText: <FileText className="w-4 h-4" />,
+  Palette: <Palette className="w-4 h-4" />,
+  Smartphone: <Smartphone className="w-4 h-4" />,
 };
 
 // Warna transparan untuk kartu gelap (katalog layanan)
@@ -57,6 +66,9 @@ const darkChip: Record<string, string> = {
   consulting: "bg-violet-500/15 text-violet-300",
   outsourcing: "bg-amber-500/15 text-amber-300",
   media: "bg-fuchsia-500/15 text-fuchsia-300",
+  platform: "bg-violet-500/15 text-violet-300",
+  workforce: "bg-emerald-500/15 text-emerald-300",
+  administration: "bg-slate-500/15 text-slate-300",
 };
 
 const homeImages = {
@@ -124,30 +136,14 @@ const outcomeCards = [
   },
 ];
 
-// Gambar hover katalog layanan (sementara dari internet)
-const catalogImages: Record<string, string> = {
-  "web-development": homeImages.web,
-  "software-development": homeImages.software,
-  "ui-ux-design": homeImages.uiux,
-  "digitalization-solutions": homeImages.digital,
-  "it-consulting": homeImages.consulting,
-  "it-outsourcing": homeImages.outsourcing,
-  "professional-staffing": homeImages.staffing,
-  "multimedia-digital-content": homeImages.multimedia,
-};
-
 export default async function HomePage() {
-  const [companyInfo, servicesData, testimonialsData] = await Promise.all([
-    getCompanyInfo(),
-    getServices(),
-    getTestimonials(),
-  ]);
+  const [servicesData, testimonialsData] = await Promise.all([getServices(), getTestimonials()]);
 
   return (
     <div className="w-full min-h-screen bg-white text-slate-900 font-sans antialiased">
       {/* 1. HERO SECTION */}
       <ParallaxHero>
-        <MobileHeroCarousel companyName={companyInfo.officialName || "Jaya Dinara Sukses"} />
+        <MobileHeroCarousel services={servicesData} />
       </ParallaxHero>
 
       {/* 2. HASIL UNTUK MITRA */}
@@ -276,7 +272,7 @@ export default async function HomePage() {
                 className="group relative overflow-hidden bg-[#141414] p-6 rounded-xl transition-all min-h-[260px] flex flex-col"
               >
                 <img
-                  src={catalogImages[service.slug]}
+                  src={service.image_url ?? ""}
                   alt=""
                   aria-hidden="true"
                   loading="lazy"

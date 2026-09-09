@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -12,103 +12,51 @@ import {
 import {
   ArrowRight,
   ChevronRight,
-  Clapperboard,
   Code2,
+  FileText,
+  Film,
+  Globe,
+  Layout,
   Lightbulb,
   Pause,
+  Palette,
   Play,
+  Server,
+  Smartphone,
   Users,
-  Workflow,
+  type LucideIcon,
 } from "lucide-react";
 
-const slides: {
-  eyebrow: string;
+export type HeroService = {
+  id: string;
   title: string;
-  description: string;
-  offer: string;
-  cta: string;
-  href: string;
-  image: string;
-  video?: string;
-  tab: string;
-  icon: typeof Workflow;
-  iconClassName: string;
-}[] = [
-  {
-    eyebrow: "Transformasi digital",
-    title: "Masa depan digital, dibangun hari ini.",
-    description:
-      "Bangun sistem, digitalkan alur kerja, dan siapkan tenaga ahli profesional dalam satu kemitraan.",
-    offer: "Solusi terukur untuk instansi dan bisnis di Kalimantan Timur.",
-    cta: "Mulai proyek",
-    href: "/contact",
-    image: "/bggggg.png",
-    video: "/hero-team.mp4",
-    tab: "Solusi digital",
-    icon: Workflow,
-    iconClassName: "bg-red-600",
-  },
-  {
-    eyebrow: "Web & software",
-    title: "Sistem yang membuat kerja lebih ringkas.",
-    description:
-      "Dari website publik hingga aplikasi operasional, kami merancang produk yang jelas dan mudah digunakan.",
-    offer: "Dibangun responsif, terintegrasi, dan siap berkembang.",
-    cta: "Lihat layanan",
-    href: "/services",
-    image:
-      "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1200&q=85",
-    video: "https://cdn.pixabay.com/video/2024/02/15/200675-913478706_large.mp4",
-    tab: "Web & software",
-    icon: Code2,
-    iconClassName: "bg-blue-600",
-  },
-  {
-    eyebrow: "Tenaga profesional",
-    title: "Tim ahli yang siap bergerak bersama Anda.",
-    description:
-      "Perkuat program dan proyek dengan talenta profesional yang disiapkan sesuai kebutuhan penugasan.",
-    offer: "Dari seleksi, penempatan, hingga pengelolaan kinerja.",
-    cta: "Lihat proyek",
-    href: "/projects",
-    image:
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85",
-    video: "/hero-staff.mp4",
-    tab: "Tenaga ahli",
-    icon: Users,
-    iconClassName: "bg-emerald-600",
-  },
-  {
-    eyebrow: "Konsultasi teknologi",
-    title: "Arah teknologi yang lebih jelas.",
-    description:
-      "Susun arsitektur, prioritas, dan peta jalan digital berdasarkan kebutuhan nyata organisasi Anda.",
-    offer: "Keputusan teknologi yang tepat sebelum masuk tahap implementasi.",
-    cta: "Konsultasi sekarang",
-    href: "/contact",
-    image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=85",
-    video: "/hero-consult.mp4",
-    tab: "Konsultasi TI",
-    icon: Lightbulb,
-    iconClassName: "bg-violet-600",
-  },
-  {
-    eyebrow: "Konten & multimedia",
-    title: "Komunikasi digital yang lebih hidup.",
-    description:
-      "Hadirkan desain, video, dan materi publikasi yang konsisten untuk memperkuat pesan organisasi Anda.",
-    offer: "Dari konsep kreatif hingga aset yang siap dipublikasikan.",
-    cta: "Lihat layanan",
-    href: "/services",
-    image:
-      "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=1200&q=85",
-    video: "/hero-media.mp4",
-    tab: "Multimedia",
-    icon: Clapperboard,
-    iconClassName: "bg-fuchsia-600",
-  },
-];
+  short_desc: string | null;
+  full_desc: string | null;
+  icon_name: string | null;
+  image_url: string | null;
+  hero_tab_label: string | null;
+  hero_eyebrow: string | null;
+  hero_title: string | null;
+  hero_description: string | null;
+  hero_offer: string | null;
+  hero_cta_label: string | null;
+  hero_cta_href: string | null;
+  hero_video_url: string | null;
+  hero_icon_class: string | null;
+};
+
+const heroIcons: Record<string, LucideIcon> = {
+  Globe,
+  Code2,
+  Smartphone,
+  Layout,
+  Server,
+  Users,
+  FileText,
+  Film,
+  Palette,
+  Lightbulb,
+};
 
 const AUTOPLAY_MS = 5200;
 
@@ -150,7 +98,31 @@ const copyChild: Variants = {
   }),
 };
 
-export default function MobileHeroCarousel({ companyName }: { companyName: string }) {
+export default function MobileHeroCarousel({
+  services,
+}: {
+  services: HeroService[];
+}) {
+  const slides = useMemo(
+    () =>
+      services
+        .slice(0, 5)
+        .map((service) => ({
+          id: service.id,
+          eyebrow: service.hero_eyebrow || service.title,
+          title: service.hero_title || service.title,
+          description: service.hero_description || service.short_desc || "",
+          offer: service.hero_offer || service.full_desc || "",
+          cta: service.hero_cta_label || "Lihat layanan",
+          href: service.hero_cta_href || "/services",
+          image: service.image_url || "",
+          video: service.hero_video_url || undefined,
+          tab: service.hero_tab_label || service.title,
+          icon: heroIcons[service.icon_name || ""] || Globe,
+          iconClassName: service.hero_icon_class || "bg-zinc-700",
+        })),
+    [services],
+  );
   const [active, setActive] = useState(0);
   const [direction, setDirection] = useState(1);
   const [paused, setPaused] = useState(false);
@@ -204,6 +176,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
   }, []);
 
   const select = useCallback((index: number) => {
+    if (slides.length === 0) return;
     const cur = activeRef.current;
     const next = (index + slides.length) % slides.length;
     if (next !== cur) {
@@ -221,11 +194,12 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
       setActive(next);
     }
     alignActiveTab(next);
-  }, [alignActiveTab]);
+  }, [alignActiveTab, slides.length]);
 
   // Timer autoplay yang bisa dijeda/dilanjut tanpa mengulang dari awal,
   // sinkron dengan progress bar (CSS animation-play-state) dan video.
   useEffect(() => {
+    if (slides.length === 0) return;
     if (paused) {
       // Video slide baru yang mount saat jeda ikut dipause.
       forEachVideo((video) => video.pause());
@@ -246,19 +220,23 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
         timeoutRef.current = null;
       }
     };
-  }, [paused, active, select, forEachVideo]);
+  }, [paused, active, select, forEachVideo, slides.length]);
 
   // Preload semua gambar hero supaya slide pertama tidak kedip.
   useEffect(() => {
     slides.forEach((slide) => {
-      const img = new window.Image();
-      img.src = slide.image;
+      if (slide.image) {
+        const img = new window.Image();
+        img.src = slide.image;
+      }
     });
-  }, []);
+  }, [slides]);
 
   useEffect(() => {
     alignActiveTab(active);
   }, [active, alignActiveTab]);
+
+  if (slides.length === 0) return null;
 
   return (
     <MotionConfig reducedMotion="user">
@@ -278,17 +256,22 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
             {slides[active].video ? (
               <video
                 src={slides[active].video}
-                poster={slides[active].image}
                 autoPlay={!paused}
                 muted
                 loop
                 playsInline
                 preload="auto"
+                onLoadedData={(event) => {
+                  if (pausedRef.current) {
+                    event.currentTarget.currentTime = 0;
+                    event.currentTarget.pause();
+                  }
+                }}
                 aria-hidden="true"
                 tabIndex={-1}
                 className="h-full w-full object-cover"
               />
-            ) : (
+            ) : slides[active].image ? (
               <Image
                 src={slides[active].image}
                 alt=""
@@ -297,6 +280,8 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
                 sizes="100vw"
                 className="object-cover"
               />
+            ) : (
+              <div className="h-full w-full bg-[#070b12]" />
             )}
           </motion.div>
         </motion.div>
@@ -319,7 +304,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
                 variants={copyChild}
                 className="mb-3 text-base font-bold md:mb-5 md:text-lg"
               >
-                {active === 0 ? companyName : slides[active].eyebrow}
+                {slides[active].eyebrow}
               </motion.p>
               <motion.h1
                 custom={direction}
@@ -359,7 +344,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
             type="button"
             onClick={togglePaused}
             aria-label={paused ? "Putar carousel" : "Jeda carousel"}
-            className="grid h-9 w-9 place-items-center rounded-full bg-black/55 text-white backdrop-blur-sm md:hidden"
+            className="grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-[linear-gradient(145deg,rgba(255,255,255,0.10),rgba(255,255,255,0.04)_45%,rgba(0,0,0,0.42))] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.24)] backdrop-blur-2xl backdrop-saturate-150 md:hidden"
           >
             {paused ? <Play className="h-3 w-3 fill-current" /> : <Pause className="h-3 w-3 fill-current" />}
           </button>
@@ -367,7 +352,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
             type="button"
             onClick={() => select(active + 1)}
             aria-label="Slide berikutnya"
-            className="grid h-10 w-10 place-items-center rounded-lg bg-black/55 text-white backdrop-blur-sm md:hidden"
+            className="grid h-10 w-10 place-items-center rounded-md border border-white/10 bg-[linear-gradient(145deg,rgba(255,255,255,0.10),rgba(255,255,255,0.04)_45%,rgba(0,0,0,0.42))] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.24)] backdrop-blur-2xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] hover:border-white/15 hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.14),rgba(255,255,255,0.06)_45%,rgba(0,0,0,0.38))] md:hidden"
           >
             <ArrowRight className="h-3.5 w-3.5" />
           </button>
@@ -387,8 +372,10 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
               type="button"
               data-hero-tab={index}
               onClick={() => select(index)}
-              className={`group relative flex h-12 w-[220px] shrink-0 items-center gap-1.5 rounded-[5px] px-3 font-bold transition-[background-color,color,transform] duration-300 ease-[cubic-bezier(.42,0,0,1)] sm:w-[240px] md:h-16 md:w-[260px] md:min-w-0 md:flex-none md:flex-col md:items-start md:gap-0 md:px-2 md:pb-2 md:pt-2 lg:w-auto lg:flex-1 ${
-                active === index ? "bg-white text-black" : "bg-black/45 text-white hover:bg-black/60"
+              className={`group relative flex h-12 w-[220px] shrink-0 items-center gap-1.5 rounded-[8px] border px-3 font-bold backdrop-blur-2xl backdrop-saturate-150 transition-[background-color,color,transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(.42,0,0,1)] sm:w-[240px] md:h-16 md:w-[260px] md:min-w-0 md:flex-none md:flex-col md:items-start md:gap-0 md:px-2 md:pb-2 md:pt-2 lg:w-auto lg:flex-1 ${
+                active === index
+                  ? "border-transparent bg-white text-black shadow-none"
+                  : "border-white/8 bg-[linear-gradient(145deg,rgba(255,255,255,0.07),rgba(20,20,24,0.36)_48%,rgba(0,0,0,0.54))] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_8px_24px_rgba(0,0,0,0.18)] hover:border-white/15 hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.10),rgba(20,20,24,0.40)_48%,rgba(0,0,0,0.50))]"
               }`}
             >
               <span
@@ -402,7 +389,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
                 <ChevronRight className="h-3.5 w-3.5 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" />
               </span>
               {active === index && (
-                <span className="absolute inset-x-0 bottom-0 h-[3px] overflow-hidden rounded-b-[5px] bg-black/10">
+                <span className="absolute inset-x-0 bottom-0 h-[3px] overflow-hidden rounded-b-[8px] bg-black/10">
                   <span
                     key={active}
                     style={{ animationPlayState: paused ? "paused" : "running" }}
@@ -417,7 +404,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
           type="button"
           onClick={togglePaused}
           aria-label={paused ? "Putar carousel" : "Jeda carousel"}
-          className="hidden h-10 w-10 shrink-0 place-items-center self-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-colors hover:bg-black/75 md:ml-5 md:grid lg:ml-3"
+          className="hidden h-10 w-10 shrink-0 place-items-center self-center rounded-full border border-white/10 bg-[linear-gradient(145deg,rgba(255,255,255,0.10),rgba(255,255,255,0.04)_45%,rgba(0,0,0,0.42))] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_24px_rgba(0,0,0,0.24)] backdrop-blur-2xl backdrop-saturate-150 transition-[background-color,border-color,box-shadow] hover:border-white/15 hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.14),rgba(255,255,255,0.06)_45%,rgba(0,0,0,0.38))] md:ml-5 md:grid lg:ml-3"
         >
           {paused ? <Play className="h-3 w-3 fill-current" /> : <Pause className="h-3 w-3 fill-current" />}
         </button>

@@ -33,6 +33,7 @@ interface SortableAdminTableProps {
   columns: SortableAdminColumn[];
   editPath: string;
   emptyMessage: string;
+  highlightTopRows?: number;
 }
 
 function renderCell(value: CellValue, type: SortableAdminColumn["type"]) {
@@ -44,10 +45,13 @@ function renderCell(value: CellValue, type: SortableAdminColumn["type"]) {
   return String(value ?? "-");
 }
 
-export function SortableAdminTable({ entity, rows, columns, editPath, emptyMessage }: SortableAdminTableProps) {
+export function SortableAdminTable({ entity, rows, columns, editPath, emptyMessage, highlightTopRows = 0 }: SortableAdminTableProps) {
   const [items, setItems] = useState(rows);
   const latestItems = useRef(rows);
   const savedItems = useRef(rows);
+  const highlightedIds = new Set(
+    items.filter((item) => item.is_active !== false).slice(0, highlightTopRows).map((item) => item.id),
+  );
 
   function handleReorder(nextItems: SortableAdminRow[]) {
     latestItems.current = nextItems;
@@ -78,15 +82,19 @@ export function SortableAdminTable({ entity, rows, columns, editPath, emptyMessa
           <TableHead className="sticky right-0 z-10 w-[112px] border-l bg-white text-center shadow-[-8px_0_12px_-12px_rgba(0,0,0,0.35)]">Aksi</TableHead>
         </TableRow></TableHeader>
         <Reorder.Group as="tbody" axis="y" values={items} onReorder={handleReorder} className="[&_tr:last-child]:border-0">
-          {items.map((item) => (
-            <Reorder.Item
+          {items.map((item) => {
+            const highlighted = highlightedIds.has(item.id);
+            return <Reorder.Item
               as="tr"
               key={item.id}
               value={item}
               onDragEnd={saveOrder}
               whileDrag={{ scale: 1.01, boxShadow: "0 12px 30px rgba(0,0,0,0.12)", zIndex: 20 }}
               transition={{ type: "spring", stiffness: 500, damping: 38 }}
-              className="group relative border-b bg-white transition-colors hover:bg-muted/50"
+              className={cn(
+                "group relative border-b transition-colors",
+                highlighted ? "bg-blue-50 hover:bg-blue-100/80" : "bg-white hover:bg-muted/50",
+              )}
             >
               <TableCell className="w-12 cursor-grab touch-none text-zinc-400 active:cursor-grabbing">
                 <GripVertical className="h-5 w-5" aria-hidden="true" />
@@ -97,14 +105,17 @@ export function SortableAdminTable({ entity, rows, columns, editPath, emptyMessa
                   {renderCell(item[column.key], column.type)}
                 </TableCell>
               ))}
-              <TableCell className="sticky right-0 z-10 border-l bg-white shadow-[-8px_0_12px_-12px_rgba(0,0,0,0.35)] group-hover:bg-muted">
+              <TableCell className={cn(
+                "sticky right-0 z-10 border-l shadow-[-8px_0_12px_-12px_rgba(0,0,0,0.35)]",
+                highlighted ? "bg-blue-50 group-hover:bg-blue-100" : "bg-white group-hover:bg-muted",
+              )}>
                 <div className="flex justify-center gap-1">
                   <Link href={`${editPath}/${item.id}/edit`} aria-label="Edit" title="Edit"><Button variant="ghost" size="icon"><Pencil className="h-4 w-4" /></Button></Link>
                   <form action={() => deleteSortableAdminItem(entity, item.id)}><Button variant="ghost" size="icon" type="submit" aria-label="Hapus" title="Hapus"><Trash2 className="h-4 w-4 text-red-500" /></Button></form>
                 </div>
               </TableCell>
-            </Reorder.Item>
-          ))}
+            </Reorder.Item>;
+          })}
           {items.length === 0 && <TableRow><TableCell colSpan={columns.length + 2} className="py-8 text-center text-zinc-500">{emptyMessage}</TableCell></TableRow>}
         </Reorder.Group>
       </Table>

@@ -40,6 +40,7 @@ export async function reorderSortableAdminItems(entity: SortableAdminEntity, ids
   if (failedUpdate?.error) throw failedUpdate.error;
   revalidatePath(config.adminPath);
   revalidatePath(config.publicPath);
+  if (entity === "services") revalidatePath("/");
 }
 
 export async function deleteSortableAdminItem(entity: SortableAdminEntity, id: string) {
@@ -50,11 +51,22 @@ export async function deleteSortableAdminItem(entity: SortableAdminEntity, id: s
   if (error) throw error;
   revalidatePath(config.adminPath);
   revalidatePath(config.publicPath);
+  if (entity === "services") revalidatePath("/");
 }
 
 // =============================================================
 // SERVICES
 // =============================================================
+function toSlug(value: string) {
+  return value
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export async function getServices() {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -78,17 +90,33 @@ export async function getService(id: string) {
 
 export async function createService(formData: FormData) {
   const supabase = await createClient();
+  const title = ((formData.get("title") as string) || "").trim();
+  const categoryLabel = ((formData.get("category_label") as string) || "").trim();
+  const slug = ((formData.get("slug") as string) || "").trim() || toSlug(title);
+  const category = toSlug(categoryLabel);
   const features = JSON.parse((formData.get("features") as string) || "[]");
   const deliverables = JSON.parse((formData.get("deliverables") as string) || "[]");
+  const kbliCodes = ((formData.get("kbli_codes") as string) || "").split(",").map((code) => code.trim()).filter(Boolean);
 
   const { error } = await supabase.from("services").insert({
-    slug: formData.get("slug") as string,
-    title: formData.get("title") as string,
-    category: formData.get("category") as string,
+    slug,
+    title,
+    category,
+    category_label: categoryLabel,
     short_desc: formData.get("short_desc") as string,
     full_desc: formData.get("full_desc") as string,
     icon_name: formData.get("icon_name") as string,
     image_url: formData.get("image_url") as string,
+    kbli_codes: kbliCodes,
+    hero_tab_label: formData.get("hero_tab_label") as string,
+    hero_eyebrow: formData.get("hero_eyebrow") as string,
+    hero_title: formData.get("hero_title") as string,
+    hero_description: formData.get("hero_description") as string,
+    hero_offer: formData.get("hero_offer") as string,
+    hero_cta_label: formData.get("hero_cta_label") as string,
+    hero_cta_href: formData.get("hero_cta_href") as string,
+    hero_video_url: formData.get("hero_video_url") as string,
+    hero_icon_class: formData.get("hero_icon_class") as string,
     features,
     deliverables,
     sort_order: await getNextSortOrder("services"),
@@ -97,23 +125,41 @@ export async function createService(formData: FormData) {
 
   if (error) throw error;
   revalidatePath("/admin/services");
+  revalidatePath("/");
+  revalidatePath("/services");
 }
 
 export async function updateService(id: string, formData: FormData) {
   const supabase = await createClient();
+  const title = ((formData.get("title") as string) || "").trim();
+  const categoryLabel = ((formData.get("category_label") as string) || "").trim();
+  const slug = ((formData.get("slug") as string) || "").trim() || toSlug(title);
+  const category = toSlug(categoryLabel);
   const features = JSON.parse((formData.get("features") as string) || "[]");
   const deliverables = JSON.parse((formData.get("deliverables") as string) || "[]");
+  const kbliCodes = ((formData.get("kbli_codes") as string) || "").split(",").map((code) => code.trim()).filter(Boolean);
 
   const { error } = await supabase
     .from("services")
     .update({
-      slug: formData.get("slug") as string,
-      title: formData.get("title") as string,
-      category: formData.get("category") as string,
+      slug,
+      title,
+      category,
+      category_label: categoryLabel,
       short_desc: formData.get("short_desc") as string,
       full_desc: formData.get("full_desc") as string,
       icon_name: formData.get("icon_name") as string,
       image_url: formData.get("image_url") as string,
+      kbli_codes: kbliCodes,
+      hero_tab_label: formData.get("hero_tab_label") as string,
+      hero_eyebrow: formData.get("hero_eyebrow") as string,
+      hero_title: formData.get("hero_title") as string,
+      hero_description: formData.get("hero_description") as string,
+      hero_offer: formData.get("hero_offer") as string,
+      hero_cta_label: formData.get("hero_cta_label") as string,
+      hero_cta_href: formData.get("hero_cta_href") as string,
+      hero_video_url: formData.get("hero_video_url") as string,
+      hero_icon_class: formData.get("hero_icon_class") as string,
       features,
       deliverables,
       is_active: formData.get("is_active") === "true",
@@ -123,6 +169,8 @@ export async function updateService(id: string, formData: FormData) {
 
   if (error) throw error;
   revalidatePath("/admin/services");
+  revalidatePath("/");
+  revalidatePath("/services");
 }
 
 export async function deleteService(id: string) {

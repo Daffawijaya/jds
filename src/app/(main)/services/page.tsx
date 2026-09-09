@@ -18,9 +18,11 @@ export default async function ServicesPage() {
         slug: s.slug,
         title: s.title,
         category: s.category,
+        category_label: s.category_label,
         short_desc: s.short_desc,
         full_desc: s.full_desc,
         icon_name: s.icon_name,
+        image_url: s.image_url,
         features: s.features as string[],
         deliverables: s.deliverables as string[],
       }))}

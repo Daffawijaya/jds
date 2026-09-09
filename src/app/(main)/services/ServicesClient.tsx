@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Globe, Code2, Layout, Cpu, Lightbulb, Server, Users, Film, CheckCircle2 } from "lucide-react";
+import { Globe, Code2, Layout, Cpu, Lightbulb, Server, Users, Film, CheckCircle2, FileText, Palette, Smartphone } from "lucide-react";
 import { ServiceDetailModal } from "@/components/modals/ServiceDetailModal";
 import { Footer } from "@/components/layout/Footer";
 import PageHeroWithTabs from "@/components/shared/PageHeroWithTabs";
@@ -16,9 +16,11 @@ type ServiceRow = {
   slug: string;
   title: string;
   category: string;
+  category_label: string | null;
   short_desc: string | null;
   full_desc: string | null;
   icon_name: string | null;
+  image_url: string | null;
   features: string[];
   deliverables: string[];
 };
@@ -37,17 +39,9 @@ const iconMap: Record<string, React.ReactNode> = {
   Server: <Server className="w-6 h-6" />,
   Users: <Users className="w-6 h-6" />,
   Film: <Film className="w-6 h-6" />,
-};
-
-const serviceImages: Record<string, string> = {
-  "web-development": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80",
-  "software-development": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=600&q=80",
-  "ui-ux-design": "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
-  "digitalization-solutions": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
-  "it-consulting": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80",
-  "it-outsourcing": "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=600&q=80",
-  "professional-staffing": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80",
-  "multimedia-digital-content": "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80",
+  FileText: <FileText className="w-6 h-6" />,
+  Palette: <Palette className="w-6 h-6" />,
+  Smartphone: <Smartphone className="w-6 h-6" />,
 };
 
 const processSteps = [
@@ -145,11 +139,14 @@ export default function ServicesClient({ companyInfo, servicesData }: ServicesCl
 
   const categories = [
     { key: "all", label: "Semua Layanan" },
-    { key: "development", label: "Software & Web" },
-    { key: "solutions", label: "Digitalisasi" },
-    { key: "outsourcing", label: "Tenaga Ahli & Outsourcing" },
-    { key: "consulting", label: "Konsultasi IT" },
-    { key: "media", label: "Multimedia" },
+    ...Array.from(
+      new Map(
+        servicesData.map((service) => [
+          service.category,
+          { key: service.category, label: service.category_label || service.category },
+        ]),
+      ).values(),
+    ),
   ];
 
   const filteredServices = activeCategory === "all"
@@ -180,9 +177,9 @@ export default function ServicesClient({ companyInfo, servicesData }: ServicesCl
           {filteredServices.map((service) => (
             <div key={service.id}>
               <div className="rounded-xl mb-4 w-full bg-gray-100 overflow-hidden aspect-video">
-                {serviceImages[service.slug] ? (
+                {service.image_url ? (
                   <img
-                    src={serviceImages[service.slug]}
+                    src={service.image_url}
                     alt={service.title}
                     className="w-full h-full object-cover"
                   />
