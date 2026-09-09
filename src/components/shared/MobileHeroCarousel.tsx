@@ -21,7 +21,19 @@ import {
   Workflow,
 } from "lucide-react";
 
-const slides = [
+const slides: {
+  eyebrow: string;
+  title: string;
+  description: string;
+  offer: string;
+  cta: string;
+  href: string;
+  image: string;
+  video?: string;
+  tab: string;
+  icon: typeof Workflow;
+  iconClassName: string;
+}[] = [
   {
     eyebrow: "Transformasi digital",
     title: "Masa depan digital, dibangun hari ini.",
@@ -31,6 +43,7 @@ const slides = [
     cta: "Mulai proyek",
     href: "/contact",
     image: "/bggggg.png",
+    video: "/hero-team.mp4",
     tab: "Solusi digital",
     icon: Workflow,
     iconClassName: "bg-red-600",
@@ -45,6 +58,7 @@ const slides = [
     href: "/services",
     image:
       "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1200&q=85",
+    video: "https://cdn.pixabay.com/video/2024/02/15/200675-913478706_large.mp4",
     tab: "Web & software",
     icon: Code2,
     iconClassName: "bg-blue-600",
@@ -59,6 +73,7 @@ const slides = [
     href: "/projects",
     image:
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85",
+    video: "/hero-staff.mp4",
     tab: "Tenaga ahli",
     icon: Users,
     iconClassName: "bg-emerald-600",
@@ -73,6 +88,7 @@ const slides = [
     href: "/contact",
     image:
       "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=85",
+    video: "/hero-consult.mp4",
     tab: "Konsultasi TI",
     icon: Lightbulb,
     iconClassName: "bg-violet-600",
@@ -87,6 +103,7 @@ const slides = [
     href: "/services",
     image:
       "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=1200&q=85",
+    video: "/hero-media.mp4",
     tab: "Multimedia",
     icon: Clapperboard,
     iconClassName: "bg-fuchsia-600",
@@ -204,14 +221,29 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
           className="absolute inset-0"
         >
           <motion.div variants={imgVariants} className="relative h-full w-full">
-            <Image
-              src={slides[active].image}
-              alt=""
-              fill
-              priority={active === 0}
-              sizes="100vw"
-              className="object-cover"
-            />
+            {slides[active].video ? (
+              <video
+                src={slides[active].video}
+                poster={slides[active].image}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                aria-hidden="true"
+                tabIndex={-1}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <Image
+                src={slides[active].image}
+                alt=""
+                fill
+                priority={active === 0}
+                sizes="100vw"
+                className="object-cover"
+              />
+            )}
           </motion.div>
         </motion.div>
       </AnimatePresence>
