@@ -268,7 +268,7 @@ export default async function HomePage() {
         <img
           src="/bg.png"
           alt="Tim JDS"
-          className="w-full h-auto block -mt-28 -mb-16 opacity-80 [mask-image:linear-gradient(to_bottom,black_70%,transparent_85%)] [-webkit-mask-image:linear-gradient(to_bottom,black_70%,transparent_85%)]"
+          className="w-full h-[420px] sm:h-[520px] lg:h-auto block object-cover object-center -mt-12 mb-4 opacity-80 [mask-image:linear-gradient(to_bottom,black_70%,transparent_85%)] [-webkit-mask-image:linear-gradient(to_bottom,black_70%,transparent_85%)] lg:-mt-28 lg:-mb-16"
         />
 
         <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6">
