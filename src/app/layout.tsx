@@ -12,6 +12,7 @@ const myriad = localFont({
     { path: "./fonts/myriadpro-regular.otf", weight: "400", style: "normal" },
     { path: "./fonts/myriadpro-semibold.otf", weight: "600", style: "normal" },
     { path: "./fonts/myriadpro-bold.otf", weight: "700", style: "normal" },
+    { path: "./fonts/myriadpro-black.otf", weight: "900", style: "normal" },
   ],
   variable: "--font-sans",
   display: "swap",
@@ -22,6 +23,7 @@ const myriadCondensed = localFont({
   src: [
     { path: "./fonts/myriadpro-cond.otf", weight: "400", style: "normal" },
     { path: "./fonts/myriadpro-boldcond.otf", weight: "700", style: "normal" },
+    { path: "./fonts/myriadpro-blackcond.otf", weight: "900", style: "normal" },
   ],
   variable: "--font-display",
   display: "swap",
