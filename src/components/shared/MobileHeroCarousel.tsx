@@ -10,7 +10,6 @@ import {
   type Variants,
 } from "framer-motion";
 import {
-  ArrowRight,
   ChevronRight,
   Clapperboard,
   Code2,
@@ -257,7 +256,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
 
   return (
     <MotionConfig reducedMotion="user">
-    <div ref={rootRef} className="relative min-h-[100svh] w-full overflow-hidden md:h-[100svh] md:min-h-[100svh]">
+    <div ref={rootRef} className="relative h-full min-h-[100svh] w-full overflow-hidden md:min-h-0">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={active}
@@ -298,7 +297,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
       </AnimatePresence>
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/35 to-black/70" />
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1310px] flex-col px-5 pb-[168px] pt-[86px] text-white sm:px-4 md:h-full md:min-h-0 md:pb-[112px] md:pt-[116px] lg:px-6">
+      <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1310px] flex-col px-5 pb-[120px] pt-[86px] text-white sm:px-4 md:h-full md:min-h-0 md:pb-[112px] md:pt-[116px] lg:px-6">
         <div className="mt-1 max-w-[350px] -translate-y-2 md:max-w-[640px] md:-translate-y-8">
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <motion.div
@@ -349,7 +348,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
           </AnimatePresence>
         </div>
 
-        <div className="mt-auto flex items-center justify-between md:justify-start">
+        <div className="mt-auto flex items-center md:justify-start">
           <button
             type="button"
             onClick={togglePaused}
@@ -358,20 +357,12 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
           >
             {paused ? <Play className="h-4 w-4 fill-current" /> : <Pause className="h-4 w-4 fill-current" />}
           </button>
-          <button
-            type="button"
-            onClick={() => select(active + 1)}
-            aria-label="Slide berikutnya"
-            className="grid h-12 w-12 place-items-center rounded-xl bg-black/55 text-white backdrop-blur-sm md:hidden"
-          >
-            <ArrowRight className="h-5 w-5" />
-          </button>
         </div>
       </div>
 
       <div
         ref={railRef}
-        className="absolute inset-x-0 bottom-[72px] z-20 mx-auto flex max-w-[1310px] gap-1 overflow-x-auto bg-black/35 px-1.5 py-1.5 backdrop-blur-md [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:gap-2 md:overflow-visible md:bg-transparent md:px-5 md:py-0 md:backdrop-blur-none lg:px-6"
+        className="absolute inset-x-0 bottom-[144px] z-20 mx-auto flex max-w-[1310px] gap-1 overflow-x-auto bg-black/35 px-1.5 py-1.5 backdrop-blur-md [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:bottom-[144px] md:gap-2 md:overflow-visible md:bg-transparent md:px-5 md:py-0 md:backdrop-blur-none lg:bottom-[72px] lg:px-6"
       >
         {slides.map((slide, index) => {
           const Icon = slide.icon;
@@ -382,7 +373,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
               type="button"
               data-hero-tab={index}
               onClick={() => select(index)}
-              className={`group relative flex h-14 shrink-0 items-center gap-1.5 rounded-[5px] px-4 font-bold transition-[background-color,color,transform] duration-300 ease-[cubic-bezier(.42,0,0,1)] md:h-[76px] md:min-w-0 md:flex-1 md:flex-col md:items-start md:gap-0 md:px-2 md:pb-3 md:pt-2.5 lg:px-3 ${
+              className={`group relative flex h-12 shrink-0 items-center gap-1.5 rounded-[5px] px-3 font-bold transition-[background-color,color,transform] duration-300 ease-[cubic-bezier(.42,0,0,1)] md:h-16 md:min-w-0 md:flex-1 md:flex-col md:items-start md:gap-0 md:px-2 md:pb-2 md:pt-2 ${
                 active === index ? "bg-white text-black" : "bg-black/45 text-white hover:bg-black/60"
               }`}
             >
@@ -412,7 +403,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
           type="button"
           onClick={togglePaused}
           aria-label={paused ? "Putar carousel" : "Jeda carousel"}
-          className="hidden h-12 w-12 shrink-0 place-items-center self-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-colors hover:bg-black/75 md:ml-3 md:grid"
+          className="hidden h-12 w-12 shrink-0 place-items-center self-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-colors hover:bg-black/75 md:ml-5 md:grid lg:ml-3"
         >
           {paused ? <Play className="h-4 w-4 fill-current" /> : <Pause className="h-4 w-4 fill-current" />}
         </button>
