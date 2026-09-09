@@ -155,7 +155,38 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
   const [direction, setDirection] = useState(1);
   const [paused, setPaused] = useState(false);
   const railRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef(0);
+  const timeoutRef = useRef<number | null>(null);
+  const startRef = useRef(0);
+  const remainingRef = useRef(AUTOPLAY_MS);
+  const pausedRef = useRef(false);
+
+  // Aksi ke SEMUA video di hero, bukan satu ref: saat transisi slide,
+  // video lama (exit) + baru (enter) sempat mount bareng ~0.8 detik,
+  // jadi satu ref bisa menunjuk elemen yang salah / null.
+  const forEachVideo = useCallback((fn: (video: HTMLVideoElement) => void) => {
+    rootRef.current?.querySelectorAll("video").forEach(fn);
+  }, []);
+
+  const togglePaused = useCallback(() => {
+    // Saat dijeda: bekukan sisa waktu slide + pause video di tempat.
+    if (!pausedRef.current) {
+      if (timeoutRef.current !== null) {
+        window.clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+        remainingRef.current = Math.max(0, remainingRef.current - (Date.now() - startRef.current));
+      }
+      forEachVideo((video) => video.pause());
+    } else {
+      // Play langsung di dalam gesture klik (lebih andal di mobile).
+      forEachVideo((video) => {
+        void video.play().catch(() => {});
+      });
+    }
+    pausedRef.current = !pausedRef.current;
+    setPaused(pausedRef.current);
+  }, [forEachVideo]);
 
   const centerTab = useCallback((index: number) => {
     const rail = railRef.current;
@@ -181,18 +212,36 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
               : -1,
       );
       activeRef.current = next;
+      remainingRef.current = AUTOPLAY_MS;
       setActive(next);
     }
     centerTab(next);
   }, [centerTab]);
 
+  // Timer autoplay yang bisa dijeda/dilanjut tanpa mengulang dari awal,
+  // sinkron dengan progress bar (CSS animation-play-state) dan video.
   useEffect(() => {
-    if (paused) return;
-    const timer = window.setInterval(() => {
+    if (paused) {
+      // Video slide baru yang mount saat jeda ikut dipause.
+      forEachVideo((video) => video.pause());
+      return;
+    }
+    startRef.current = Date.now();
+    timeoutRef.current = window.setTimeout(() => {
+      timeoutRef.current = null;
+      remainingRef.current = AUTOPLAY_MS;
       select(activeRef.current + 1);
-    }, AUTOPLAY_MS);
-    return () => window.clearInterval(timer);
-  }, [paused, active, select]);
+    }, remainingRef.current);
+    forEachVideo((video) => {
+      void video.play().catch(() => {});
+    });
+    return () => {
+      if (timeoutRef.current !== null) {
+        window.clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
+  }, [paused, active, select, forEachVideo]);
 
   // Preload semua gambar hero supaya slide pertama tidak kedip.
   useEffect(() => {
@@ -208,7 +257,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
 
   return (
     <MotionConfig reducedMotion="user">
-    <div className="relative min-h-[100svh] w-full overflow-hidden md:h-[100svh] md:min-h-[100svh]">
+    <div ref={rootRef} className="relative min-h-[100svh] w-full overflow-hidden md:h-[100svh] md:min-h-[100svh]">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={active}
@@ -225,7 +274,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
               <video
                 src={slides[active].video}
                 poster={slides[active].image}
-                autoPlay
+                autoPlay={!paused}
                 muted
                 loop
                 playsInline
@@ -303,7 +352,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
         <div className="mt-auto flex items-center justify-between md:justify-start">
           <button
             type="button"
-            onClick={() => setPaused((value) => !value)}
+            onClick={togglePaused}
             aria-label={paused ? "Putar carousel" : "Jeda carousel"}
             className="grid h-11 w-11 place-items-center rounded-full bg-black/55 text-white backdrop-blur-sm md:hidden"
           >
@@ -347,9 +396,13 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
                 {slide.tab}
                 <ChevronRight className="h-3.5 w-3.5 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" />
               </span>
-              {active === index && !paused && (
+              {active === index && (
                 <span className="absolute inset-x-0 bottom-0 h-[3px] overflow-hidden rounded-b-[5px] bg-black/10">
-                  <span key={`${active}-${paused}`} className="mobile-hero-progress block h-full bg-red-600" />
+                  <span
+                    key={active}
+                    style={{ animationPlayState: paused ? "paused" : "running" }}
+                    className="mobile-hero-progress block h-full bg-red-600"
+                  />
                 </span>
               )}
             </button>
@@ -357,7 +410,7 @@ export default function MobileHeroCarousel({ companyName }: { companyName: strin
         })}
         <button
           type="button"
-          onClick={() => setPaused((value) => !value)}
+          onClick={togglePaused}
           aria-label={paused ? "Putar carousel" : "Jeda carousel"}
           className="hidden h-12 w-12 shrink-0 place-items-center self-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-colors hover:bg-black/75 md:ml-3 md:grid"
         >
