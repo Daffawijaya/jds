@@ -252,7 +252,7 @@ export function FeatureHighlights() {
       </motion.div>
 
       {/* ── Text bar di bawah big card ── */}
-      <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 mt-4 mb-12 sm:mb-16 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+      <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 mt-4 mb-12 sm:mb-16 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-0 sm:gap-4">
         <div className="max-w-full sm:max-w-[40%] px-4 pt-2 pb-4">
           <h3 className="font-bold text-2xl tracking-tight mb-1 text-zinc-900">
             Wujudkan akses pasar digital untuk UMKM lokal melalui etamhub.
