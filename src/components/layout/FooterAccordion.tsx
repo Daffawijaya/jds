@@ -25,7 +25,7 @@ export default function FooterAccordion({
       >
         {title}
         <ChevronDown
-          className={`h-5 w-5 shrink-0 transition-transform duration-300 motion-reduce:transition-none! ${
+          className={`h-4 w-4 shrink-0 transition-transform duration-300 motion-reduce:transition-none! ${
             open ? "rotate-180" : ""
           }`}
         />

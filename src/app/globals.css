@@ -283,18 +283,6 @@ body {
     flex: 0 0 24px;
   }
 
-  .jds-elastic-carousel .outcome-card-chevron {
-    display: grid;
-    width: 24px;
-    height: 24px;
-    flex: 0 0 24px;
-    margin-left: auto;
-    place-items: center;
-    border-radius: 999px;
-    background: #fff;
-    color: #000;
-  }
-
   .jds-elastic-carousel .card-img-frame {
     height: 398px;
     flex: 0 0 398px;

@@ -173,11 +173,8 @@ export default async function HomePage() {
                       {iconMap[outcome.iconName]}
                     </span>
                     <span className="group-hover:text-white transition-colors duration-300">{outcome.label}</span>
-                    <span className="outcome-card-chevron" aria-hidden="true">
-                      <FaChevronRight className="h-2.5 w-2.5" />
-                    </span>
                   </div>
-                  <div className="card-img-frame overflow-hidden rounded-2xl aspect-[4/3] relative">
+                  <div className="card-img-frame overflow-hidden rounded-2xl aspect-[4/3] lg:aspect-auto lg:h-48 relative">
                     <img
                       src={outcome.image}
                       alt=""
@@ -185,11 +182,11 @@ export default async function HomePage() {
                       className="card-img w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <div className="desc-lock w-full px-4 pt-2 pb-4">
-                    <h3 className="font-bold text-2xl tracking-tight mb-1 text-zinc-900 transition-colors duration-300 group-hover:text-white">
+                  <div className="desc-lock w-full px-4 pt-4 pb-4 flex flex-col justify-center">
+                    <h3 className="font-bold text-sm tracking-tight mb-1 text-zinc-900 transition-colors duration-300 group-hover:text-white">
                       {outcome.title}
                     </h3>
-                    <p className="text-sm text-zinc-600 leading-relaxed mb-4 transition-colors duration-300 group-hover:text-white/60">
+                    <p className="text-sm text-zinc-600 leading-relaxed transition-colors duration-300 group-hover:text-white/60">
                       {outcome.description}
                     </p>
                   </div>
