@@ -106,8 +106,8 @@ export default function ProjectCarousel() {
       window.removeEventListener("resize", update);
     };
   }, []);
-  const endPad = bp === 2 ? 48 : bp === 1 ? 32 : 16;
-  const endMax = bp === 2 ? 1262 : bp === 1 ? 1278 : 1294;
+  const endPad = bp === 2 ? 48 : bp === 1 ? 32 : 40;
+  const endMax = bp === 2 ? 1262 : bp === 1 ? 1278 : 1270;
 
   const pad = useTransform(progress, [0, 1], [0, endPad], { ease: easeOutScroll });
   const width = useMotionTemplate`calc(100% - ${pad}px)`;

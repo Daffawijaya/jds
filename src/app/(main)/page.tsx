@@ -178,19 +178,19 @@ export default async function HomePage() {
                       <FaChevronRight className="h-2.5 w-2.5" />
                     </span>
                   </div>
-                  <div className="card-img-frame h-[420px] sm:h-96 overflow-hidden rounded-2xl relative flex items-center justify-center">
+                  <div className="card-img-frame overflow-hidden rounded-2xl aspect-[4/3] relative">
                     <img
                       src={outcome.image}
                       alt=""
                       aria-hidden="true"
-                      className="card-img w-full h-full object-cover"
+                      className="card-img w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <div className="desc-lock w-full px-4 py-5">
-                    <h3 className="truncate text-base font-bold leading-5 text-zinc-900 transition-colors duration-300 group-hover:text-white" title={outcome.title}>
+                  <div className="desc-lock w-full px-4 pt-2 pb-4">
+                    <h3 className="font-bold text-2xl tracking-tight mb-1 text-zinc-900 transition-colors duration-300 group-hover:text-white">
                       {outcome.title}
                     </h3>
-                    <p className="mt-1 line-clamp-2 text-base font-normal leading-5 text-zinc-900/60 transition-colors duration-300 group-hover:text-white/60">
+                    <p className="text-sm text-zinc-600 leading-relaxed mb-4 transition-colors duration-300 group-hover:text-white/60">
                       {outcome.description}
                     </p>
                   </div>
@@ -207,6 +207,7 @@ export default async function HomePage() {
             badgeText="Proyek & Keunggulan"
             title="Dampak nyata untuk daerah & bisnis."
             subtitle="Bekerja sama dengan instansi pemerintah dan mitra bisnis di Kalimantan Timur."
+            titleClassName="text-[28px] sm:text-[42px]"
             className="mb-12"
           />
 
