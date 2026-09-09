@@ -211,6 +211,250 @@ body {
   }
 }
 
+/* Responsive product-card stack, diukur dari elastic carousel adobe.com.
+   Cabang ini berhenti sebelum lg agar row desktop tetap identik. */
+@media (max-width: 1023px) {
+  .jds-elastic-carousel {
+    --jds-stack-easing: cubic-bezier(0.42, 0, 0, 1);
+    --jds-stack-slides: 5;
+    --jds-stack-offset-adjuster: 50px;
+    --jds-stack-offset-scale: 0.85;
+    --jds-stack-last-offset: 2.5rem;
+    --jds-stack-offset-variance: -2px;
+    position: relative;
+    width: calc(100vw - 24px);
+    height: auto;
+    margin-left: calc(12px - 1.25rem);
+    padding-top: calc(var(--jds-stack-offset-adjuster) / var(--jds-stack-slides));
+    padding-bottom: calc(var(--jds-stack-last-offset) * var(--jds-stack-offset-scale));
+    overflow: visible;
+    text-align: left;
+  }
+
+  .jds-elastic-carousel-container {
+    position: relative;
+    top: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20vh;
+    height: 100%;
+  }
+
+  .jds-elastic-carousel-item {
+    position: sticky;
+    top: 18%;
+    width: 100%;
+    max-width: 100%;
+    height: 582px;
+    color: #fff;
+    background: transparent;
+    contain: layout;
+  }
+
+  .jds-elastic-carousel-item:nth-child(1) {
+    --jds-stack-offset: calc(var(--jds-stack-last-offset) - (var(--jds-stack-last-offset) / var(--jds-stack-slides) * 5) - var(--jds-stack-offset-variance) * 5);
+    --jds-stack-contrast: 0;
+    --jds-stack-shrink: 3rem;
+    z-index: 1;
+  }
+
+  .jds-elastic-carousel-item:nth-child(2) {
+    --jds-stack-offset: calc(var(--jds-stack-last-offset) - (var(--jds-stack-last-offset) / var(--jds-stack-slides) * 4) - var(--jds-stack-offset-variance) * 4);
+    --jds-stack-contrast: 0.25;
+    --jds-stack-shrink: 2.25rem;
+    z-index: 2;
+  }
+
+  .jds-elastic-carousel-item:nth-child(3) {
+    --jds-stack-offset: calc(var(--jds-stack-last-offset) - (var(--jds-stack-last-offset) / var(--jds-stack-slides) * 3) - var(--jds-stack-offset-variance) * 3);
+    --jds-stack-contrast: 0.5;
+    --jds-stack-shrink: 1.5rem;
+    z-index: 3;
+  }
+
+  .jds-elastic-carousel-item:nth-child(4) {
+    --jds-stack-offset: calc(var(--jds-stack-last-offset) - (var(--jds-stack-last-offset) / var(--jds-stack-slides) * 2) - var(--jds-stack-offset-variance) * 2);
+    --jds-stack-contrast: 0.75;
+    --jds-stack-shrink: 0.75rem;
+    z-index: 4;
+  }
+
+  .jds-elastic-carousel-item:nth-child(5) {
+    --jds-stack-offset: calc(var(--jds-stack-last-offset) - (var(--jds-stack-last-offset) / var(--jds-stack-slides)) - var(--jds-stack-offset-variance));
+    --jds-stack-contrast: 1;
+    --jds-stack-shrink: 0rem;
+    z-index: 5;
+  }
+
+  .jds-elastic-carousel-card {
+    position: relative;
+    height: 582px;
+    overflow-x: clip;
+    border-radius: 16px;
+    background: #000;
+  }
+
+  .jds-elastic-carousel .mobile-outcome-card {
+    width: 100%;
+    height: 582px;
+    min-height: 582px;
+    border-radius: 16px;
+    background: #000;
+    color: #fff;
+    box-shadow: none;
+  }
+
+  .jds-elastic-carousel .outcome-card-header {
+    height: 72px;
+    flex: 0 0 72px;
+    gap: 16px;
+    padding: 24px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+  }
+
+  .jds-elastic-carousel .outcome-card-icon {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+  }
+
+  .jds-elastic-carousel .outcome-card-chevron {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    margin-left: auto;
+    place-items: center;
+    border-radius: 999px;
+    background: #fff;
+    color: #000;
+  }
+
+  .jds-elastic-carousel .card-img-frame {
+    height: 398px;
+    flex: 0 0 398px;
+    border-radius: 0;
+  }
+
+  .jds-elastic-carousel .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .jds-elastic-carousel .desc-lock {
+    width: 100%;
+    height: 112px;
+    flex: 0 0 112px;
+    padding: 24px;
+    color: #fff;
+  }
+
+  .jds-elastic-carousel .desc-lock h3 {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+  }
+
+  .jds-elastic-carousel .desc-lock p {
+    margin-top: 4px;
+    color: rgb(255 255 255 / 0.6);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
+  @supports (animation-timeline: view()) {
+    .jds-elastic-carousel-item {
+      animation: jds-elastic-mobile-stack var(--jds-stack-easing) both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+
+    .jds-elastic-carousel-item:first-child {
+      animation-name: jds-elastic-mobile-stack-first;
+    }
+
+    .jds-elastic-carousel-card {
+      animation: jds-elastic-item-shrink var(--jds-stack-easing) both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .jds-elastic-carousel {
+    width: min(83.334vw, 720px);
+    margin-inline: auto;
+  }
+
+  .jds-elastic-carousel-item {
+    top: 14%;
+  }
+}
+
+@keyframes jds-elastic-item-shrink {
+  0%, 20% { margin-inline: 0; }
+  100% { margin-inline: var(--jds-stack-shrink); }
+}
+
+@keyframes jds-elastic-mobile-stack-first {
+  0% {
+    transform: translateY(var(--jds-stack-offset));
+    filter: contrast(1);
+    opacity: 1;
+  }
+  20% {
+    filter: contrast(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(calc(var(--jds-stack-offset) - var(--jds-stack-offset-adjuster)));
+    filter: contrast(var(--jds-stack-contrast));
+    opacity: 0.2;
+  }
+}
+
+@keyframes jds-elastic-mobile-stack {
+  0% {
+    transform: translateY(var(--jds-stack-offset));
+    filter: contrast(1);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  20% { filter: contrast(1); }
+  100% {
+    transform: translateY(calc(var(--jds-stack-offset) - var(--jds-stack-offset-adjuster)));
+    filter: contrast(var(--jds-stack-contrast));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 1023px) {
+  .jds-elastic-carousel-container {
+    gap: 16px;
+  }
+
+  .jds-elastic-carousel-item {
+    position: relative;
+    top: auto;
+    height: auto;
+    animation: none;
+    filter: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .jds-elastic-carousel-card {
+    margin-inline: 0;
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .mobile-hero-progress {
     animation-duration: 1ms;

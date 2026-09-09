@@ -167,13 +167,16 @@ export default async function HomePage() {
                   key={outcome.id}
                   className="mobile-outcome-card bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group relative flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
                 >
-                  <div className="px-4 py-5 flex items-center space-x-2 text-sm font-bold">
+                  <div className="outcome-card-header px-4 py-5 flex items-center gap-2 text-sm font-bold">
                     <span
-                      className={`w-5 h-5 ${outcome.chipClass} rounded flex items-center justify-center text-white`}
+                      className={`outcome-card-icon w-5 h-5 ${outcome.chipClass} rounded flex items-center justify-center text-white`}
                     >
                       {iconMap[outcome.iconName]}
                     </span>
                     <span className="group-hover:text-white transition-colors duration-300">{outcome.label}</span>
+                    <span className="outcome-card-chevron" aria-hidden="true">
+                      <FaChevronRight className="h-2.5 w-2.5" />
+                    </span>
                   </div>
                   <div className="card-img-frame h-[420px] sm:h-96 overflow-hidden rounded-2xl relative flex items-center justify-center">
                     <img
