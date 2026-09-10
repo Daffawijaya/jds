@@ -16,7 +16,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { FaChevronRight } from "react-icons/fa6";
-import { getServices, getTestimonials } from "@/lib/supabase-server";
+import { getLatestProjects, getServices, getTestimonials } from "@/lib/supabase-server";
 import ProjectCarousel from "@/components/shared/ProjectCarousel";
 import { FeatureHighlights } from "@/components/shared/FeatureHighlights";
 import FeaturedServicesRow from "@/components/shared/FeaturedServicesRow";
@@ -71,73 +71,65 @@ const darkChip: Record<string, string> = {
   administration: "bg-slate-500/15 text-slate-300",
 };
 
-const homeImages = {
-  web: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80",
-  software: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=600&q=80",
-  uiux: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
-  digital: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
-  staffing: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80",
-  umkm: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80",
-  consulting:
-    "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80",
-  outsourcing:
-    "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=600&q=80",
-  multimedia:
-    "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80",
-  integrated:
-    "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80",
-};
-
 const outcomeCards = [
   {
     id: "streamlined-work",
-    label: "Efisiensi operasional",
-    title: "Proses kerja lebih ringkas.",
-    description: "Kurangi pekerjaan manual dengan sistem yang sesuai kebutuhan.",
-    image: homeImages.digital,
+    label: "Proses kerja",
+    title: "Pekerjaan masih manual.",
+    description: "Aktivitas berulang menghabiskan waktu dan sulit dipantau.",
+    image:
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=85",
     iconName: "Cpu",
     chipClass: "bg-teal-600",
   },
   {
     id: "connected-data",
-    label: "Data dan integrasi",
-    title: "Data rapi dan terhubung.",
-    description: "Satukan data penting agar mudah dipantau dan digunakan.",
-    image: homeImages.software,
+    label: "Pengelolaan data",
+    title: "Data tersebar di banyak tempat.",
+    description: "Informasi penting tidak selalu tersedia ketika dibutuhkan.",
+    image:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=85",
     iconName: "Server",
     chipClass: "bg-cyan-600",
   },
   {
     id: "accessible-services",
-    label: "Pengalaman digital",
-    title: "Layanan mudah digunakan.",
-    description: "Buat layanan digital lebih jelas dan mudah digunakan.",
-    image: homeImages.uiux,
+    label: "Akses layanan",
+    title: "Layanan sulit digunakan.",
+    description: "Alur yang rumit dapat menghambat pengguna dan petugas.",
+    image:
+      "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1200&q=85",
     iconName: "Layout",
     chipClass: "bg-violet-600",
   },
   {
     id: "project-ready-team",
-    label: "Kesiapan tim",
-    title: "Tim proyek siap.",
-    description: "Dukung proyek dengan tenaga ahli yang tepat dan siap bekerja.",
-    image: homeImages.staffing,
+    label: "Kapasitas pelaksana",
+    title: "Kapasitas tim terbatas.",
+    description: "Program membutuhkan tenaga tambahan dengan kompetensi yang tepat.",
+    image:
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85",
     iconName: "Users",
     chipClass: "bg-amber-500",
   },
   {
-    id: "scalable-foundation",
-    label: "Fondasi teknologi",
-    title: "Solusi siap berkembang.",
-    description: "Bangun fondasi digital yang siap berkembang bersama kebutuhan.",
-    image: homeImages.web,
+    id: "consistent-communication",
+    label: "Komunikasi visual",
+    title: "Pesan belum konsisten.",
+    description: "Materi publikasi belum memiliki arah visual yang seragam.",
+    image:
+      "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&w=1200&q=85",
     iconName: "Lightbulb",
     chipClass: "bg-fuchsia-600",
   },
-];
+] as const;
 
 export default async function HomePage() {
-  const [servicesData, testimonialsData] = await Promise.all([getServices(), getTestimonials()]);
+  const [servicesData, testimonialsData, latestProjects] = await Promise.all([
+    getServices(),
+    getTestimonials(),
+    getLatestProjects(3),
+  ]);
 
   return (
     <div className="w-full min-h-screen bg-white text-slate-900 font-sans antialiased">
@@ -150,44 +142,47 @@ export default async function HomePage() {
       <section className="featured-sec relative z-10 -mt-8 rounded-t-[32px] bg-white pt-12 pb-6 text-zinc-900 sm:pt-20 lg:pb-20">
         <div className="row-wrap px-5 sm:px-4 lg:px-6 text-center">
           <SectionHeading
-            title="Yang berubah ketika teknologi bekerja dengan tepat."
-            subtitle="Pekerjaan lebih ringkas, data lebih tertata, layanan lebih mudah digunakan, dan tim lebih siap menjalankan program."
+            title="Apa yang sedang menghambat pekerjaan Anda?"
+            subtitle="Kami membantu organisasi menyelesaikan hambatan operasional, teknologi, tenaga kerja, dan komunikasi."
             titleClassName="text-[28px] sm:text-[42px]"
             className="mb-12"
           />
 
           <FeaturedServicesRow>
             {outcomeCards.map((outcome) => (
-                <div
-                  key={outcome.id}
-                  className="mobile-outcome-card bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group relative flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
-                >
-                  <div className="outcome-card-header px-4 py-5 flex items-center gap-2 text-sm font-bold">
-                    <span
-                      className={`outcome-card-icon w-5 h-5 ${outcome.chipClass} rounded flex items-center justify-center text-white`}
-                    >
-                      {iconMap[outcome.iconName]}
-                    </span>
-                    <span className="group-hover:text-white transition-colors duration-300">{outcome.label}</span>
-                  </div>
-                  <div className="card-img-frame overflow-hidden rounded-2xl aspect-[4/3] lg:aspect-auto lg:h-96 relative">
-                    <img
-                      src={outcome.image}
-                      alt=""
-                      aria-hidden="true"
-                      className="card-img w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="desc-lock w-full px-4 pt-4 pb-4 flex flex-col justify-center">
-                    <h3 className="font-bold text-sm tracking-tight mb-1 text-zinc-900 transition-colors duration-300 group-hover:text-white">
-                      {outcome.title}
-                    </h3>
-                    <p className="text-sm text-zinc-600 leading-relaxed transition-colors duration-300 group-hover:text-white/60">
-                      {outcome.description}
-                    </p>
-                  </div>
+              <div
+                key={outcome.id}
+                className="mobile-outcome-card bg-zinc-100 rounded-2xl overflow-hidden min-w-0 group relative flex flex-col justify-between transition-all duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-black hover:shadow-lg lg:flex-1 lg:hover:flex-[1.35]"
+              >
+                <div className="outcome-card-header px-4 py-5 flex items-center gap-2 text-sm font-bold">
+                  <span
+                    className={`outcome-card-icon w-5 h-5 ${outcome.chipClass} rounded flex items-center justify-center text-white`}
+                  >
+                    {iconMap[outcome.iconName]}
+                  </span>
+                  <span className="transition-colors duration-300 group-hover:text-white">
+                    {outcome.label}
+                  </span>
                 </div>
-              ))}
+                <div className="card-img-frame overflow-hidden rounded-2xl aspect-[4/3] lg:aspect-auto lg:h-96 relative">
+                  <img
+                    src={outcome.image}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    className="card-img w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <div className="desc-lock w-full px-4 pt-4 pb-4 flex flex-col justify-center">
+                  <h3 className="font-bold text-sm tracking-tight mb-1 text-zinc-900 transition-colors duration-300 group-hover:text-white">
+                    {outcome.title}
+                  </h3>
+                  <p className="text-sm text-zinc-600 leading-relaxed transition-colors duration-300 group-hover:text-white/60">
+                    {outcome.description}
+                  </p>
+                </div>
+              </div>
+            ))}
           </FeaturedServicesRow>
         </div>
       </section>
@@ -196,9 +191,9 @@ export default async function HomePage() {
       <section className="relative z-10 py-12 pt-6 bg-white text-zinc-900 lg:pt-12">
         <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6">
           <SectionHeading
-            badgeText="Proyek & Keunggulan"
-            title="Dampak nyata untuk daerah & bisnis."
-            subtitle="Bekerja sama dengan instansi pemerintah dan mitra bisnis di Kalimantan Timur."
+            badgeText="Cara Kerja & Proyek"
+            title="Dari kebutuhan hingga hasil yang bisa dilihat."
+            subtitle="Pendekatan kerja yang terarah, didukung pengalaman kolaborasi bersama mitra di Kalimantan Timur."
             titleClassName="text-[28px] sm:text-[42px]"
             className="mb-12"
           />
@@ -209,7 +204,7 @@ export default async function HomePage() {
         {/* Blok gaya adobe.com: 1 card besar (full-bleed → container saat scroll) + 3 card */}
         <FeatureHighlights />
 
-        <ProjectCarousel />
+        <ProjectCarousel projects={latestProjects} />
 
         {/* Baris 3: Testimoni */}
         <div className="max-w-[1310px] mx-auto mt-10 sm:mt-16 mb-12 md:px-5 lg:px-6">
@@ -248,8 +243,8 @@ export default async function HomePage() {
       <RevealServices heading={
         <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6">
           <SectionHeading
-            title="Satu mitra, semua solusi digital."
-            subtitle="Layanan lengkap untuk instansi pemerintah, korporasi, dan pelaku usaha di Kalimantan Timur."
+            title="Pilih dukungan yang sesuai kebutuhan Anda."
+            subtitle="Dari pengembangan teknologi hingga penyediaan tenaga dan produksi konten."
             button={{ label: "Lihat Semua Layanan", href: "/services" }}
             dark
           />
@@ -302,10 +297,9 @@ export default async function HomePage() {
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
               </div>
               <div className="mt-auto">
-                <h3 className="font-bold text-xl sm:text-2xl mb-1">Diskusikan kebutuhan Anda.</h3>
+                <h3 className="font-bold text-xl sm:text-2xl mb-1">Ceritakan kendala yang ingin diselesaikan.</h3>
                 <p className="text-sm text-zinc-400 leading-relaxed">
-                  Ceritakan rencana digitalisasi Anda. Tim kami siap membantu dari konsultasi hingga
-                  implementasi.
+                  Tim kami akan membantu menentukan bentuk dukungan dan langkah awal yang paling relevan.
                 </p>
                 <span className="mt-4 text-sm font-semibold text-white inline-flex items-center gap-1">
                   Konsultasi Gratis

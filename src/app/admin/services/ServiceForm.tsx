@@ -29,9 +29,6 @@ interface ServiceFormProps {
     full_desc?: string | null;
     image_url?: string | null;
     is_active?: boolean | null;
-    hero_tab_label?: string | null;
-    hero_eyebrow?: string | null;
-    hero_title?: string | null;
     hero_description?: string | null;
     hero_offer?: string | null;
     hero_cta_label?: string | null;
@@ -84,7 +81,6 @@ export function ServiceForm({ initialData, onSubmit }: ServiceFormProps) {
       <input type="hidden" name="slug" defaultValue={initialData?.slug || ""} />
       <input type="hidden" name="kbli_codes" defaultValue={(initialData?.kbli_codes || []).join(", ")} />
       <input type="hidden" name="hero_icon_class" defaultValue={initialData?.hero_icon_class || "bg-blue-600"} />
-      <input type="hidden" name="hero_eyebrow" defaultValue={initialData?.hero_eyebrow || ""} />
       <input type="hidden" name="hero_offer" defaultValue={initialData?.hero_offer || ""} />
       <input type="hidden" name="hero_cta_label" defaultValue={initialData?.hero_cta_label || ""} />
       <input type="hidden" name="hero_cta_href" defaultValue={initialData?.hero_cta_href || ""} />
@@ -158,15 +154,7 @@ export function ServiceForm({ initialData, onSubmit }: ServiceFormProps) {
             Pengaturan Hero <span className="ml-1 text-sm font-normal text-zinc-500">(opsional)</span>
           </summary>
         <CardContent className="space-y-4 border-t pt-4">
-          <p className="text-sm text-zinc-500">Tidak wajib diisi. Jika kosong, hero memakai nama dan deskripsi layanan.</p>
-          <div className="space-y-2">
-            <Label htmlFor="hero_tab_label">Nama singkat pada tab</Label>
-            <Input id="hero_tab_label" name="hero_tab_label" defaultValue={initialData?.hero_tab_label || ""} />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="hero_title">Judul utama</Label>
-            <Input id="hero_title" name="hero_title" defaultValue={initialData?.hero_title || ""} />
-          </div>
+          <p className="text-sm text-zinc-500">Judul dan nama tab otomatis memakai Nama Layanan di atas.</p>
           <div className="space-y-2">
             <Label htmlFor="hero_description">Deskripsi hero</Label>
             <Textarea id="hero_description" name="hero_description" defaultValue={initialData?.hero_description || ""} rows={2} />

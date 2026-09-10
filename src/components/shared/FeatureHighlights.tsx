@@ -4,8 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   motion,
-  frame,
-  cancelFrame,
   useScroll,
   useTransform,
   useMotionTemplate,
@@ -26,34 +24,34 @@ import { FaChevronRight } from "react-icons/fa6";
 
 const highlightCards = [
   {
-    title: "Tenaga ahli pendamping UMKM 2026.",
+    title: "Memahami kebutuhan.",
     description:
-      "Tenaga ahli IT dan pendamping yang disiapkan, dikelola, dan dilaporkan untuk program pendampingan UMKM.",
-    cta: "Lihat program",
-    href: "/projects",
+      "Mengidentifikasi tujuan, pengguna, proses, dan kendala utama sebelum pekerjaan dimulai.",
+    cta: "Tentang JDS",
+    href: "/about",
     image:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
-    alt: "Pendampingan tenaga ahli UMKM",
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80",
+    alt: "Tim memahami kebutuhan proyek",
   },
   {
-    title: "Alur kerja instansi jadi digital.",
+    title: "Merancang dan mengerjakan.",
     description:
-      "Dari pendataan manual ke sistem yang rapi, terpantau, dan mudah digunakan lintas tim.",
-    cta: "Pelajari layanan",
+      "Menentukan solusi, ruang lingkup, tahapan kerja, dan hasil yang akan diberikan.",
+    cta: "Lihat layanan",
     href: "/services",
     image:
       "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80",
-    alt: "Digitalisasi alur kerja",
+    alt: "Perancangan dan pengerjaan solusi",
   },
   {
-    title: "Tim ahli siap ditempatkan.",
+    title: "Mendampingi penerapan.",
     description:
-      "Perkuat proyek Anda dengan tenaga profesional yang siap bertugas sesuai durasi program.",
+      "Membantu pengujian, penyerahan, pelatihan, dan penggunaan hasil pekerjaan.",
     cta: "Mulai konsultasi",
     href: "/contact",
     image:
       "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
-    alt: "Tim ahli siap penugasan",
+    alt: "Pendampingan penerapan bersama tim",
   },
 ];
 
@@ -169,42 +167,21 @@ export function FeatureHighlights() {
     ? { width: `calc(100% - ${endPad}px)`, maxWidth: endMax, borderRadius: "16px" }
     : { width, maxWidth, borderRadius };
 
-  // Framer menulis width di fase render; kunci scrollLeft setelahnya,
-  // sebelum paint, supaya penyusutan lebar tidak menggeser scroll
-  // vertikal halaman (perilaku sama dengan track carousel).
-  useEffect(() => {
-    const el = wrapRef.current;
-    if (!el) return;
-    const align = () => {
-      const y = window.scrollY;
-      if (Math.abs(y - (parseFloat(el.dataset.y || "0") || y)) > 0) {
-        window.scrollTo({ top: y });
-      }
-      el.dataset.y = String(y);
-    };
-    const schedule = () => frame.postRender(align);
-    const unsub = progress.on("change", schedule);
-    const observer = new ResizeObserver(schedule);
-    observer.observe(el);
-    return () => {
-      unsub();
-      observer.disconnect();
-      cancelFrame(align);
-    };
-  }, [progress]);
-
   return (
     // overflow-x-clip: card yang melebihi layar saat full-bleed tidak
     // boleh bikin halaman ikut ke-scroll horizontal.
     <div ref={wrapRef} className="relative overflow-x-clip mb-16 sm:mb-24">
       {/* ── Card gambar besar + 2 panel liquid glass ── */}
+      {/* Tinggi ditahan oleh wrapper. Pada mobile, width kartu tetap boleh
+          mengecil tanpa mengubah tinggi dokumen dan memicu feedback scroll. */}
+      <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[90vh]">
       <motion.div
         style={cardStyle}
-        className="relative mx-auto overflow-hidden shadow-xl flex aspect-[4/3] lg:aspect-auto lg:min-h-[90vh]"
+        className="relative mx-auto flex h-full overflow-hidden shadow-xl lg:min-h-[90vh]"
       >
         <img
-          src="/image/etamhub.png"
-          alt="Platform digital etamhub"
+          src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1800&q=85"
+          alt="Tim meninjau alur dan rencana pelaksanaan proyek"
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20" />
@@ -219,7 +196,7 @@ export function FeatureHighlights() {
               <Star className="h-3 w-3 lg:h-4 lg:w-4" />
             </span>
             <span className="relative z-10 text-xs font-normal whitespace-nowrap lg:text-sm">
-              Baru rilis · etamhub 2026
+              Pendekatan kerja JDS
             </span>
           </div>
 
@@ -230,18 +207,18 @@ export function FeatureHighlights() {
               <li className="flex items-start gap-2 lg:gap-3">
                 <ShieldCheck className="w-3 h-3 mt-0.5 shrink-0 lg:w-4 lg:h-4" />
                 <span>
-                  <span className="block font-bold">Proyek Terverifikasi</span>
+                  <span className="block font-bold">Berbasis kebutuhan</span>
                   <span className="block text-white/70 text-[10px] mt-0.5 lg:text-xs">
-                    Terdokumentasi &amp; terukur
+                    Berangkat dari tujuan organisasi
                   </span>
                 </span>
               </li>
               <li className="flex items-start gap-2 lg:gap-3">
                 <Building2 className="w-3 h-3 mt-0.5 shrink-0 lg:w-4 lg:h-4" />
                 <span>
-                  <span className="block font-bold">Dinas Koperasi &amp; UKM Kukar</span>
+                  <span className="block font-bold">Pelaksanaan terukur</span>
                   <span className="block text-white/70 text-[10px] mt-0.5 lg:text-xs">
-                    Mitra instansi pemerintah daerah
+                    Tahapan dan hasil dibuat jelas
                   </span>
                 </span>
               </li>
@@ -250,22 +227,23 @@ export function FeatureHighlights() {
           </div>
         </div>
       </motion.div>
+      </div>
 
       {/* ── Text bar di bawah big card ── */}
       <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 mt-4 mb-12 sm:mb-16 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-0 sm:gap-4">
         <div className="max-w-full sm:max-w-[40%] px-4 pt-2 pb-0 sm:pb-4">
           <h3 className="font-bold text-2xl tracking-tight mb-1 text-zinc-900">
-            Wujudkan akses pasar digital untuk UMKM lokal melalui etamhub.
+            Teknologi harus menyelesaikan pekerjaan nyata.
           </h3>
           <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-            Satu platform untuk katalog, profil usaha, dan promosi produk UMKM.
+            Kami memulai dari kebutuhan pengguna dan proses operasional, kemudian menerjemahkannya menjadi solusi yang dapat digunakan.
           </p>
         </div>
         <Link
-          href="/projects"
+          href="/about"
           className="group shrink-0 inline-flex items-center gap-1 px-4 sm:px-0 text-sm font-semibold text-zinc-900 hover:underline"
         >
-          Pelajari lebih lanjut
+          Kenali cara kerja kami
           <FaChevronRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
         </Link>
       </div>

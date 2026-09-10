@@ -13,9 +13,8 @@ import {
   useReducedMotion,
 } from "framer-motion";
 
-// 9 slot selang-seling [2,1,2,1,2,1,2,1,2] supaya tengah selalu punya tetangga kiri-kanan.
-// Tengah mulai di slot 3 → tampil "2 1 2". Lompat normalisasi kelipatan 2 tidak terlihat
-// karena triple tetangganya identik.
+// Sembilan slot menjaga kartu aktif selalu memiliki tetangga kiri-kanan.
+// Proyek dari database diulang di dalam slot, lalu dinormalisasi tanpa terlihat.
 const COUNT = 9;
 const START = 3;
 const MIN = 2;
@@ -27,31 +26,34 @@ const MAX = 6;
 const easeOutScroll = (progress: number) =>
   0.25 * progress + 0.75 * (1 - (1 - progress) ** 3);
 
-const data = [
-  {
-    img: "/image/etamhub.png",
-    alt: "Website etamhub",
-    title: "Membangun etamhub, rumah digital UMKM Kutai Kartanegara.",
-    lines: ["Dinas Koperasi & UKM Kutai Kartanegara", "Web Development"],
-    href: "/projects",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=80",
-    alt: "Tenaga ahli pendamping UMKM",
-    title: "Menghadirkan tenaga ahli pendamping UMKM yang siap bertugas.",
-    lines: ["Dinas Koperasi & UKM Kutai Kartanegara", "Outsourcing"],
-    href: "/services",
-  },
-];
+type LatestProject = {
+  id: string;
+  slug: string;
+  title: string;
+  client: string | null;
+  category: string | null;
+  year: string | null;
+  image_url: string | null;
+};
 
-export default function ProjectCarousel() {
+function ProjectCarouselContent({ projects }: { projects: LatestProject[] }) {
+  const data = projects.slice(0, 3).map((project) => ({
+    img: project.image_url || "/image/bgpur.png",
+    alt: project.title,
+    title: project.title,
+    lines: [project.client, project.category || project.year].filter((line): line is string => Boolean(line)),
+    href: "/projects",
+  }));
+  const itemCount = data.length;
+  const itemIndex = (slot: number) => ((slot - START) % itemCount + itemCount) % itemCount;
+
   const wrapRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Selama animasi tombol berjalan, sinkronisasi swipe diabaikan biar fade tidak keulang
   const animGuard = useRef(0);
-  // Kartu yang lagi di tengah (0/1) — cuma kartu ini teks + button-nya tampil (fade).
+  // Kartu yang lagi di tengah — cuma kartu ini teks + button-nya tampil (fade).
   // Dikunci ke kartu (bukan slot) supaya lompat normalisasi loop tak memicu fade ulang.
   const [activeCard, setActiveCard] = useState(0);
   // Slot yang lagi di tengah — buat arah slide kartu samping (kiri/kanan).
@@ -199,19 +201,19 @@ export default function ProjectCarousel() {
     const { pos, kids } = measure();
     const target = Math.max(0, Math.min(kids.length - 1, nearest() + dir));
     // Transisi teks langsung mulai saat diklik, jalan bareng animasi slide
-    setActiveCard((target + 1) % 2);
+    setActiveCard(itemIndex(target));
     centerRef.current = target;
     setCenterSlot(target);
     animGuard.current = Date.now() + 600;
     el.scrollTo({ left: pos(target), behavior: "smooth" });
 
     // Looping tak terlihat: kembalikan ke slot setara di area tengah
-    // (±2 slot = kartu yang sama, jadi opacity tidak berubah)
+    // (kelipatan jumlah proyek = kartu yang sama, jadi opacity tidak berubah)
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
       let n = target;
-      while (n > MAX) n -= 2;
-      while (n < MIN) n += 2;
+      while (n > MAX) n -= itemCount;
+      while (n < MIN) n += itemCount;
       centerRef.current = n;
       setCenterSlot(n);
       // Selalu tempel ulang: pendaratan smooth bisa meleset kalau lebar
@@ -233,7 +235,7 @@ export default function ProjectCarousel() {
     syncTimer.current = setTimeout(() => {
       if (Date.now() < animGuard.current) return;
       const n = nearest();
-      setActiveCard((n + 1) % 2);
+      setActiveCard(itemIndex(n));
       centerRef.current = n;
       setCenterSlot(n);
     }, 120);
@@ -255,8 +257,9 @@ export default function ProjectCarousel() {
         className="flex gap-2 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {Array.from({ length: COUNT }, (_, i) => {
-          const c = data[(i + 1) % 2];
-          const on = (i + 1) % 2 === activeCard;
+          const cardIndex = itemIndex(i);
+          const c = data[cardIndex];
+          const on = cardIndex === activeCard;
           return (
             <motion.div
               key={i}
@@ -322,4 +325,9 @@ export default function ProjectCarousel() {
       </motion.button>
     </div>
   );
+}
+
+export default function ProjectCarousel({ projects }: { projects: LatestProject[] }) {
+  if (projects.length === 0) return null;
+  return <ProjectCarouselContent projects={projects} />;
 }

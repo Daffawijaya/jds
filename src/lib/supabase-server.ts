@@ -57,6 +57,18 @@ export async function getProjects() {
   return data ?? [];
 }
 
+export async function getLatestProjects(limit = 3) {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("projects")
+    .select("id, slug, title, client, category, year, image_url, created_at")
+    .eq("is_active", true)
+    .order("created_at", { ascending: false })
+    .order("sort_order", { ascending: false })
+    .limit(limit);
+  return data ?? [];
+}
+
 export async function getTestimonials() {
   const supabase = await createClient();
   const { data } = await supabase

@@ -30,13 +30,11 @@ import {
 export type HeroService = {
   id: string;
   title: string;
+  category_label: string | null;
   short_desc: string | null;
   full_desc: string | null;
   icon_name: string | null;
   image_url: string | null;
-  hero_tab_label: string | null;
-  hero_eyebrow: string | null;
-  hero_title: string | null;
   hero_description: string | null;
   hero_offer: string | null;
   hero_cta_label: string | null;
@@ -109,15 +107,15 @@ export default function MobileHeroCarousel({
         .slice(0, 5)
         .map((service) => ({
           id: service.id,
-          eyebrow: service.hero_eyebrow || service.title,
-          title: service.hero_title || service.title,
+          eyebrow: service.category_label || "Layanan JDS",
+          title: service.title,
           description: service.hero_description || service.short_desc || "",
           offer: service.hero_offer || service.full_desc || "",
           cta: service.hero_cta_label || "Lihat layanan",
           href: service.hero_cta_href || "/services",
           image: service.image_url || "",
           video: service.hero_video_url || undefined,
-          tab: service.hero_tab_label || service.title,
+          tab: service.title,
           icon: heroIcons[service.icon_name || ""] || Globe,
           iconClassName: service.hero_icon_class || "bg-zinc-700",
         })),
@@ -288,7 +286,7 @@ export default function MobileHeroCarousel({
       </AnimatePresence>
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/35 to-black/70" />
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1310px] flex-col px-5 pb-[120px] pt-[86px] text-white sm:px-4 md:h-full md:min-h-0 md:pb-[112px] md:pt-[116px] lg:px-6">
+      <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1310px] flex-col px-5 pb-[104px] pt-[86px] text-white sm:px-4 md:h-full md:min-h-0 md:pb-[112px] md:pt-[116px] lg:px-6">
         <div className="mt-1 max-w-[350px] -translate-y-2 md:max-w-[640px] md:-translate-y-8">
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <motion.div
@@ -361,7 +359,7 @@ export default function MobileHeroCarousel({
 
       <div
         ref={railRef}
-        className="absolute inset-x-0 bottom-[144px] z-20 mx-auto flex max-w-[1310px] gap-1 overflow-x-auto px-5 py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-4 md:bottom-[144px] md:gap-2 md:py-0 lg:bottom-[72px] lg:overflow-visible lg:px-6"
+        className="absolute inset-x-0 bottom-[128px] z-20 mx-auto flex max-w-[1310px] gap-1 overflow-x-auto px-5 py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-4 md:bottom-[128px] md:gap-2 md:py-0 lg:bottom-[72px] lg:overflow-visible lg:px-6"
       >
         {slides.map((slide, index) => {
           const Icon = slide.icon;
@@ -385,7 +383,7 @@ export default function MobileHeroCarousel({
                 <Icon className="h-3 w-3" strokeWidth={2.25} />
               </span>
               <span className="flex min-w-0 flex-1 items-center justify-between gap-1 whitespace-nowrap text-[13px] md:mt-1.5 md:w-full md:flex-none md:text-left md:text-[11px] lg:text-[13px] xl:text-sm">
-                {slide.tab}
+                <span className="min-w-0 flex-1 truncate">{slide.tab}</span>
                 <ChevronRight className="h-3.5 w-3.5 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" />
               </span>
               {active === index && (
