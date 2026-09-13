@@ -236,7 +236,7 @@ export function Navbar({ companyName }: NavbarProps) {
                 width={238}
                 height={244}
                 priority
-                className="h-4 w-[18px] object-contain"
+                className={`h-4 w-[18px] object-contain ${isDark ? "brightness-0" : "brightness-0 invert"}`}
               />
             </Link>
 
