@@ -28,7 +28,7 @@ export function FeatureSection({
       <div className="max-w-[1310px] mx-auto px-5 sm:px-4 lg:px-6 flex flex-col md:flex-row items-center gap-8 sm:gap-12">
         {/* Image */}
         <div className={`w-full md:w-1/2 flex ${isReversed ? "md:order-2 justify-end" : "md:order-1"}`}>
-          <img src={image} alt={imageAlt} className="block w-full sm:w-5/6 aspect-video object-cover rounded-xl md:rounded-none" />
+          <img src={image} alt={imageAlt} className="block w-full sm:w-5/6 aspect-video object-cover" />
         </div>
         {/* Text */}
         <div className={`w-full md:w-1/2 flex flex-col items-start ${isReversed ? "md:order-1" : "md:order-2"}`}>

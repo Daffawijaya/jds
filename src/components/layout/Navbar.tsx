@@ -75,23 +75,6 @@ function CompactUtilities({
   );
 }
 
-function MenuChevron() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 9 15"
-      className="h-[15px] w-[9px] shrink-0 overflow-visible"
-    >
-      <path
-        d="M1 14 8 7.5 1 1"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.25"
-      />
-    </svg>
-  );
-}
-
 export function Navbar({ companyName }: NavbarProps) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -299,10 +282,9 @@ export function Navbar({ companyName }: NavbarProps) {
                         onClick={() => setIsOpen(false)}
                         aria-current={isActive ? "page" : undefined}
                         style={{ animationDelay: `${180 + index * 60}ms` }}
-                        className="jds-compact-menu-link flex h-12 w-full items-center justify-between py-2 font-sans text-[32px] font-black leading-8 tracking-[-0.96px] text-black"
+                        className="jds-compact-menu-link flex h-12 w-full items-center py-2 font-sans text-[32px] font-black leading-8 tracking-[-0.96px] text-black"
                       >
                         <span>{link.name}</span>
-                        {index < siteNavLinks.length - 1 ? <MenuChevron /> : null}
                       </Link>
                     );
                   })}
