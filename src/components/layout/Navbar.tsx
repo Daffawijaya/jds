@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, PhoneCall } from "lucide-react";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -31,7 +31,68 @@ interface NavbarProps {
 
 const logoAlt = "JDS - Jaya Dinara Sukses";
 
-export function Navbar({ companyName, officialName, phone, whatsappUrl }: NavbarProps) {
+function CompactUtilities({
+  companyName,
+  darkInk,
+}: {
+  companyName: string;
+  darkInk: boolean;
+}) {
+  return (
+    <div className="flex h-10 shrink-0 items-center gap-1 pr-4">
+      <Link
+        href="/services"
+        aria-label="Lihat semua layanan"
+        className={`flex h-8 w-8 items-center justify-center rounded-[5px] transition-colors ${
+          darkInk ? "text-black hover:bg-black/5" : "text-white hover:bg-white/10"
+        }`}
+      >
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          className="h-5 w-5 fill-current"
+        >
+          {[2.25, 8.25, 14.25].flatMap((x) =>
+            [2.25, 8.25, 14.25].map((y) => (
+              <rect key={`${x}-${y}`} x={x} y={y} width="3.5" height="3.5" rx="1" />
+            )),
+          )}
+        </svg>
+      </Link>
+
+      <Link
+        href="/contact"
+        aria-label={`Konsultasi dengan ${companyName}`}
+        className={`flex h-10 items-center justify-center rounded-full border px-4 pb-0.5 pt-0 text-sm font-bold leading-none transition-colors ${
+          darkInk
+            ? "border-black bg-transparent text-black hover:bg-black hover:text-white"
+            : "border-white bg-white text-black hover:bg-zinc-100"
+        }`}
+      >
+        Konsultasi
+      </Link>
+    </div>
+  );
+}
+
+function MenuChevron() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 9 15"
+      className="h-[15px] w-[9px] shrink-0 overflow-visible"
+    >
+      <path
+        d="M1 14 8 7.5 1 1"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.25"
+      />
+    </svg>
+  );
+}
+
+export function Navbar({ companyName }: NavbarProps) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,6 +102,16 @@ export function Navbar({ companyName, officialName, phone, whatsappUrl }: Navbar
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const desktopQuery = window.matchMedia("(min-width: 1024px)");
+    const closeOnDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) setIsOpen(false);
+    };
+
+    desktopQuery.addEventListener("change", closeOnDesktop);
+    return () => desktopQuery.removeEventListener("change", closeOnDesktop);
   }, []);
 
   // Halaman berlatar terang selalu memakai logo dan navigasi versi gelap.
@@ -58,162 +129,191 @@ export function Navbar({ companyName, officialName, phone, whatsappUrl }: Navbar
   const useLightSurface = !isHome && !isScrolled;
 
   return (
-    <header
-      className={`sticky top-0 z-50 h-16 transition-colors duration-300 ${
-        useLightSurface ? "bg-[#f5f5f5]" : ""
-      }`}
-    >
-      {" "}
-      <div
-        className={`absolute inset-0 flex items-center justify-between transition-all duration-300 ${
-          useLightSurface
-            ? "rounded-none px-5.5 border-b border-gray-200"
-            : isScrolled
-              ? "mx-2 rounded-2xl mt-2 px-3.5 border-b border-transparent"
-              : "px-5.5 border-b border-transparent"
-        } ${
-          useLightSurface
-            ? "bg-[#f5f5f5]"
-            : isDark
-              ? "bg-white/60 backdrop-blur-xl"
-              : "bg-transparent"
-        } ${isScrolled ? "shadow-lg shadow-black/10" : ""} ${
-          useLightSurface || isDark ? "" : ""
+    <>
+      {/* Desktop branch is intentionally kept identical and starts at 1024px. */}
+      <header
+        data-navbar-variant="desktop"
+        className={`sticky top-0 z-50 hidden h-16 transition-colors duration-300 lg:block ${
+          useLightSurface ? "bg-[#f5f5f5]" : ""
         }`}
       >
-        {/* Logo + Desktop Navigation */}
-        <div className="flex items-center gap-8">
-          <Link
-            href="/"
-            aria-label={logoAlt}
-            className="flex items-center shrink-0"
-          >
-            <Image
-              src={isDark ? "/jds.png" : "/jdsw.png"}
-              alt={logoAlt}
-              width={626}
-              height={271}
-              priority
-              className="h-7 w-auto object-contain"
-            />
-          </Link>
+        <div
+          className={`absolute inset-0 flex items-center justify-between transition-all duration-300 ${
+            useLightSurface
+              ? "rounded-none px-5.5 border-b border-gray-200"
+              : isScrolled
+                ? "mx-2 rounded-2xl mt-2 px-3.5 border-b border-transparent"
+                : "px-5.5 border-b border-transparent"
+          } ${
+            useLightSurface
+              ? "bg-[#f5f5f5]"
+              : isDark
+                ? "bg-white/60 backdrop-blur-xl"
+                : "bg-transparent"
+          } ${isScrolled ? "shadow-lg shadow-black/10" : ""}`}
+        >
+          <div className="flex items-center gap-8">
+            <Link
+              href="/"
+              aria-label={logoAlt}
+              className="flex shrink-0 items-center"
+            >
+              <Image
+                src={isDark ? "/jds.png" : "/jdsw.png"}
+                alt={logoAlt}
+                width={626}
+                height={271}
+                priority
+                className="h-7 w-auto object-contain"
+              />
+            </Link>
 
-          <nav
-            className={`hidden md:flex items-center gap-6 text-sm font-semibold tracking-wide transition-colors ${
-              isDark ? "text-zinc-600" : "text-zinc-300"
-            }`}
-          >
-            {siteNavLinks.map((link) => {
-              const isActive = pathname === link.href;
-              const colorClass = isActive
-                ? isDark
-                  ? "text-zinc-900"
-                  : "text-white"
-                : isDark
-                  ? "hover:text-zinc-900"
-                  : "hover:text-white";
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  aria-current={isActive ? "page" : undefined}
-                  className={`transition-colors ${colorClass}`}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
-          </nav>
+            <nav
+              aria-label="Navigasi utama"
+              className={`hidden items-center gap-6 text-sm font-semibold tracking-wide transition-colors md:flex ${
+                isDark ? "text-zinc-600" : "text-zinc-300"
+              }`}
+            >
+              {siteNavLinks.map((link) => {
+                const isActive = pathname === link.href;
+                const colorClass = isActive
+                  ? isDark
+                    ? "text-zinc-900"
+                    : "text-white"
+                  : isDark
+                    ? "hover:text-zinc-900"
+                    : "hover:text-white";
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`transition-colors ${colorClass}`}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Link
+              href="/contact"
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition-all sm:px-5 ${
+                isDark
+                  ? "border border-zinc-900 bg-transparent text-zinc-900 hover:bg-zinc-900 hover:text-white"
+                  : "border border-white bg-white text-black hover:bg-zinc-200"
+              }`}
+            >
+              Konsultasi
+            </Link>
+          </div>
         </div>
+      </header>
 
-        {/* CTA + Mobile Menu Trigger */}
-        <div className="flex items-center gap-2">
-          <Link
-            href="/contact"
-            className={`font-semibold px-4 sm:px-5 py-2 rounded-full text-sm transition-all ${
-              isDark
-                ? "bg-transparent text-zinc-900 border border-zinc-900 hover:bg-zinc-900 hover:text-white"
-                : "bg-white text-black border border-white hover:bg-zinc-200"
-            }`}
-          >
-            Konsultasi
-          </Link>
+      {/* Adobe-matched compact branch: mobile and tablet only (0-1023px). */}
+      <header
+        data-navbar-variant="compact"
+        className={`jds-compact-header sticky top-0 z-50 h-20 lg:hidden ${
+          useLightSurface ? "bg-[#f5f5f5]" : ""
+        }`}
+      >
+        <div
+          className={`jds-compact-navbar ${
+            isScrolled ? "jds-compact-navbar-scrolled" : ""
+          }`}
+        >
+          <div className="flex h-16 min-w-0 flex-1 items-center">
+            <Link
+              href="/"
+              aria-label={logoAlt}
+              className="flex h-4 w-[46px] shrink-0 items-center py-0 pl-4 pr-3"
+            >
+              <Image
+                src="/icon.png"
+                alt={logoAlt}
+                width={238}
+                height={244}
+                priority
+                className="h-4 w-[18px] object-contain"
+              />
+            </Link>
 
-          <div className="order-first md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger
                 aria-label="Buka Menu"
-                className={`inline-flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
-                  isDark
-                    ? "text-zinc-900 hover:bg-zinc-100"
-                    : "text-white hover:bg-white/10"
+                className={`flex h-5 w-5 shrink-0 items-center justify-center transition-colors ${
+                  isDark ? "text-black" : "text-white"
                 }`}
               >
-                <Menu className="w-6 h-6" />
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 14 7"
+                  className="h-[7px] w-3.5 fill-current"
+                >
+                  <path d="M13.25 5.5H.75a.75.75 0 0 0 0 1.5h12.5a.75.75 0 0 0 0-1.5Z" />
+                  <path d="M.75 1.5h12.5a.75.75 0 0 0 0-1.5H.75a.75.75 0 0 0 0 1.5Z" />
+                </svg>
               </SheetTrigger>
+
               <SheetContent
-                side="right"
-                className="bg-[#0a0a0c] border-zinc-800 flex flex-col justify-between"
+                side="top"
+                showCloseButton={false}
+                overlayClassName="bg-black/60! backdrop-blur-[32px]! duration-[400ms]!"
+                className="inset-0! h-[calc(100svh+64px)]! w-full! max-w-none! gap-0! rounded-b-[16px]! border-0! bg-[#f3f3f3]! p-0! text-black! shadow-none! transition-opacity! duration-[400ms]! ease-linear! data-ending-style:translate-y-0! data-starting-style:translate-y-0! lg:hidden!"
               >
-                <div>
-                  <SheetHeader className="mb-6">
-                    <SheetTitle className="flex items-center gap-2 text-white">
-                      <Image
-                        src="/jdsw.png"
-                        alt={logoAlt}
-                        width={626}
-                        height={271}
-                        className="h-8 w-auto object-contain"
-                      />
-                    </SheetTitle>
-                  </SheetHeader>
+                <SheetHeader className="sr-only">
+                  <SheetTitle>Menu navigasi</SheetTitle>
+                </SheetHeader>
 
-                  <div className="flex flex-col">
-                    {siteNavLinks.map((link) => {
-                      const isActive = pathname === link.href;
-                      return (
-                        <Link
-                          key={link.href}
-                          href={link.href}
-                          onClick={() => setIsOpen(false)}
-                          aria-current={isActive ? "page" : undefined}
-                          className={`px-4 py-3 text-base font-medium rounded-xl transition-colors ${
-                            isActive
-                              ? "bg-zinc-800 text-white"
-                              : "text-zinc-300 hover:bg-zinc-800/50 hover:text-white"
-                          }`}
-                        >
-                          {link.name}
-                        </Link>
-                      );
-                    })}
+                <div className="relative z-10 m-2 flex h-16 items-center justify-between">
+                  <div className="flex h-16 w-[66px] shrink-0 items-center">
+                    <SheetClose
+                      aria-label="Close"
+                      className="ml-3 flex h-5 w-5 items-center justify-center text-black"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 14 14"
+                        className="h-3.5 w-3.5 fill-none stroke-current"
+                      >
+                        <path d="M2.25 2.25 11.75 11.75M11.75 2.25 2.25 11.75" strokeWidth="1.5" />
+                      </svg>
+                    </SheetClose>
                   </div>
+
+                  <CompactUtilities companyName={companyName} darkInk />
                 </div>
 
-                <div className="pt-6 border-t border-zinc-800 space-y-4">
-                  <div className="text-xs text-zinc-400 space-y-1">
-                    <p className="font-semibold text-white">
-                      {officialName}
-                    </p>
-                    <p>
-                      Tenggarong Seberang, Kutai Kartanegara
-                    </p>
-                    <p>Kalimantan Timur</p>
-                  </div>
-                  <Link
-                    href="/contact"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center gap-2 w-full bg-white text-black hover:bg-zinc-200 font-semibold px-5 py-2.5 rounded-full text-sm transition-all shadow-md"
-                  >
-                    <PhoneCall className="w-4 h-4" />
-                    <span>Hubungi Tim {companyName}</span>
-                  </Link>
-                </div>
+                <nav
+                  aria-label="Navigasi utama"
+                  className="absolute inset-x-0 bottom-0 top-16 overflow-y-auto px-6 pb-3 pt-2"
+                >
+                  {siteNavLinks.map((link, index) => {
+                    const isActive = pathname === link.href;
+                    return (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        aria-current={isActive ? "page" : undefined}
+                        style={{ animationDelay: `${180 + index * 60}ms` }}
+                        className="jds-compact-menu-link flex h-12 w-full items-center justify-between py-2 font-sans text-[32px] font-black leading-8 tracking-[-0.96px] text-black"
+                      >
+                        <span>{link.name}</span>
+                        {index < siteNavLinks.length - 1 ? <MenuChevron /> : null}
+                      </Link>
+                    );
+                  })}
+                </nav>
               </SheetContent>
             </Sheet>
           </div>
+
+          <CompactUtilities companyName={companyName} darkInk={isDark} />
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 }

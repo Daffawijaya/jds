@@ -2,7 +2,7 @@ export default function AdobeLandingPage() {
   return (
     <div className="w-full min-h-screen bg-white text-slate-900 font-sans antialiased">
       {/* 1. HERO SECTION */}
-      <section className="relative bg-[#070b12] text-white overflow-hidden -mt-16 flex items-center min-h-[560px] sm:min-h-[620px] lg:min-h-[680px]">
+      <section className="relative bg-[#070b12] text-white overflow-hidden -mt-20 lg:-mt-16 flex items-center min-h-[560px] sm:min-h-[620px] lg:min-h-[680px]">
         {/* Background full hero */}
         <img
           src="/bggggg.png"
